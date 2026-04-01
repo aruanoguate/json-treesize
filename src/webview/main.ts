@@ -22,23 +22,46 @@ const collapseAllBtn = document.getElementById('collapse-all-btn')!;
 
 // ── State ──
 let selectedNode: SizeNode | null = null;
-let colorState: { h: number; s: number; isDark: boolean } | null = null;
+let colorState: { h: number; s: number; l: number; isDark: boolean } | null = null;
 
 // ── Toolbar ──
+function withToolbarBusy(btn: HTMLElement, label: string, work: () => void): void {
+  const original = btn.textContent ?? '';
+  expandAllBtn.setAttribute('disabled', '');
+  collapseAllBtn.setAttribute('disabled', '');
+  btn.textContent = label;
+  // setTimeout yields one frame so the browser paints the busy state before the
+  // synchronous DOM work begins. The inner rAF fires after the browser has painted
+  // the completed tree, so buttons are only re-enabled once the UI is actually ready.
+  setTimeout(() => {
+    work();
+    requestAnimationFrame(() => {
+      btn.textContent = original;
+      expandAllBtn.removeAttribute('disabled');
+      collapseAllBtn.removeAttribute('disabled');
+    });
+  }, 0);
+}
+
 expandAllBtn.addEventListener('click', () => {
-  treePaneEl.querySelectorAll<HTMLElement>('.tree-children').forEach(el => {
-    el.classList.remove('hidden');
-  });
-  treePaneEl.querySelectorAll<HTMLElement>('.tree-toggle').forEach(el => {
-    if (el.textContent === '▶') el.textContent = '▼';
+  withToolbarBusy(expandAllBtn, 'Expanding…', () => {
+    treePaneEl.querySelectorAll<HTMLElement>('.tree-children').forEach(el => {
+      el.classList.remove('hidden');
+    });
+    treePaneEl.querySelectorAll<HTMLElement>('.tree-toggle').forEach(el => {
+      if (el.textContent === '▶') el.textContent = '▼';
+    });
   });
 });
+
 collapseAllBtn.addEventListener('click', () => {
-  treePaneEl.querySelectorAll<HTMLElement>('.tree-children').forEach((el, i) => {
-    if (i > 0) el.classList.add('hidden'); // keep root's children visible
-  });
-  treePaneEl.querySelectorAll<HTMLElement>('.tree-toggle').forEach((el, i) => {
-    if (i > 0 && el.textContent === '▼') el.textContent = '▶';
+  withToolbarBusy(collapseAllBtn, 'Collapsing…', () => {
+    treePaneEl.querySelectorAll<HTMLElement>('.tree-children').forEach((el, i) => {
+      if (i > 0) el.classList.add('hidden'); // keep root's children visible
+    });
+    treePaneEl.querySelectorAll<HTMLElement>('.tree-toggle').forEach((el, i) => {
+      if (i > 0 && el.textContent === '▼') el.textContent = '▶';
+    });
   });
 });
 
@@ -54,8 +77,8 @@ window.addEventListener('message', (event: MessageEvent<ExtensionToWebviewMessag
   } else if (msg.type === 'tree') {
     hide(loadingEl); hide(errorEl);
     show(splitEl);
-    const { h, s } = hexToHsl(msg.baseColor);
-    colorState = { h, s, isDark: msg.isDark };
+    const { h, s, l } = hexToHsl(msg.baseColor);
+    colorState = { h, s, l, isDark: msg.isDark };
     renderTree(msg.data);
   }
 });
@@ -103,8 +126,9 @@ function buildTreeRow(node: SizeNode, rootSize: number, expanded: boolean, paren
   barFill.className = 'tree-mini-bar-fill';
   barFill.style.width = miniBarWidth + '%';
   if (colorState) { // colorState is null until the first tree message is received
-    // Mini-bars always use the maximum-contrast color (ratio=1); width encodes size
-    barFill.style.background = heatColor(1, colorState.h, colorState.s, colorState.isDark);
+    // Mini-bars use a fixed vivid lightness so they stay bold regardless of the chosen color's own lightness
+    const miniL = colorState.isDark ? 75 : 30;
+    barFill.style.background = `hsl(${colorState.h},${colorState.s}%,${miniL}%)`;
   }
   barTrack.appendChild(barFill);
 
@@ -196,7 +220,7 @@ function renderDetail(node: SizeNode): void {
     fill.className = 'bar-fill';
     fill.style.width = barWidth + '%';
     if (colorState) { // colorState is null until the first tree message is received
-      fill.style.background = heatColor(ofMax, colorState.h, colorState.s, colorState.isDark);
+      fill.style.background = heatColor(ofMax, colorState.h, colorState.s, colorState.l, colorState.isDark);
     }
     track.appendChild(fill);
 

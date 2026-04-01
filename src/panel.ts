@@ -188,6 +188,7 @@ export class JsonTreePanel {
       border: none; border-radius: 3px; cursor: pointer;
     }
     .tree-toolbar button:hover { background: var(--vscode-button-secondaryHoverBackground); }
+    .tree-toolbar button:disabled { opacity: 0.5; cursor: not-allowed; }
     .tree-scroll { flex: 1; overflow-y: auto; padding: 8px; }
     .detail-pane { flex: 1; padding: 12px 16px; overflow-y: auto; }
 
