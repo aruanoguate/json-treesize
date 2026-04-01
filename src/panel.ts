@@ -1,7 +1,8 @@
 import * as vscode from 'vscode';
 import * as path from 'node:path';
 import { Worker } from 'node:worker_threads';
-import { ExtensionToWebviewMessage, WebviewToExtensionMessage } from './types';
+import { ExtensionToWebviewMessage, WebviewToExtensionMessage, WorkerToExtensionMessage } from './types';
+import { resolveHexColor } from './utils';
 
 export class JsonTreePanel {
   public static readonly viewType = 'jsonTreeSize';
@@ -54,7 +55,11 @@ export class JsonTreePanel {
         if (msg.type === 'ready') {
           this._webviewReady = true;
           if (this._pendingMessage) {
-            this._post(this._pendingMessage);
+            // Re-enrich at flush time so theme/color are current
+            const toSend: ExtensionToWebviewMessage = this._pendingMessage.type === 'tree'
+              ? { ...this._pendingMessage, baseColor: this._resolveBaseColor(), isDark: this._resolveIsDark() }
+              : this._pendingMessage;
+            this._post(toSend);
             this._pendingMessage = null;
           }
         } else if (msg.type === 'goToEditor') {
@@ -78,15 +83,9 @@ export class JsonTreePanel {
     const workerPath = path.join(this._context.extensionPath, 'dist', 'worker', 'parser.js');
     const worker = new Worker(workerPath, { workerData: { filePath: fileUri.fsPath } });
 
-    worker.on('message', (msg: ExtensionToWebviewMessage) => {
-      // Augment tree messages with color context from the extension host
+    worker.on('message', (msg: WorkerToExtensionMessage) => {
       const enriched: ExtensionToWebviewMessage = msg.type === 'tree'
-        ? {
-            ...msg,
-            baseColor: this._resolveBaseColor(),
-            isDark: vscode.window.activeColorTheme.kind !== vscode.ColorThemeKind.Light
-                   && vscode.window.activeColorTheme.kind !== vscode.ColorThemeKind.HighContrastLight,
-          }
+        ? { ...msg, baseColor: this._resolveBaseColor(), isDark: this._resolveIsDark() }
         : msg;
 
       if (this._webviewReady) {
@@ -294,10 +293,12 @@ export class JsonTreePanel {
 
   private _resolveBaseColor(): string {
     const setting = vscode.workspace.getConfiguration('jsonTreeSize').get<string>('baseColor', '');
-    if (setting && /^#[0-9a-fA-F]{6}$/.test(setting)) {
-      return setting;
-    }
-    return '#4a9eda';
+    return resolveHexColor(setting, '#4a9eda');
+  }
+
+  private _resolveIsDark(): boolean {
+    const { kind } = vscode.window.activeColorTheme;
+    return kind === vscode.ColorThemeKind.Dark || kind === vscode.ColorThemeKind.HighContrast;
   }
 
   private _dispose(): void {

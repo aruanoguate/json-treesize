@@ -1,5 +1,5 @@
 import jsonSourceMap from 'json-source-map';
-import { SizeNode } from '../types';
+import { SizeNode, WorkerToExtensionMessage } from '../types';
 
 type JsonValue = string | number | boolean | null | JsonObject | JsonArray;
 type JsonObject = { [key: string]: JsonValue };
@@ -69,7 +69,7 @@ if (!isMainThread) {
     const text = fs.readFileSync(workerData.filePath as string, 'utf8');
     const tree = buildSizeTree(text);
     // NOTE: baseColor and isDark are added by panel.ts before the message reaches the webview — see _loadFile enrichment.
-    parentPort!.postMessage({ type: 'tree', data: tree });
+    (parentPort!.postMessage as (msg: WorkerToExtensionMessage) => void)({ type: 'tree', data: tree });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
     parentPort!.postMessage({ type: 'error', message });

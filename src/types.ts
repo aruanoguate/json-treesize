@@ -34,6 +34,13 @@ export interface ErrorMessage {
 
 export type ExtensionToWebviewMessage = LoadingMessage | TreeMessage | ErrorMessage;
 
+// Messages sent from the parser worker to the extension host (before enrichment)
+export interface WorkerTreeMessage {
+  type: 'tree';
+  data: SizeNode;
+}
+export type WorkerToExtensionMessage = WorkerTreeMessage | ErrorMessage;
+
 // ---- Messages: Webview → Extension Host ----
 
 export interface GoToEditorMessage {
