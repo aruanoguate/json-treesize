@@ -8,12 +8,14 @@ Useful when you need to understand what's bloating a large JSON file and decide 
 
 ## Features
 
-- **Split view panel** — tree on the left, size breakdown on the right
-- **Inline size bars** — each tree row shows a proportional mini-bar and heat-colored size label
+- **Split view panel** — tree on the left, detail bar chart on the right
+- **Dynamic color scale** — bar fills use an HSL heat scale driven by a configurable base color; larger nodes get the most vivid shade, smaller nodes get lighter tints
+- **Theme-aware colors** — scale direction inverts automatically for dark vs. light VS Code themes
+- **Expand / Collapse all** — toolbar buttons in the tree pane to open or close the whole tree at once
 - **Detail bar chart** — click any node to see all its children ranked by byte size with percentage bars
+- **Left↔right sync** — clicking a bar in the detail pane expands and highlights the matching node in the tree
 - **Go to in editor** — jump the cursor directly to any key in the raw JSON editor
 - **Worker thread parsing** — files up to 50 MB+ parsed without blocking the UI
-- **VS Code theme aware** — uses your current color theme variables
 
 ## Usage
 
@@ -22,15 +24,11 @@ Useful when you need to understand what's bloating a large JSON file and decide 
 
 Or open the Command Palette (`Cmd+Shift+P`) and run **"Analyze with JSON TreeSize"** while a `.json` file is active.
 
-## How to read the view
+## Settings
 
-| Color | Meaning |
-|-------|---------|
-| Red   | Node is ≥ 20% of its parent's size |
-| Yellow | Node is 5–20% of its parent's size |
-| Grey  | Node is < 5% of its parent's size |
-
-Click a node in the tree to drill into its children. Click a bar in the detail pane to drill deeper. Use **"Go to in editor ↗"** to open the raw JSON at that exact key.
+| Setting | Default | Description |
+|---------|---------|-------------|
+| `jsonTreeSize.baseColor` | `""` | Base color for the size heat map (hex, e.g. `#e06c8a`). Opens a color picker in the Settings UI. Leave empty to use the default blue (`#4a9eda`). |
 
 ## Development
 
@@ -74,13 +72,15 @@ npm test
 ```
 src/
 ├── extension.ts        # Entry point — registers the command
-├── panel.ts            # Webview panel — lifecycle, worker spawning, message bridge
+├── panel.ts            # Webview panel — lifecycle, worker spawning, message bridge, HTML/CSS
 ├── types.ts            # Shared TypeScript types (SizeNode, message protocol)
+├── utils.ts            # Pure helpers (hex color validation)
 ├── worker/
 │   └── parser.ts       # Worker thread — JSON parsing and size tree computation
 └── webview/
+    ├── color.ts        # Pure color utilities: hexToHsl, heatColor, wcagTextColor
     ├── index.html      # Webview shell
-    ├── main.ts         # Webview renderer — tree + detail pane
+    ├── main.ts         # Webview renderer — tree + detail pane + toolbar
     └── styles.css      # Layout and styling
 ```
 

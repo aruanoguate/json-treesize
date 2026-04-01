@@ -174,8 +174,21 @@ export class JsonTreePanel {
     .tree-pane {
       width: 45%; min-width: 200px; flex-shrink: 0;
       border-right: 1px solid var(--vscode-panel-border);
-      padding: 8px;
+      display: flex; flex-direction: column;
     }
+    .tree-toolbar {
+      display: flex; gap: 4px; padding: 4px 6px;
+      border-bottom: 1px solid var(--vscode-panel-border);
+      flex-shrink: 0;
+    }
+    .tree-toolbar button {
+      font-size: 0.75em; padding: 2px 8px;
+      background: var(--vscode-button-secondaryBackground);
+      color: var(--vscode-button-secondaryForeground);
+      border: none; border-radius: 3px; cursor: pointer;
+    }
+    .tree-toolbar button:hover { background: var(--vscode-button-secondaryHoverBackground); }
+    .tree-scroll { flex: 1; overflow-y: auto; padding: 8px; }
     .detail-pane { flex: 1; padding: 12px 16px; overflow-y: auto; }
 
     /* Tree rows */
@@ -266,7 +279,13 @@ export class JsonTreePanel {
     </div>
     <div id="error" class="error-state hidden"></div>
     <div id="split" class="split hidden">
-      <div id="tree-pane" class="pane tree-pane"></div>
+      <div class="tree-pane">
+        <div class="tree-toolbar">
+          <button id="expand-all-btn">Expand all</button>
+          <button id="collapse-all-btn">Collapse all</button>
+        </div>
+        <div id="tree-pane" class="tree-scroll"></div>
+      </div>
       <div id="detail-pane" class="pane detail-pane">
         <div id="detail-placeholder" class="detail-placeholder">
           Select a node in the tree to see its breakdown.

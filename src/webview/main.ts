@@ -17,10 +17,30 @@ const splitEl   = document.getElementById('split')!;
 const treePaneEl = document.getElementById('tree-pane')!;
 const detailPlaceholderEl = document.getElementById('detail-placeholder')!;
 const detailContentEl = document.getElementById('detail-content')!;
+const expandAllBtn = document.getElementById('expand-all-btn')!;
+const collapseAllBtn = document.getElementById('collapse-all-btn')!;
 
 // ── State ──
 let selectedNode: SizeNode | null = null;
 let colorState: { h: number; s: number; isDark: boolean } | null = null;
+
+// ── Toolbar ──
+expandAllBtn.addEventListener('click', () => {
+  treePaneEl.querySelectorAll<HTMLElement>('.tree-children').forEach(el => {
+    el.classList.remove('hidden');
+  });
+  treePaneEl.querySelectorAll<HTMLElement>('.tree-toggle').forEach(el => {
+    if (el.textContent === '▶') el.textContent = '▼';
+  });
+});
+collapseAllBtn.addEventListener('click', () => {
+  treePaneEl.querySelectorAll<HTMLElement>('.tree-children').forEach((el, i) => {
+    if (i > 0) el.classList.add('hidden'); // keep root's children visible
+  });
+  treePaneEl.querySelectorAll<HTMLElement>('.tree-toggle').forEach((el, i) => {
+    if (i > 0 && el.textContent === '▼') el.textContent = '▶';
+  });
+});
 
 // ── Message handler ──
 window.addEventListener('message', (event: MessageEvent<ExtensionToWebviewMessage>) => {
