@@ -37,6 +37,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Superpowers brainstorm sessions and plans
+.superpowers/
+docs/superpowers/plans/
+
 # Editor & OS
 .DS_Store
 Thumbs.db
