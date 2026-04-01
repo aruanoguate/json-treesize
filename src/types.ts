@@ -23,6 +23,8 @@ export interface LoadingMessage {
 export interface TreeMessage {
   type: 'tree';
   data: SizeNode;
+  baseColor: string;   // hex, always resolved — never empty (e.g. "#4a9eda")
+  isDark: boolean;     // true for Dark/HighContrast VS Code themes
 }
 
 export interface ErrorMessage {
