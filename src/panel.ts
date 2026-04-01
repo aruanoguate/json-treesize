@@ -100,7 +100,7 @@ export class JsonTreePanel {
     // Read index.html from src/webview and inject CSP + asset URIs
     const htmlPath = path.join(this._context.extensionPath, 'src', 'webview', 'index.html');
     return fs.readFileSync(htmlPath, 'utf8')
-      .replace('__NONCE__', nonce)
+      .replaceAll('__NONCE__', nonce)
       .replace('__CSP_SOURCE__', webview.cspSource)
       .replace('__SCRIPT_URI__', scriptUri.toString())
       .replace('__STYLE_URI__', styleUri.toString());
