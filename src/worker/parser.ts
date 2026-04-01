@@ -68,6 +68,7 @@ if (!isMainThread) {
   try {
     const text = fs.readFileSync(workerData.filePath as string, 'utf8');
     const tree = buildSizeTree(text);
+    // NOTE: baseColor and isDark are added by panel.ts before the message reaches the webview — see _loadFile enrichment.
     parentPort!.postMessage({ type: 'tree', data: tree });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
