@@ -194,10 +194,6 @@ export class JsonTreePanel {
     .tree-key { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .tree-size { font-size: 0.82em; white-space: nowrap; margin-left: 4px; }
 
-    .heat-high { color: #f38ba8; }
-    .heat-mid  { color: #f9e2af; }
-    .heat-low  { color: var(--vscode-descriptionForeground); }
-
     /* Mini bar under tree row */
     .tree-bar-row {
       display: flex; align-items: center; gap: 6px; margin-top: 3px;
@@ -210,11 +206,7 @@ export class JsonTreePanel {
     }
     .tree-mini-bar-fill {
       height: 100%; border-radius: 2px;
-      background: #4a9eda;
     }
-    .tree-mini-bar-fill.heat-high { background: #e06c8a; }
-    .tree-mini-bar-fill.heat-mid  { background: #d4a043; }
-    .tree-mini-bar-fill.heat-low  { background: #4a9eda; }
     .tree-pct {
       font-size: 0.75em; color: var(--vscode-foreground);
       white-space: nowrap; min-width: 36px; text-align: right;
@@ -251,11 +243,8 @@ export class JsonTreePanel {
     }
     .bar-fill {
       height: 100%;
-      background: #e06c8a;
       transition: width 0.15s ease;
     }
-    .bar-fill.heat-mid { background: #d4a043; }
-    .bar-fill.heat-low { background: #4a9eda; }
 
     /* Go to editor button */
     .goto-btn {

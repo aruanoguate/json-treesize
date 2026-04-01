@@ -82,7 +82,7 @@ function buildTreeRow(node: SizeNode, rootSize: number, expanded: boolean, paren
   const barFill = document.createElement('div');
   barFill.className = 'tree-mini-bar-fill';
   barFill.style.width = miniBarWidth + '%';
-  if (colorState) {
+  if (colorState) { // colorState is null until the first tree message is received
     const ratio = effectiveParent > 0 ? node.size / effectiveParent : 0;
     barFill.style.background = heatColor(ratio, colorState.h, colorState.s, colorState.isDark);
   }
@@ -175,7 +175,7 @@ function renderDetail(node: SizeNode): void {
     const fill = document.createElement('div');
     fill.className = 'bar-fill';
     fill.style.width = barWidth + '%';
-    if (colorState) {
+    if (colorState) { // colorState is null until the first tree message is received
       fill.style.background = heatColor(ofMax, colorState.h, colorState.s, colorState.isDark);
     }
     track.appendChild(fill);
