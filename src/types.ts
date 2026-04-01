@@ -6,7 +6,7 @@ export interface SizeNode {
   size: number;
   /** JSON value type */
   type: 'object' | 'array' | 'string' | 'number' | 'boolean' | 'null';
-  /** Children sorted by size descending. Empty for leaf nodes. */
+  /** Children sorted by size descending (objects and arrays). Empty for leaf nodes. */
   children: SizeNode[];
   /** 0-based line number in original file (for Go to in editor) */
   line: number;

@@ -41,10 +41,8 @@ function buildNode(
     });
   }
 
-  // Sort object children by size descending (array order is preserved)
-  if (type === 'object') {
-    children.sort((a, b) => b.size - a.size);
-  }
+  // Sort children by size descending
+  children.sort((a, b) => b.size - a.size);
 
   return { key, size, type, children, line, col };
 }
