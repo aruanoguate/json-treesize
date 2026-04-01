@@ -79,11 +79,20 @@ export class JsonTreePanel {
     const worker = new Worker(workerPath, { workerData: { filePath: fileUri.fsPath } });
 
     worker.on('message', (msg: ExtensionToWebviewMessage) => {
-      // Buffer the result — send immediately if webview is ready, otherwise hold
+      // Augment tree messages with color context from the extension host
+      const enriched: ExtensionToWebviewMessage = msg.type === 'tree'
+        ? {
+            ...msg,
+            baseColor: this._resolveBaseColor(),
+            isDark: vscode.window.activeColorTheme.kind !== vscode.ColorThemeKind.Light
+                   && vscode.window.activeColorTheme.kind !== vscode.ColorThemeKind.HighContrastLight,
+          }
+        : msg;
+
       if (this._webviewReady) {
-        this._post(msg);
+        this._post(enriched);
       } else {
-        this._pendingMessage = msg;
+        this._pendingMessage = enriched;
       }
     });
 
@@ -281,6 +290,14 @@ export class JsonTreePanel {
   <script nonce="${nonce}" src="${scriptUri}"></script>
 </body>
 </html>`;
+  }
+
+  private _resolveBaseColor(): string {
+    const setting = vscode.workspace.getConfiguration('jsonTreeSize').get<string>('baseColor', '');
+    if (setting && /^#[0-9a-fA-F]{6}$/.test(setting)) {
+      return setting;
+    }
+    return '#4a9eda';
   }
 
   private _dispose(): void {
