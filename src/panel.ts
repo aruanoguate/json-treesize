@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import * as fs from 'fs';
 import { Worker } from 'worker_threads';
 import { ExtensionToWebviewMessage, WebviewToExtensionMessage } from './types';
 
@@ -94,16 +93,162 @@ export class JsonTreePanel {
     const webview = this._panel.webview;
     const distWebview = vscode.Uri.joinPath(this._context.extensionUri, 'dist', 'webview');
     const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(distWebview, 'main.js'));
-    const styleUri = webview.asWebviewUri(vscode.Uri.joinPath(distWebview, 'styles.css'));
     const nonce = getNonce();
 
-    // Read index.html from src/webview and inject CSP + asset URIs
-    const htmlPath = path.join(this._context.extensionPath, 'src', 'webview', 'index.html');
-    return fs.readFileSync(htmlPath, 'utf8')
-      .replaceAll('__NONCE__', nonce)
-      .replace('__CSP_SOURCE__', webview.cspSource)
-      .replace('__SCRIPT_URI__', scriptUri.toString())
-      .replace('__STYLE_URI__', styleUri.toString());
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy"
+    content="default-src 'none'; style-src 'nonce-${nonce}'; script-src 'nonce-${nonce}';" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JSON TreeSize</title>
+  <style nonce="${nonce}">
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--vscode-font-family);
+      font-size: var(--vscode-font-size);
+      color: var(--vscode-foreground);
+      background: var(--vscode-editor-background);
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .hidden { display: none !important; }
+
+    /* Loading */
+    .loading-state {
+      display: flex; align-items: center; justify-content: center;
+      gap: 12px; height: 100vh;
+      color: var(--vscode-descriptionForeground);
+    }
+    .spinner {
+      width: 20px; height: 20px;
+      border: 2px solid var(--vscode-descriptionForeground);
+      border-top-color: var(--vscode-focusBorder);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Error */
+    .error-state {
+      display: flex; align-items: center; justify-content: center;
+      height: 100vh; padding: 24px;
+      color: var(--vscode-errorForeground);
+    }
+
+    /* Split layout */
+    .split { display: flex; height: 100vh; overflow: hidden; }
+    .pane { overflow-y: auto; }
+
+    .tree-pane {
+      width: 45%; min-width: 200px; flex-shrink: 0;
+      border-right: 1px solid var(--vscode-panel-border);
+      padding: 8px;
+    }
+    .detail-pane { flex: 1; padding: 12px 16px; overflow-y: auto; }
+
+    /* Tree rows */
+    .tree-row {
+      display: flex; flex-direction: column;
+      padding: 3px 4px; border-radius: 3px;
+      cursor: pointer; user-select: none;
+    }
+    .tree-row:hover { background: var(--vscode-list-hoverBackground); }
+    .tree-row.selected {
+      background: var(--vscode-list-activeSelectionBackground);
+      color: var(--vscode-list-activeSelectionForeground);
+    }
+    .tree-row-top { display: flex; align-items: center; gap: 6px; }
+    .tree-toggle { width: 14px; flex-shrink: 0; font-size: 10px; color: var(--vscode-descriptionForeground); }
+    .tree-key { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .tree-size { font-size: 0.82em; white-space: nowrap; margin-left: 4px; }
+
+    .heat-high { color: #f38ba8; }
+    .heat-mid  { color: #f9e2af; }
+    .heat-low  { color: var(--vscode-descriptionForeground); }
+
+    /* Mini bar under tree row */
+    .tree-mini-bar-track {
+      height: 2px; margin-top: 3px;
+      background: var(--vscode-scrollbarSlider-background);
+      border-radius: 1px;
+    }
+    .tree-mini-bar-fill {
+      height: 100%; border-radius: 1px;
+      background: var(--vscode-focusBorder); opacity: 0.7;
+    }
+    .tree-children { padding-left: 16px; }
+
+    /* Detail pane */
+    .detail-placeholder {
+      color: var(--vscode-descriptionForeground);
+      padding: 32px 0; text-align: center;
+    }
+    .detail-header {
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--vscode-panel-border);
+      padding-bottom: 10px;
+    }
+    .detail-header h2 { font-size: 1em; font-weight: 600; margin-bottom: 4px; }
+    .detail-meta { font-size: 0.82em; color: var(--vscode-descriptionForeground); }
+
+    /* Bar chart */
+    .bar-row { display: flex; flex-direction: column; margin-bottom: 10px; cursor: pointer; }
+    .bar-row:hover .bar-key { text-decoration: underline; }
+    .bar-row-top {
+      display: flex; justify-content: space-between;
+      font-size: 0.82em; margin-bottom: 4px;
+    }
+    .bar-key { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 60%; }
+    .bar-meta { color: var(--vscode-descriptionForeground); white-space: nowrap; padding-left: 8px; }
+    .bar-track {
+      height: 10px;
+      background: var(--vscode-scrollbarSlider-background);
+      border-radius: 3px; overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%; border-radius: 3px;
+      background: linear-gradient(90deg, #f38ba8, #eba0ac);
+      transition: width 0.15s ease;
+    }
+    .bar-fill.heat-mid { background: linear-gradient(90deg, #f9e2af, #fab387); }
+    .bar-fill.heat-low { background: var(--vscode-focusBorder); opacity: 0.6; }
+
+    /* Go to editor button */
+    .goto-btn {
+      margin-top: 20px;
+      padding: 5px 14px;
+      background: var(--vscode-button-background);
+      color: var(--vscode-button-foreground);
+      border: none; border-radius: 3px;
+      cursor: pointer; font-size: 0.9em;
+    }
+    .goto-btn:hover { background: var(--vscode-button-hoverBackground); }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div id="loading" class="loading-state">
+      <div class="spinner"></div>
+      <span>Analyzing…</span>
+    </div>
+    <div id="error" class="error-state hidden"></div>
+    <div id="split" class="split hidden">
+      <div id="tree-pane" class="pane tree-pane"></div>
+      <div id="detail-pane" class="pane detail-pane">
+        <div id="detail-placeholder" class="detail-placeholder">
+          Select a node in the tree to see its breakdown.
+        </div>
+        <div id="detail-content" class="hidden"></div>
+      </div>
+    </div>
+  </div>
+  <script nonce="${nonce}" src="${scriptUri}"></script>
+</body>
+</html>`;
   }
 
   private _dispose(): void {
