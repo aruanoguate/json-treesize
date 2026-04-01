@@ -22,7 +22,7 @@ Useful when you need to understand what's bloating a large JSON file and decide 
 1. Right-click any `.json` file in the Explorer sidebar
 2. Select **"Analyze with JSON TreeSize"**
 
-Or open the Command Palette (`Cmd+Shift+P`) and run **"Analyze with JSON TreeSize"** while a `.json` file is active.
+Or open the Command Palette (`Cmd+Shift+P`) and run **"JSON TreeSize: Analyze"** while a `.json` file is active.
 
 ## Settings
 

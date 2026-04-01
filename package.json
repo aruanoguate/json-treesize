@@ -15,7 +15,7 @@
     "commands": [
       {
         "command": "jsonTreeSize.analyze",
-        "title": "Analyze with JSON TreeSize"
+        "title": "JSON TreeSize: Analyze"
       }
     ],
     "menus": {
