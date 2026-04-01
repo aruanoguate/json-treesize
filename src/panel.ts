@@ -204,8 +204,11 @@ export class JsonTreePanel {
       height: 100%; border-radius: 2px;
       background: #4a9eda;
     }
+    .tree-mini-bar-fill.heat-high { background: #e06c8a; }
+    .tree-mini-bar-fill.heat-mid  { background: #d4a043; }
+    .tree-mini-bar-fill.heat-low  { background: #4a9eda; }
     .tree-pct {
-      font-size: 0.75em; color: var(--vscode-descriptionForeground);
+      font-size: 0.75em; color: var(--vscode-foreground);
       white-space: nowrap; min-width: 36px; text-align: right;
     }
     .tree-children { padding-left: 16px; }

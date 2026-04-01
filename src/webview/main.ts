@@ -69,15 +69,16 @@ function buildTreeRow(node: SizeNode, rootSize: number, expanded: boolean, paren
 
   top.append(toggle, keyEl, sizeEl);
 
-  // Mini bar — width relative to parent size (so siblings are comparable)
+  // Mini bar — width and color relative to parent size (so siblings are comparable)
   const effectiveParent = parentSize ?? rootSize;
   const miniBarWidth = pct(node.size, effectiveParent);
   const miniBarPct = effectiveParent > 0 ? (node.size / effectiveParent * 100).toFixed(1) + '%' : '';
+  const miniHeatClass = heatClass(node.size, effectiveParent);
 
   const barTrack = document.createElement('div');
   barTrack.className = 'tree-mini-bar-track';
   const barFill = document.createElement('div');
-  barFill.className = 'tree-mini-bar-fill';
+  barFill.className = 'tree-mini-bar-fill ' + miniHeatClass;
   barFill.style.width = miniBarWidth + '%';
   barTrack.appendChild(barFill);
 
