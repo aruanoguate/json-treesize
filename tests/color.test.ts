@@ -99,4 +99,12 @@ describe('wcagTextColor', () => {
   it('returns black on mid-light blue (l=70)', () => {
     expect(wcagTextColor({ h: 210, s: 70, l: 70 })).toBe('#000000');
   });
+
+  it('picks white near the luminance crossover (dark side, l=45)', () => {
+    expect(wcagTextColor({ h: 0, s: 0, l: 45 })).toBe('#ffffff');
+  });
+
+  it('picks black near the luminance crossover (light side, l=50)', () => {
+    expect(wcagTextColor({ h: 0, s: 0, l: 50 })).toBe('#000000');
+  });
 });

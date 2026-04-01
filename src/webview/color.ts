@@ -3,7 +3,11 @@
 
 export interface Hsl { h: number; s: number; l: number; }
 
-/** Convert a 6-digit hex color string to HSL. */
+/**
+ * Convert a 6-digit hex color string to HSL.
+ * @param hex - Must be a valid 6-digit hex string beginning with '#' (e.g. "#4a9eda").
+ *              Use resolveHexColor() to validate before calling.
+ */
 export function hexToHsl(hex: string): Hsl {
   const r = parseInt(hex.slice(1, 3), 16) / 255;
   const g = parseInt(hex.slice(3, 5), 16) / 255;
