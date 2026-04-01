@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
-import * as path from 'path';
-import { Worker } from 'worker_threads';
+import * as path from 'node:path';
+import { Worker } from 'node:worker_threads';
 import { ExtensionToWebviewMessage, WebviewToExtensionMessage } from './types';
 
 export class JsonTreePanel {
@@ -11,12 +11,15 @@ export class JsonTreePanel {
   private readonly _context: vscode.ExtensionContext;
   private readonly _fileUri: vscode.Uri;
   private _disposables: vscode.Disposable[] = [];
+  private _webviewReady = false;
+  private _pendingMessage: ExtensionToWebviewMessage | null = null;
 
   public static createOrShow(context: vscode.ExtensionContext, fileUri: vscode.Uri): void {
     const column = vscode.ViewColumn.Beside;
 
     if (JsonTreePanel._instance) {
       JsonTreePanel._instance._panel.reveal(column);
+      JsonTreePanel._instance._panel.webview.html = JsonTreePanel._instance._getHtml();
       JsonTreePanel._instance._loadFile(fileUri);
       return;
     }
@@ -48,7 +51,13 @@ export class JsonTreePanel {
     // Handle messages from the webview
     this._panel.webview.onDidReceiveMessage(
       (msg: WebviewToExtensionMessage) => {
-        if (msg.type === 'goToEditor') {
+        if (msg.type === 'ready') {
+          this._webviewReady = true;
+          if (this._pendingMessage) {
+            this._post(this._pendingMessage);
+            this._pendingMessage = null;
+          }
+        } else if (msg.type === 'goToEditor') {
           this._goToEditor(msg.line, msg.col);
         }
       },
@@ -58,22 +67,33 @@ export class JsonTreePanel {
 
     this._panel.onDidDispose(() => this._dispose(), null, this._disposables);
 
-    // Start parsing
+    // Start parsing — result will be buffered until webview sends 'ready'
     this._loadFile(fileUri);
   }
 
   private _loadFile(fileUri: vscode.Uri): void {
-    this._post({ type: 'loading' });
+    this._webviewReady = false;
+    this._pendingMessage = null;
 
     const workerPath = path.join(this._context.extensionPath, 'dist', 'worker', 'parser.js');
     const worker = new Worker(workerPath, { workerData: { filePath: fileUri.fsPath } });
 
     worker.on('message', (msg: ExtensionToWebviewMessage) => {
-      this._post(msg);
+      // Buffer the result — send immediately if webview is ready, otherwise hold
+      if (this._webviewReady) {
+        this._post(msg);
+      } else {
+        this._pendingMessage = msg;
+      }
     });
 
     worker.on('error', (err: Error) => {
-      this._post({ type: 'error', message: err.message });
+      const errMsg: ExtensionToWebviewMessage = { type: 'error', message: err.message };
+      if (this._webviewReady) {
+        this._post(errMsg);
+      } else {
+        this._pendingMessage = errMsg;
+      }
     });
   }
 
@@ -171,14 +191,22 @@ export class JsonTreePanel {
     .heat-low  { color: var(--vscode-descriptionForeground); }
 
     /* Mini bar under tree row */
+    .tree-bar-row {
+      display: flex; align-items: center; gap: 6px; margin-top: 3px;
+    }
     .tree-mini-bar-track {
-      height: 2px; margin-top: 3px;
-      background: var(--vscode-scrollbarSlider-background);
-      border-radius: 1px;
+      flex: 1; height: 3px;
+      background: var(--vscode-input-background, #e8e8e8);
+      border: 1px solid var(--vscode-input-border, #ccc);
+      border-radius: 2px;
     }
     .tree-mini-bar-fill {
-      height: 100%; border-radius: 1px;
-      background: var(--vscode-focusBorder); opacity: 0.7;
+      height: 100%; border-radius: 2px;
+      background: #4a9eda;
+    }
+    .tree-pct {
+      font-size: 0.75em; color: var(--vscode-descriptionForeground);
+      white-space: nowrap; min-width: 36px; text-align: right;
     }
     .tree-children { padding-left: 16px; }
 
@@ -205,17 +233,18 @@ export class JsonTreePanel {
     .bar-key { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 60%; }
     .bar-meta { color: var(--vscode-descriptionForeground); white-space: nowrap; padding-left: 8px; }
     .bar-track {
-      height: 10px;
-      background: var(--vscode-scrollbarSlider-background);
+      height: 12px;
+      background: var(--vscode-input-background, #e8e8e8);
+      border: 1px solid var(--vscode-input-border, #ccc);
       border-radius: 3px; overflow: hidden;
     }
     .bar-fill {
-      height: 100%; border-radius: 3px;
-      background: linear-gradient(90deg, #f38ba8, #eba0ac);
+      height: 100%;
+      background: #e06c8a;
       transition: width 0.15s ease;
     }
-    .bar-fill.heat-mid { background: linear-gradient(90deg, #f9e2af, #fab387); }
-    .bar-fill.heat-low { background: var(--vscode-focusBorder); opacity: 0.6; }
+    .bar-fill.heat-mid { background: #d4a043; }
+    .bar-fill.heat-low { background: #4a9eda; }
 
     /* Go to editor button */
     .goto-btn {

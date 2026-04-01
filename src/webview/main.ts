@@ -6,6 +6,9 @@ declare function acquireVsCodeApi(): {
 
 const vscode = acquireVsCodeApi();
 
+// Signal to the extension host that the webview JS is loaded and ready
+vscode.postMessage({ type: 'ready' });
+
 // ── DOM refs ──
 const loadingEl = document.getElementById('loading')!;
 const errorEl   = document.getElementById('error')!;
@@ -39,7 +42,7 @@ function renderTree(root: SizeNode): void {
   treePaneEl.appendChild(buildTreeRow(root, root.size, true));
 }
 
-function buildTreeRow(node: SizeNode, rootSize: number, expanded: boolean): HTMLElement {
+function buildTreeRow(node: SizeNode, rootSize: number, expanded: boolean, parentSize?: number): HTMLElement {
   const wrapper = document.createElement('div');
 
   const row = document.createElement('div');
@@ -66,15 +69,26 @@ function buildTreeRow(node: SizeNode, rootSize: number, expanded: boolean): HTML
 
   top.append(toggle, keyEl, sizeEl);
 
-  // Mini bar
+  // Mini bar — width relative to parent size (so siblings are comparable)
+  const effectiveParent = parentSize ?? rootSize;
+  const miniBarWidth = pct(node.size, effectiveParent);
+  const miniBarPct = effectiveParent > 0 ? (node.size / effectiveParent * 100).toFixed(1) + '%' : '';
+
   const barTrack = document.createElement('div');
   barTrack.className = 'tree-mini-bar-track';
   const barFill = document.createElement('div');
   barFill.className = 'tree-mini-bar-fill';
-  barFill.style.width = pct(node.size, rootSize) + '%';
+  barFill.style.width = miniBarWidth + '%';
   barTrack.appendChild(barFill);
 
-  row.append(top, barTrack);
+  const barRow = document.createElement('div');
+  barRow.className = 'tree-bar-row';
+  const pctLabel = document.createElement('span');
+  pctLabel.className = 'tree-pct';
+  pctLabel.textContent = miniBarPct;
+  barRow.append(barTrack, pctLabel);
+
+  row.append(top, barRow);
 
   // Children container
   const childrenEl = document.createElement('div');
@@ -83,7 +97,7 @@ function buildTreeRow(node: SizeNode, rootSize: number, expanded: boolean): HTML
 
   if (hasChildren) {
     node.children.forEach(child => {
-      childrenEl.appendChild(buildTreeRow(child, rootSize, false));
+      childrenEl.appendChild(buildTreeRow(child, rootSize, false, node.size));
     });
   }
 
@@ -124,25 +138,40 @@ function renderDetail(node: SizeNode): void {
     </div>`;
   detailContentEl.appendChild(header);
 
-  // Bar chart
+  // Bar chart — bars are proportional to the largest sibling (largest = 100%)
+  const maxChildSize = node.children.length > 0
+    ? Math.max(...node.children.map(c => c.size))
+    : 1;
+
   node.children.forEach(child => {
-    const fraction = node.size > 0 ? child.size / node.size : 0;
-    const percentage = (fraction * 100).toFixed(1);
+    const ofParent = node.size > 0 ? child.size / node.size : 0;
+    const ofMax = maxChildSize > 0 ? child.size / maxChildSize : 0;
+    const percentage = (ofParent * 100).toFixed(1);
     const hClass = heatClass(child.size, node.size);
+    const barWidth = Math.max(ofMax * 100, 0.5);
 
     const row = document.createElement('div');
     row.className = 'bar-row';
-    row.innerHTML = `
-      <div class="bar-row-top">
-        <span class="bar-key">${escHtml(child.key)}</span>
-        <span class="bar-meta">${formatSize(child.size)} · ${percentage}%</span>
-      </div>
-      <div class="bar-track">
-        <div class="bar-fill ${hClass}" style="width:${Math.max(fraction * 100, 0.5)}%"></div>
-      </div>`;
-
-    // Clicking a bar row selects that child in the detail pane
     row.style.cursor = 'pointer';
+
+    const rowTop = document.createElement('div');
+    rowTop.className = 'bar-row-top';
+    const keySpan = document.createElement('span');
+    keySpan.className = 'bar-key';
+    keySpan.textContent = child.key;
+    const metaSpan = document.createElement('span');
+    metaSpan.className = 'bar-meta';
+    metaSpan.textContent = `${formatSize(child.size)} · ${percentage}%`;
+    rowTop.append(keySpan, metaSpan);
+
+    const track = document.createElement('div');
+    track.className = 'bar-track';
+    const fill = document.createElement('div');
+    fill.className = 'bar-fill ' + hClass;
+    fill.style.width = barWidth + '%';
+    track.appendChild(fill);
+
+    row.append(rowTop, track);
     row.addEventListener('click', () => renderDetail(child));
 
     detailContentEl.appendChild(row);
@@ -160,8 +189,8 @@ function renderDetail(node: SizeNode): void {
 
 // ── Helpers ──
 function formatSize(bytes: number): string {
-  if (bytes >= 1024) return (bytes / 1024).toFixed(1) + ' KB';
-  return bytes + ' B';
+  if (bytes >= 1024) return (bytes / 1024).toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' KB';
+  return bytes.toLocaleString() + ' B';
 }
 
 function pct(part: number, total: number): number {

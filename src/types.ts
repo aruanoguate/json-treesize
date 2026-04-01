@@ -40,4 +40,8 @@ export interface GoToEditorMessage {
   col: number;
 }
 
-export type WebviewToExtensionMessage = GoToEditorMessage;
+export interface ReadyMessage {
+  type: 'ready';
+}
+
+export type WebviewToExtensionMessage = GoToEditorMessage | ReadyMessage;
