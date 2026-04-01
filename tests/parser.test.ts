@@ -10,11 +10,19 @@ describe('buildSizeTree', () => {
     expect(root.children).toHaveLength(2);
   });
 
-  it('sorts children by size descending', () => {
+  it('sorts object children by size descending', () => {
     const json = '{"small":1,"large":"a very long string value here"}';
     const root = buildSizeTree(json);
     expect(root.children[0].key).toBe('large');
     expect(root.children[1].key).toBe('small');
+  });
+
+  it('sorts array children by size descending', () => {
+    const json = '[1,22,333]';
+    const root = buildSizeTree(json);
+    // 333 is the largest element; its original index is 2
+    expect(root.children[0].key).toBe('2');
+    expect(root.children[2].key).toBe('0');
   });
 
   it('computes child sizes correctly', () => {
@@ -26,12 +34,13 @@ describe('buildSizeTree', () => {
     expect(a.children).toHaveLength(1);
   });
 
-  it('handles arrays — uses index as key', () => {
+  it('handles arrays — uses index as key, sorted by size', () => {
     const json = '[1,"hello",true]';
     const root = buildSizeTree(json);
     expect(root.type).toBe('array');
     expect(root.children).toHaveLength(3);
-    expect(root.children[0].key).toBe('0');
+    // "hello" is the largest element; all keys are string indices
+    expect(root.children[0].key).toBe('1');
   });
 
   it('handles null values', () => {
