@@ -1,38 +1,54 @@
 const esbuild = require('esbuild');
 const watch = process.argv.includes('--watch');
 
-const shared = {
+const extensionOpts = {
   bundle: true,
   minify: false,
   sourcemap: true,
-  watch: watch ? { onRebuild(err) { console.log(err ? 'watch error' : 'rebuilt') } } : false,
-};
-
-// Extension host bundle (CJS, Node target, vscode externalized)
-esbuild.build({
-  ...shared,
   entryPoints: ['src/extension.ts'],
   platform: 'node',
   format: 'cjs',
   outfile: 'dist/extension.js',
   external: ['vscode'],
-}).catch(() => process.exit(1));
+};
 
-// Worker thread bundle (CJS, Node target)
-esbuild.build({
-  ...shared,
+const workerOpts = {
+  bundle: true,
+  minify: false,
+  sourcemap: true,
   entryPoints: ['src/worker/parser.ts'],
   platform: 'node',
   format: 'cjs',
   outfile: 'dist/worker/parser.js',
   external: ['vscode'],
-}).catch(() => process.exit(1));
+};
 
-// Webview bundle (ESM, browser target)
-esbuild.build({
-  ...shared,
+const webviewOpts = {
+  bundle: true,
+  minify: false,
+  sourcemap: true,
   entryPoints: ['src/webview/main.ts'],
   platform: 'browser',
   format: 'iife',
   outfile: 'dist/webview/main.js',
-}).catch(() => process.exit(1));
+};
+
+async function run() {
+  if (watch) {
+    const [extCtx, workerCtx, webviewCtx] = await Promise.all([
+      esbuild.context(extensionOpts),
+      esbuild.context(workerOpts),
+      esbuild.context(webviewOpts),
+    ]);
+    await Promise.all([extCtx.watch(), workerCtx.watch(), webviewCtx.watch()]);
+    console.log('watching...');
+  } else {
+    await Promise.all([
+      esbuild.build(extensionOpts),
+      esbuild.build(workerOpts),
+      esbuild.build(webviewOpts),
+    ]);
+  }
+}
+
+run().catch(() => process.exit(1));
