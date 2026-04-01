@@ -50,36 +50,40 @@ describe('hexToHsl', () => {
 });
 
 describe('heatColor', () => {
-  it('dark theme, ratio 0 → lightness 15%', () => {
-    expect(heatColor(0, 210, 70, true)).toBe('hsl(210,70%,15%)');
+  // baseL=60 used throughout: ratio=1 always returns exactly baseL
+
+  it('dark theme, ratio 1 → exactly baseL', () => {
+    expect(heatColor(1, 210, 70, 60, true)).toBe('hsl(210,70%,60%)');
   });
 
-  it('dark theme, ratio 1 → lightness 85%', () => {
-    expect(heatColor(1, 210, 70, true)).toBe('hsl(210,70%,85%)');
+  it('dark theme, ratio 0 → fade stop L=15%', () => {
+    expect(heatColor(0, 210, 70, 60, true)).toBe('hsl(210,70%,15%)');
   });
 
-  it('dark theme, ratio 0.5 → lightness 50%', () => {
-    expect(heatColor(0.5, 210, 70, true)).toBe('hsl(210,70%,50%)');
+  it('dark theme, ratio 0.5 → midpoint between 15 and baseL', () => {
+    // midpoint of 15..60 = 37.5 → rounds to 38
+    expect(heatColor(0.5, 210, 70, 60, true)).toBe('hsl(210,70%,38%)');
   });
 
-  it('light theme, ratio 0 → lightness 90%', () => {
-    expect(heatColor(0, 210, 70, false)).toBe('hsl(210,70%,90%)');
+  it('light theme, ratio 1 → exactly baseL', () => {
+    expect(heatColor(1, 210, 70, 40, false)).toBe('hsl(210,70%,40%)');
   });
 
-  it('light theme, ratio 1 → lightness 20%', () => {
-    expect(heatColor(1, 210, 70, false)).toBe('hsl(210,70%,20%)');
+  it('light theme, ratio 0 → fade stop L=90%', () => {
+    expect(heatColor(0, 210, 70, 40, false)).toBe('hsl(210,70%,90%)');
   });
 
-  it('light theme, ratio 0.5 → lightness 55%', () => {
-    expect(heatColor(0.5, 210, 70, false)).toBe('hsl(210,70%,55%)');
+  it('light theme, ratio 0.5 → midpoint between 90 and baseL', () => {
+    // midpoint of 90..40 = 65
+    expect(heatColor(0.5, 210, 70, 40, false)).toBe('hsl(210,70%,65%)');
   });
 
   it('clamps ratio below 0 to 0', () => {
-    expect(heatColor(-0.1, 210, 70, true)).toBe('hsl(210,70%,15%)');
+    expect(heatColor(-0.1, 210, 70, 60, true)).toBe('hsl(210,70%,15%)');
   });
 
   it('clamps ratio above 1 to 1', () => {
-    expect(heatColor(1.5, 210, 70, true)).toBe('hsl(210,70%,85%)');
+    expect(heatColor(1.5, 210, 70, 60, true)).toBe('hsl(210,70%,60%)');
   });
 });
 

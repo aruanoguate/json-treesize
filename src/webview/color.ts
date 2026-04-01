@@ -38,14 +38,14 @@ export function hexToHsl(hex: string): Hsl {
 
 /**
  * Return an hsl(...) CSS string for a size ratio in [0,1].
- * Dark theme: small=dark (L=15%), large=bright (L=85%).
- * Light theme: small=light (L=90%), large=dark (L=20%).
+ * ratio=1 always produces exactly the base color (h, s, baseL).
+ * Dark theme: smaller nodes fade toward L=15% (near-black).
+ * Light theme: smaller nodes fade toward L=90% (near-white).
  */
-export function heatColor(ratio: number, h: number, s: number, isDark: boolean): string {
+export function heatColor(ratio: number, h: number, s: number, baseL: number, isDark: boolean): string {
   const r = Math.min(1, Math.max(0, ratio));
-  const l = isDark
-    ? Math.round(15 + r * 70)
-    : Math.round(90 - r * 70);
+  const fadeL = isDark ? 15 : 90;
+  const l = Math.round(fadeL + r * (baseL - fadeL));
   return `hsl(${h},${s}%,${l}%)`;
 }
 
