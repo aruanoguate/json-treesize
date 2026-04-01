@@ -1,4 +1,5 @@
 import { SizeNode, ExtensionToWebviewMessage, WebviewToExtensionMessage } from '../types';
+import { hexToHsl, heatColor } from './color';
 
 declare function acquireVsCodeApi(): {
   postMessage(msg: WebviewToExtensionMessage): void;
@@ -19,6 +20,7 @@ const detailContentEl = document.getElementById('detail-content')!;
 
 // ── State ──
 let selectedNode: SizeNode | null = null;
+let colorState: { h: number; s: number; isDark: boolean } | null = null;
 
 // ── Message handler ──
 window.addEventListener('message', (event: MessageEvent<ExtensionToWebviewMessage>) => {
@@ -32,6 +34,8 @@ window.addEventListener('message', (event: MessageEvent<ExtensionToWebviewMessag
   } else if (msg.type === 'tree') {
     hide(loadingEl); hide(errorEl);
     show(splitEl);
+    const { h, s } = hexToHsl(msg.baseColor);
+    colorState = { h, s, isDark: msg.isDark };
     renderTree(msg.data);
   }
 });
@@ -64,7 +68,7 @@ function buildTreeRow(node: SizeNode, rootSize: number, expanded: boolean, paren
   keyEl.textContent = node.key;
 
   const sizeEl = document.createElement('span');
-  sizeEl.className = 'tree-size ' + heatClass(node.size, rootSize);
+  sizeEl.className = 'tree-size';
   sizeEl.textContent = formatSize(node.size);
 
   top.append(toggle, keyEl, sizeEl);
@@ -73,13 +77,15 @@ function buildTreeRow(node: SizeNode, rootSize: number, expanded: boolean, paren
   const effectiveParent = parentSize ?? rootSize;
   const miniBarWidth = pct(node.size, effectiveParent);
   const miniBarPct = effectiveParent > 0 ? (node.size / effectiveParent * 100).toFixed(1) + '%' : '';
-  const miniHeatClass = heatClass(node.size, effectiveParent);
-
   const barTrack = document.createElement('div');
   barTrack.className = 'tree-mini-bar-track';
   const barFill = document.createElement('div');
-  barFill.className = 'tree-mini-bar-fill ' + miniHeatClass;
+  barFill.className = 'tree-mini-bar-fill';
   barFill.style.width = miniBarWidth + '%';
+  if (colorState) {
+    const ratio = effectiveParent > 0 ? node.size / effectiveParent : 0;
+    barFill.style.background = heatColor(ratio, colorState.h, colorState.s, colorState.isDark);
+  }
   barTrack.appendChild(barFill);
 
   const barRow = document.createElement('div');
@@ -148,7 +154,6 @@ function renderDetail(node: SizeNode): void {
     const ofParent = node.size > 0 ? child.size / node.size : 0;
     const ofMax = maxChildSize > 0 ? child.size / maxChildSize : 0;
     const percentage = (ofParent * 100).toFixed(1);
-    const hClass = heatClass(child.size, node.size);
     const barWidth = Math.max(ofMax * 100, 0.5);
 
     const row = document.createElement('div');
@@ -168,8 +173,11 @@ function renderDetail(node: SizeNode): void {
     const track = document.createElement('div');
     track.className = 'bar-track';
     const fill = document.createElement('div');
-    fill.className = 'bar-fill ' + hClass;
+    fill.className = 'bar-fill';
     fill.style.width = barWidth + '%';
+    if (colorState) {
+      fill.style.background = heatColor(ofMax, colorState.h, colorState.s, colorState.isDark);
+    }
     track.appendChild(fill);
 
     row.append(rowTop, track);
@@ -229,12 +237,6 @@ function pct(part: number, total: number): number {
   return total === 0 ? 0 : Math.min((part / total) * 100, 100);
 }
 
-function heatClass(size: number, parentSize: number): string {
-  const ratio = parentSize === 0 ? 0 : size / parentSize;
-  if (ratio >= 0.2) return 'heat-high';
-  if (ratio >= 0.05) return 'heat-mid';
-  return 'heat-low';
-}
 
 function escHtml(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
