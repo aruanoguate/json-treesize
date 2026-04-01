@@ -83,8 +83,8 @@ function buildTreeRow(node: SizeNode, rootSize: number, expanded: boolean, paren
   barFill.className = 'tree-mini-bar-fill';
   barFill.style.width = miniBarWidth + '%';
   if (colorState) { // colorState is null until the first tree message is received
-    const ratio = effectiveParent > 0 ? node.size / effectiveParent : 0;
-    barFill.style.background = heatColor(ratio, colorState.h, colorState.s, colorState.isDark);
+    // Mini-bars always use the maximum-contrast color (ratio=1); width encodes size
+    barFill.style.background = heatColor(1, colorState.h, colorState.s, colorState.isDark);
   }
   barTrack.appendChild(barFill);
 

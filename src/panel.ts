@@ -199,7 +199,7 @@ export class JsonTreePanel {
       display: flex; align-items: center; gap: 6px; margin-top: 3px;
     }
     .tree-mini-bar-track {
-      flex: 1; height: 3px;
+      flex: 1; height: 6px;
       background: var(--vscode-input-background, #e8e8e8);
       border: 1px solid var(--vscode-input-border, #ccc);
       border-radius: 2px;
