@@ -172,7 +172,10 @@ function renderDetail(node: SizeNode): void {
     track.appendChild(fill);
 
     row.append(rowTop, track);
-    row.addEventListener('click', () => renderDetail(child));
+    row.addEventListener('click', () => {
+      renderDetail(child);
+      selectTreeNode(child);
+    });
 
     detailContentEl.appendChild(row);
   });
@@ -185,6 +188,34 @@ function renderDetail(node: SizeNode): void {
     vscode.postMessage({ type: 'goToEditor', line: node.line, col: node.col });
   });
   detailContentEl.appendChild(btn);
+}
+
+// ── Tree sync ──
+function selectTreeNode(node: SizeNode): void {
+  const target = treePaneEl.querySelector<HTMLElement>(
+    `.tree-row[data-line="${node.line}"][data-col="${node.col}"]`
+  );
+  if (!target) return;
+
+  // Expand all collapsed ancestor .tree-children containers
+  let el: HTMLElement | null = target.parentElement;
+  while (el && el !== treePaneEl) {
+    if (el.classList.contains('tree-children') && el.classList.contains('hidden')) {
+      el.classList.remove('hidden');
+      // Update the toggle arrow on the parent row
+      const parentRow = el.previousElementSibling as HTMLElement | null;
+      if (parentRow?.classList.contains('tree-row')) {
+        const toggle = parentRow.querySelector<HTMLElement>('.tree-toggle');
+        if (toggle) toggle.textContent = '▼';
+      }
+    }
+    el = el.parentElement;
+  }
+
+  // Select the row
+  document.querySelectorAll('.tree-row.selected').forEach(r => r.classList.remove('selected'));
+  target.classList.add('selected');
+  target.scrollIntoView({ block: 'nearest' });
 }
 
 // ── Helpers ──
