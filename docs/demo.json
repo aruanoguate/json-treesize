@@ -1,0 +1,108 @@
+{
+  "app": {
+    "name": "Tienda Guatemala",
+    "version": "3.2.1",
+    "config": {
+      "api_url": "https://api.tienda.gt/v3",
+      "timeout_ms": 5000,
+      "retry_count": 3,
+      "feature_flags": {
+        "dark_mode": true,
+        "live_chat": false,
+        "experimental_search": true
+      }
+    }
+  },
+  "products": [
+    {
+      "id": "JADE-001",
+      "name": "Jade Pendant — Classic",
+      "description": "Authentic Guatemalan jadeite pendant, hand-carved by artisans in Antigua Guatemala. Each piece is unique, featuring the deep green hue characteristic of Mesoamerican jade.",
+      "price_usd": 149.99,
+      "currency": "GTQ",
+      "price_local": 1162.42,
+      "in_stock": true,
+      "tags": ["jewelry", "jade", "handmade", "gift", "artisan"],
+      "images": [
+        "https://cdn.tienda.gt/img/jade-001-front.webp",
+        "https://cdn.tienda.gt/img/jade-001-side.webp",
+        "https://cdn.tienda.gt/img/jade-001-detail.webp"
+      ],
+      "reviews": [
+        { "user": "María", "rating": 5, "text": "Hermoso, tal como en la foto." },
+        { "user": "Carlos", "rating": 4, "text": "Great quality, shipping was fast." },
+        { "user": "Ana", "rating": 5, "text": "Perfect gift for my mom!" }
+      ],
+      "dimensions": { "width_mm": 25, "height_mm": 38, "weight_g": 12 }
+    },
+    {
+      "id": "TEX-042",
+      "name": "Huipil Table Runner",
+      "description": "Hand-woven table runner inspired by traditional huipil patterns from the highlands of Guatemala. Made with 100% cotton on a backstrap loom.",
+      "price_usd": 65.00,
+      "currency": "GTQ",
+      "price_local": 504.75,
+      "in_stock": true,
+      "tags": ["textiles", "handwoven", "home", "decor"],
+      "images": [
+        "https://cdn.tienda.gt/img/tex-042-full.webp",
+        "https://cdn.tienda.gt/img/tex-042-close.webp"
+      ],
+      "reviews": [
+        { "user": "Roberto", "rating": 5, "text": "Los colores son increíbles." },
+        { "user": "Sarah", "rating": 5, "text": "Beautiful craftsmanship!" }
+      ],
+      "dimensions": { "width_mm": 350, "length_mm": 1800, "weight_g": 280 }
+    },
+    {
+      "id": "COF-007",
+      "name": "Antigua Coffee — Single Origin",
+      "description": "Premium single-origin Arabica coffee from the volcanic soils of Antigua Guatemala. Medium roast with notes of chocolate, citrus, and a smooth caramel finish. Altitude: 1,500–1,700 masl.",
+      "price_usd": 18.50,
+      "currency": "GTQ",
+      "price_local": 143.58,
+      "in_stock": true,
+      "tags": ["coffee", "single-origin", "antigua", "food"],
+      "images": [
+        "https://cdn.tienda.gt/img/cof-007-bag.webp"
+      ],
+      "reviews": [],
+      "weight_oz": 12,
+      "roast_date": "2026-03-15"
+    }
+  ],
+  "users": {
+    "total": 14832,
+    "active_30d": 3429,
+    "top_regions": [
+      { "region": "Guatemala City", "users": 5120, "pct": 34.5 },
+      { "region": "Quetzaltenango", "users": 2100, "pct": 14.2 },
+      { "region": "Antigua Guatemala", "users": 1890, "pct": 12.7 },
+      { "region": "Escuintla", "users": 980, "pct": 6.6 },
+      { "region": "Other", "users": 4742, "pct": 32.0 }
+    ]
+  },
+  "analytics": {
+    "page_views_30d": 287401,
+    "orders_30d": 1247,
+    "revenue_30d_usd": 89432.17,
+    "conversion_rate": 0.0434,
+    "top_referrers": [
+      "google.com",
+      "facebook.com",
+      "instagram.com",
+      "tiktok.com",
+      "direct"
+    ],
+    "device_breakdown": {
+      "mobile": 0.68,
+      "desktop": 0.27,
+      "tablet": 0.05
+    }
+  },
+  "i18n": {
+    "default_locale": "es-GT",
+    "supported": ["es-GT", "en-US", "fr-FR", "de-DE", "ja-JP"],
+    "strings_count": 1847
+  }
+}

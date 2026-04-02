@@ -84,7 +84,9 @@
     "test": "jest",
     "package": "npx @vscode/vsce package --no-yarn",
     "vsce:publish": "npx @vscode/vsce publish --no-yarn",
-    "release": "npm test && npm run compile && git push && git push --tags"
+    "release": "npm test && npm run compile && git push && git push --tags",
+    "demo": "npx tsx scripts/record-demos.ts",
+    "demo:no-gif": "npx tsx scripts/record-demos.ts --no-gif"
   },
   "dependencies": {
     "@vscode/l10n": "^0.0.18",
@@ -115,6 +117,7 @@
     }
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.5.0",
     "@types/vscode": "^1.85.0",
@@ -123,6 +126,7 @@
     "esbuild": "^0.27.4",
     "jest": "^30.3.0",
     "ts-jest": "^29.4.9",
+    "tsx": "^4.21.0",
     "typescript": "^6.0.2"
   }
 }

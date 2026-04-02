@@ -7,11 +7,15 @@ src/**
 tests/**
 coverage/**
 node_modules/**
+scripts/**
 
 # Build tooling
 tsconfig*.json
 esbuild.js
 sonar-project.properties
+
+# Docs (keep images referenced by README, exclude the rest)
+docs/demo.json
 
 # Git / editor
 .gitignore
