@@ -1,8 +1,23 @@
+# Source & config (dist/ is all that's needed at runtime)
 .vscode/**
+.github/**
+.claude/**
+.superpowers/**
 src/**
 tests/**
+coverage/**
 node_modules/**
-*.map
+
+# Build tooling
 tsconfig*.json
 esbuild.js
+sonar-project.properties
+
+# Git / editor
 .gitignore
+.git/**
+
+# Dev artifacts
+**/*.map
+*.vsix
+**/*.test.ts

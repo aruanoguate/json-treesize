@@ -1,0 +1,56 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*' # Triggered by pushing a version tag, e.g. v0.1.0
+
+permissions:
+  contents: write # Needed for creating GitHub Releases
+
+jobs:
+  release:
+    name: Package & Publish
+    runs-on: ubuntu-latest
+
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npx jest --ci
+
+      - name: Compile
+        run: npm run compile
+
+      - name: Package VSIX
+        run: npx @vscode/vsce package --no-yarn --out json-treesize.vsix
+
+      - name: Publish to VS Code Marketplace
+        run: npx @vscode/vsce publish --no-yarn --packagePath json-treesize.vsix
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+
+      - name: Publish to Open VSX Registry
+        run: npx ovsx publish json-treesize.vsix
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+        continue-on-error: true # Optional — skip if no Open VSX token
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: json-treesize.vsix
+          generate_release_notes: true

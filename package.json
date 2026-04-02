@@ -1,12 +1,44 @@
 {
   "name": "json-treesize",
   "displayName": "JSON TreeSize",
-  "description": "Visualize JSON file size by path — tree explorer with size bars",
+  "description": "Visualize what's bloating your JSON — interactive tree explorer with size bars, heat-map coloring, and one-click navigation to the source.",
   "version": "0.1.0",
+  "publisher": "AlvaroEnriqueRuano",
+  "author": {
+    "name": "Alvaro Enrique Ruano"
+  },
+  "license": "MIT",
+  "icon": "docs/icon.png",
+  "galleryBanner": {
+    "color": "#1e1e1e",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aruanoguate/json-treesize"
+  },
+  "bugs": {
+    "url": "https://github.com/aruanoguate/json-treesize/issues"
+  },
+  "homepage": "https://github.com/aruanoguate/json-treesize#readme",
+  "keywords": [
+    "json",
+    "size",
+    "treesize",
+    "tree",
+    "explorer",
+    "analyzer",
+    "visualizer",
+    "disk usage",
+    "file size",
+    "json viewer",
+    "optimization"
+  ],
   "engines": {
     "vscode": "^1.85.0"
   },
   "categories": [
+    "Visualization",
     "Other"
   ],
   "activationEvents": [],
@@ -48,7 +80,9 @@
   "scripts": {
     "compile": "node esbuild.js",
     "watch": "node esbuild.js --watch",
-    "test": "jest"
+    "test": "jest",
+    "package": "npx @vscode/vsce package --no-yarn",
+    "vsce:publish": "npx @vscode/vsce publish --no-yarn"
   },
   "dependencies": {
     "json-source-map": "^0.6.1"
@@ -60,7 +94,10 @@
       "**/tests/**/*.test.ts"
     ],
     "coverageDirectory": "coverage",
-    "coverageReporters": ["lcov", "text"],
+    "coverageReporters": [
+      "lcov",
+      "text"
+    ],
     "collectCoverageFrom": [
       "src/**/*.ts",
       "!src/**/*.d.ts"
@@ -79,6 +116,7 @@
     "@types/node": "^25.5.0",
     "@types/vscode": "^1.85.0",
     "@vscode/test-electron": "^2.5.2",
+    "@vscode/vsce": "^3.7.1",
     "esbuild": "^0.27.4",
     "jest": "^30.3.0",
     "ts-jest": "^29.4.9",
