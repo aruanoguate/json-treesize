@@ -1,0 +1,16 @@
+{
+  "No JSON file selected.": "कोई JSON फ़ाइल चयनित नहीं है।",
+  "JSON TreeSize — {0}": "JSON TreeSize — {0}",
+  "Analyzing…": "विश्लेषण हो रहा है…",
+  "Expand all": "सभी विस्तृत करें",
+  "Collapse all": "सभी संक्षिप्त करें",
+  "Select a node in the tree to see its breakdown.": "विवरण देखने के लिए ट्री में एक नोड चुनें।",
+  "Expanding…": "विस्तृत हो रहा है…",
+  "Collapsing…": "संक्षिप्त हो रहा है…",
+  "Error: {0}": "त्रुटि: {0}",
+  "total": "कुल",
+  "items": "आइटम",
+  "keys": "कुंजियाँ",
+  "Made with ❤️ from Guatemala": "Guatemala से ❤️ के साथ बनाया गया",
+  "Open in editor ↗": "संपादक में खोलें ↗"
+}

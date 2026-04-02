@@ -1,0 +1,16 @@
+{
+  "No JSON file selected.": "선택된 JSON 파일이 없습니다.",
+  "JSON TreeSize — {0}": "JSON TreeSize — {0}",
+  "Analyzing…": "분석 중…",
+  "Expand all": "모두 펼치기",
+  "Collapse all": "모두 접기",
+  "Select a node in the tree to see its breakdown.": "트리에서 노드를 선택하면 세부 내역을 볼 수 있습니다.",
+  "Expanding…": "펼치는 중…",
+  "Collapsing…": "접는 중…",
+  "Error: {0}": "오류: {0}",
+  "total": "합계",
+  "items": "항목",
+  "keys": "키",
+  "Made with ❤️ from Guatemala": "Guatemala에서 ❤️로 제작",
+  "Open in editor ↗": "편집기에서 열기 ↗"
+}

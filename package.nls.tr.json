@@ -1,0 +1,7 @@
+{
+  "displayName": "JSON TreeSize",
+  "description": "JSON dosyanızı neyin şişirdiğini görselleştirin — boyut çubukları, ısı haritası renklendirmesi ve tek tıkla kaynağa gitme özellikli interaktif ağaç gezgini.",
+  "command.analyze.title": "JSON TreeSize: Analiz Et",
+  "config.title": "JSON TreeSize",
+  "config.baseColor.description": "Boyut ısı haritası için temel renk (hex, ör. #e06c8a). Varsayılan maviyi (#4a9eda) kullanmak için boş bırakın."
+}

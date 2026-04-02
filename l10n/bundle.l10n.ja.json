@@ -1,0 +1,16 @@
+{
+  "No JSON file selected.": "JSON ファイルが選択されていません。",
+  "JSON TreeSize — {0}": "JSON TreeSize — {0}",
+  "Analyzing…": "分析中…",
+  "Expand all": "すべて展開",
+  "Collapse all": "すべて折りたたむ",
+  "Select a node in the tree to see its breakdown.": "ツリーのノードを選択して内訳を確認してください。",
+  "Expanding…": "展開中…",
+  "Collapsing…": "折りたたみ中…",
+  "Error: {0}": "エラー: {0}",
+  "total": "合計",
+  "items": "項目",
+  "keys": "キー",
+  "Made with ❤️ from Guatemala": "Guatemala から ❤️ を込めて",
+  "Open in editor ↗": "エディターで開く ↗"
+}

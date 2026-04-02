@@ -1,0 +1,16 @@
+{
+  "No JSON file selected.": "Keine JSON-Datei ausgewählt.",
+  "JSON TreeSize — {0}": "JSON TreeSize — {0}",
+  "Analyzing…": "Analyse läuft…",
+  "Expand all": "Alle aufklappen",
+  "Collapse all": "Alle zuklappen",
+  "Select a node in the tree to see its breakdown.": "Wählen Sie einen Knoten im Baum aus, um die Aufschlüsselung zu sehen.",
+  "Expanding…": "Wird aufgeklappt…",
+  "Collapsing…": "Wird zugeklappt…",
+  "Error: {0}": "Fehler: {0}",
+  "total": "Gesamt",
+  "items": "Elemente",
+  "keys": "Schlüssel",
+  "Made with ❤️ from Guatemala": "Mit ❤️ aus Guatemala",
+  "Open in editor ↗": "Im Editor öffnen ↗"
+}

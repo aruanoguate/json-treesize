@@ -1,0 +1,16 @@
+{
+  "No JSON file selected.": "Chưa chọn tệp JSON nào.",
+  "JSON TreeSize — {0}": "JSON TreeSize — {0}",
+  "Analyzing…": "Đang phân tích…",
+  "Expand all": "Mở rộng tất cả",
+  "Collapse all": "Thu gọn tất cả",
+  "Select a node in the tree to see its breakdown.": "Chọn một nút trong cây để xem chi tiết.",
+  "Expanding…": "Đang mở rộng…",
+  "Collapsing…": "Đang thu gọn…",
+  "Error: {0}": "Lỗi: {0}",
+  "total": "tổng",
+  "items": "mục",
+  "keys": "khóa",
+  "Made with ❤️ from Guatemala": "Được tạo với ❤️ từ Guatemala",
+  "Open in editor ↗": "Mở trong trình soạn ↗"
+}

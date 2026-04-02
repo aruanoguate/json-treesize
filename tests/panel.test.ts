@@ -64,6 +64,17 @@ jest.mock('vscode', () => ({
   TextEditorRevealType: { InCenter: 2 },
 }), { virtual: true });
 
+// ── Mock: @vscode/l10n ──
+jest.mock('@vscode/l10n', () => ({
+  t: jest.fn((...args: unknown[]) => {
+    let msg = String(args[0]);
+    for (let i = 1; i < args.length; i++) {
+      msg = msg.replace(`{${i - 1}}`, String(args[i]));
+    }
+    return msg;
+  }),
+}));
+
 // ── Mock: node:worker_threads ──
 const mockWorkerOn = jest.fn();
 jest.mock('node:worker_threads', () => ({

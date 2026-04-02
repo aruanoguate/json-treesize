@@ -1,0 +1,7 @@
+{
+  "displayName": "JSON TreeSize",
+  "description": "可视化 JSON 膨胀原因 — 交互式树形浏览器，支持大小条形图、热力图着色和一键跳转到源码。",
+  "command.analyze.title": "JSON TreeSize: 分析",
+  "config.title": "JSON TreeSize",
+  "config.baseColor.description": "大小热力图的基础颜色（十六进制，例如 #e06c8a）。留空则使用默认蓝色（#4a9eda）。"
+}

@@ -1,0 +1,7 @@
+{
+  "displayName": "JSON TreeSize",
+  "description": "Visualiseer wat je JSON opblaast — interactieve boomverkenner met groottebalkjes, heatmap-kleuren en directe navigatie naar de broncode.",
+  "command.analyze.title": "JSON TreeSize: Analyseren",
+  "config.title": "JSON TreeSize",
+  "config.baseColor.description": "Basiskleur voor de grootte-heatmap (hex, bijv. #e06c8a). Laat leeg om de standaard blauwe kleur (#4a9eda) te gebruiken."
+}

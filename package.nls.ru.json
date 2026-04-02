@@ -1,0 +1,7 @@
+{
+  "displayName": "JSON TreeSize",
+  "description": "Узнайте, что раздувает ваш JSON — интерактивный древовидный обозреватель с полосами размера, тепловой картой и переходом к исходному коду в один клик.",
+  "command.analyze.title": "JSON TreeSize: Анализировать",
+  "config.title": "JSON TreeSize",
+  "config.baseColor.description": "Базовый цвет тепловой карты размеров (hex, напр. #e06c8a). Оставьте пустым, чтобы использовать синий по умолчанию (#4a9eda)."
+}

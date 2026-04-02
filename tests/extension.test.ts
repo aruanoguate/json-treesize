@@ -34,6 +34,17 @@ jest.mock('../src/panel', () => ({
   },
 }));
 
+jest.mock('@vscode/l10n', () => ({
+  t: jest.fn((...args: unknown[]) => {
+    // Simple passthrough: return the template with placeholders filled
+    let msg = String(args[0]);
+    for (let i = 1; i < args.length; i++) {
+      msg = msg.replace(`{${i - 1}}`, String(args[i]));
+    }
+    return msg;
+  }),
+}));
+
 describe('activate', () => {
   let context: vscode.ExtensionContext;
   let registeredCallback: (uri?: vscode.Uri) => void;
@@ -83,7 +94,7 @@ describe('activate', () => {
     (vscode.window as { activeTextEditor?: unknown }).activeTextEditor = undefined;
     registeredCallback(undefined);
     expect(vscode.window.showErrorMessage).toHaveBeenCalledWith(
-      'JSON TreeSize: No JSON file selected.',
+      'No JSON file selected.',
     );
     expect(JsonTreePanel.createOrShow).not.toHaveBeenCalled();
   });

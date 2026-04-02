@@ -8,6 +8,18 @@ declare function acquireVsCodeApi(): {
 
 const vscode = acquireVsCodeApi();
 
+// ── Localized strings (passed from extension host via data attributes) ──
+const body = document.body;
+const L = {
+  expanding: body.dataset.l10nExpanding ?? 'Expanding…',
+  collapsing: body.dataset.l10nCollapsing ?? 'Collapsing…',
+  errorTemplate: body.dataset.l10nError ?? 'Error: __MSG__',
+  total: body.dataset.l10nTotal ?? 'total',
+  items: body.dataset.l10nItems ?? 'items',
+  keys: body.dataset.l10nKeys ?? 'keys',
+  openInEditor: body.dataset.l10nOpenInEditor ?? 'Open in editor ↗',
+};
+
 // Signal to the extension host that the webview JS is loaded and ready
 vscode.postMessage({ type: 'ready' });
 
@@ -66,7 +78,7 @@ function withToolbarBusy(btn: HTMLElement, label: string, work: () => void): voi
 }
 
 expandAllBtn.addEventListener('click', () => {
-  withToolbarBusy(expandAllBtn, 'Expanding…', () => {
+  withToolbarBusy(expandAllBtn, L.expanding, () => {
     treePaneEl.querySelectorAll<HTMLElement>('.tree-children').forEach(el => {
       el.classList.remove('hidden');
     });
@@ -77,7 +89,7 @@ expandAllBtn.addEventListener('click', () => {
 });
 
 collapseAllBtn.addEventListener('click', () => {
-  withToolbarBusy(collapseAllBtn, 'Collapsing…', () => {
+  withToolbarBusy(collapseAllBtn, L.collapsing, () => {
     treePaneEl.querySelectorAll<HTMLElement>('.tree-children').forEach((el, i) => {
       if (i > 0) el.classList.add('hidden'); // keep root's children visible
     });
@@ -99,7 +111,7 @@ window.addEventListener('message', (event: MessageEvent<ExtensionToWebviewMessag
   } else if (msg.type === 'error') {
     hide(loadingEl); hide(splitEl);
     show(errorEl);
-    errorEl.textContent = `Error: ${msg.message}`;
+    errorEl.textContent = L.errorTemplate.replace('__MSG__', msg.message);
   } else if (msg.type === 'tree') {
     hide(loadingEl); hide(errorEl);
     show(splitEl);
@@ -230,8 +242,8 @@ function renderDetail(node: SizeNode): void {
   header.innerHTML = `
     <h2>${escHtml(node.key)}</h2>
     <div class="detail-meta">
-      ${formatSize(node.size)} total
-      · ${node.children.length} ${node.type === 'array' ? 'items' : 'keys'}
+      ${formatSize(node.size)} ${L.total}
+      · ${node.children.length} ${node.type === 'array' ? L.items : L.keys}
       · ${node.type}
     </div>`;
   detailContentEl.appendChild(header);
@@ -283,7 +295,7 @@ function renderDetail(node: SizeNode): void {
   // Go to editor button
   const btn = document.createElement('button');
   btn.className = 'goto-btn';
-  btn.textContent = 'Go to in editor ↗';
+  btn.textContent = L.openInEditor;
   btn.addEventListener('click', () => {
     vscode.postMessage({ type: 'goToEditor', line: node.line, col: node.col });
   });

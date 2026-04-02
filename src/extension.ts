@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import * as l10n from '@vscode/l10n';
 import { JsonTreePanel } from './panel';
 
 /**
@@ -13,7 +14,7 @@ export function activate(context: vscode.ExtensionContext): void {
       // If triggered from command palette (no URI), use the active editor's file
       const fileUri = uri ?? vscode.window.activeTextEditor?.document.uri;
       if (!fileUri) {
-        vscode.window.showErrorMessage('JSON TreeSize: No JSON file selected.');
+        vscode.window.showErrorMessage(l10n.t('No JSON file selected.'));
         return;
       }
       JsonTreePanel.createOrShow(context, fileUri);

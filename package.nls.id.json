@@ -1,0 +1,7 @@
+{
+  "displayName": "JSON TreeSize",
+  "description": "Visualisasikan apa yang membengkakkan JSON Anda — penjelajah pohon interaktif dengan bilah ukuran, pewarnaan peta panas, dan navigasi satu klik ke kode sumber.",
+  "command.analyze.title": "JSON TreeSize: Analisis",
+  "config.title": "JSON TreeSize",
+  "config.baseColor.description": "Warna dasar untuk peta panas ukuran (hex, cth. #e06c8a). Biarkan kosong untuk menggunakan biru bawaan (#4a9eda)."
+}

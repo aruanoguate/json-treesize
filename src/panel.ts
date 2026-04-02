@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'node:path';
+import * as l10n from '@vscode/l10n';
 import { randomBytes } from 'node:crypto';
 import { Worker } from 'node:worker_threads';
 import { ExtensionToWebviewMessage, WebviewToExtensionMessage, WorkerToExtensionMessage } from './types';
@@ -40,7 +41,7 @@ export class JsonTreePanel {
 
     const panel = vscode.window.createWebviewPanel(
       JsonTreePanel.viewType,
-      `JSON TreeSize — ${path.basename(fileUri.fsPath)}`,
+      l10n.t('JSON TreeSize — {0}', path.basename(fileUri.fsPath)),
       column,
       {
         enableScripts: true,
@@ -305,24 +306,37 @@ export class JsonTreePanel {
     .goto-btn:hover { background: var(--vscode-button-hoverBackground); }
   </style>
 </head>
-<body>
+<body
+  data-l10n-analyzing="${this._esc(l10n.t('Analyzing…'))}"
+  data-l10n-expand-all="${this._esc(l10n.t('Expand all'))}"
+  data-l10n-collapse-all="${this._esc(l10n.t('Collapse all'))}"
+  data-l10n-select-node="${this._esc(l10n.t('Select a node in the tree to see its breakdown.'))}"
+  data-l10n-expanding="${this._esc(l10n.t('Expanding…'))}"
+  data-l10n-collapsing="${this._esc(l10n.t('Collapsing…'))}"
+  data-l10n-error="${this._esc(l10n.t('Error: {0}', '__MSG__'))}"
+  data-l10n-total="${this._esc(l10n.t('total'))}"
+  data-l10n-items="${this._esc(l10n.t('items'))}"
+  data-l10n-keys="${this._esc(l10n.t('keys'))}"
+  data-l10n-open-in-editor="${this._esc(l10n.t('Open in editor ↗'))}"
+  data-l10n-made-in="${this._esc(l10n.t('Made with ❤️ from Guatemala'))}"
+>
   <div id="app">
     <div id="loading" class="loading-state">
       <div class="spinner"></div>
-      <span>Analyzing…</span>
+      <span>${this._esc(l10n.t('Analyzing…'))}</span>
     </div>
     <div id="error" class="error-state hidden"></div>
     <div id="split" class="split hidden">
       <div class="tree-pane">
         <div class="tree-toolbar">
-          <button id="expand-all-btn">Expand all</button>
-          <button id="collapse-all-btn">Collapse all</button>
+          <button id="expand-all-btn">${this._esc(l10n.t('Expand all'))}</button>
+          <button id="collapse-all-btn">${this._esc(l10n.t('Collapse all'))}</button>
         </div>
         <div id="tree-pane" class="tree-scroll"></div>
       </div>
       <div id="detail-pane" class="pane detail-pane">
         <div id="detail-placeholder" class="detail-placeholder">
-          Select a node in the tree to see its breakdown.
+          ${this._esc(l10n.t('Select a node in the tree to see its breakdown.'))}
         </div>
         <div id="detail-content" class="hidden"></div>
       </div>
@@ -349,6 +363,11 @@ export class JsonTreePanel {
   private _resolveIsDark(): boolean {
     const { kind } = vscode.window.activeColorTheme;
     return kind === vscode.ColorThemeKind.Dark || kind === vscode.ColorThemeKind.HighContrast;
+  }
+
+  /** Escapes a string for safe use in HTML attributes and content. */
+  private _esc(s: string): string {
+    return s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
   }
 
   /** Disposes the panel and cleans up all associated resources. */

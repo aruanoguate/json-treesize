@@ -1,0 +1,7 @@
+{
+  "displayName": "JSON TreeSize",
+  "description": "Visualiza qué está inflando tu JSON — explorador interactivo con barras de tamaño, mapa de calor y navegación directa al código fuente.",
+  "command.analyze.title": "JSON TreeSize: Analizar",
+  "config.title": "JSON TreeSize",
+  "config.baseColor.description": "Color base para el mapa de calor de tamaños (hex, p. ej. #e06c8a). Déjalo vacío para usar el azul predeterminado (#4a9eda)."
+}

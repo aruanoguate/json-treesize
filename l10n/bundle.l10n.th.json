@@ -1,0 +1,16 @@
+{
+  "No JSON file selected.": "ไม่ได้เลือกไฟล์ JSON",
+  "JSON TreeSize — {0}": "JSON TreeSize — {0}",
+  "Analyzing…": "กำลังวิเคราะห์…",
+  "Expand all": "ขยายทั้งหมด",
+  "Collapse all": "ยุบทั้งหมด",
+  "Select a node in the tree to see its breakdown.": "เลือกโหนดในต้นไม้เพื่อดูรายละเอียด",
+  "Expanding…": "กำลังขยาย…",
+  "Collapsing…": "กำลังยุบ…",
+  "Error: {0}": "ข้อผิดพลาด: {0}",
+  "total": "รวม",
+  "items": "รายการ",
+  "keys": "คีย์",
+  "Made with ❤️ from Guatemala": "สร้างด้วย ❤️ จาก Guatemala",
+  "Open in editor ↗": "เปิดในตัวแก้ไข ↗"
+}
