@@ -59,6 +59,12 @@
     "testMatch": [
       "**/tests/**/*.test.ts"
     ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": ["lcov", "text"],
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!src/**/*.d.ts"
+    ],
     "transform": {
       "^.+\\.tsx?$": [
         "ts-jest",
