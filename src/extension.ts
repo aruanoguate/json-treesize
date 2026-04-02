@@ -1,6 +1,12 @@
 import * as vscode from 'vscode';
 import { JsonTreePanel } from './panel';
 
+/**
+ * Activates the JSON TreeSize extension.
+ * Registers the `jsonTreeSize.analyze` command which opens the tree-size panel
+ * for the selected (or currently active) JSON file.
+ * @param context - The VS Code extension context used for subscriptions and extension-scoped resources.
+ */
 export function activate(context: vscode.ExtensionContext): void {
   context.subscriptions.push(
     vscode.commands.registerCommand('jsonTreeSize.analyze', (uri?: vscode.Uri) => {
@@ -15,4 +21,10 @@ export function activate(context: vscode.ExtensionContext): void {
   );
 }
 
-export function deactivate(): void {}
+/**
+ * Deactivates the JSON TreeSize extension.
+ * VS Code requires this export; no cleanup is needed for this extension.
+ */
+export function deactivate(): void {
+  // Intentional: VS Code requires this export but no cleanup is needed
+}

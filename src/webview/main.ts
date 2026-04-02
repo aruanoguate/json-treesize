@@ -10,21 +10,42 @@ const vscode = acquireVsCodeApi();
 // Signal to the extension host that the webview JS is loaded and ready
 vscode.postMessage({ type: 'ready' });
 
+/**
+ * Safely retrieve a DOM element by ID, throwing if not found.
+ * @param id - The element ID to look up.
+ * @returns The matching HTMLElement.
+ * @throws Error if the element does not exist in the DOM.
+ */
+function getRequiredElement(id: string): HTMLElement {
+  const el = document.getElementById(id);
+  if (!el) {
+    throw new Error(`Required element #${id} not found`);
+  }
+  return el;
+}
+
 // ── DOM refs ──
-const loadingEl = document.getElementById('loading')!;
-const errorEl   = document.getElementById('error')!;
-const splitEl   = document.getElementById('split')!;
-const treePaneEl = document.getElementById('tree-pane')!;
-const detailPlaceholderEl = document.getElementById('detail-placeholder')!;
-const detailContentEl = document.getElementById('detail-content')!;
-const expandAllBtn = document.getElementById('expand-all-btn')!;
-const collapseAllBtn = document.getElementById('collapse-all-btn')!;
+const loadingEl = getRequiredElement('loading');
+const errorEl   = getRequiredElement('error');
+const splitEl   = getRequiredElement('split');
+const treePaneEl = getRequiredElement('tree-pane');
+const detailPlaceholderEl = getRequiredElement('detail-placeholder');
+const detailContentEl = getRequiredElement('detail-content');
+const expandAllBtn = getRequiredElement('expand-all-btn');
+const collapseAllBtn = getRequiredElement('collapse-all-btn');
 
 // ── State ──
 let selectedNode: SizeNode | null = null;
 let colorState: { h: number; s: number; l: number; isDark: boolean } | null = null;
 
 // ── Toolbar ──
+/**
+ * Disables toolbar buttons, shows a busy label, executes the given work function,
+ * then re-enables the buttons after the browser has painted the result.
+ * @param btn - The toolbar button that triggered the action.
+ * @param label - Temporary label to display while the work is in progress.
+ * @param work - Synchronous function to execute (e.g. expand/collapse all nodes).
+ */
 function withToolbarBusy(btn: HTMLElement, label: string, work: () => void): void {
   const original = btn.textContent ?? '';
   expandAllBtn.setAttribute('disabled', '');
@@ -68,6 +89,10 @@ collapseAllBtn.addEventListener('click', () => {
 // ── Message handler ──
 window.addEventListener('message', (event: MessageEvent<ExtensionToWebviewMessage>) => {
   const msg = event.data;
+  // Validate message structure (VS Code webview messages are trusted from the extension host)
+  if (!msg || typeof msg !== 'object' || typeof msg.type !== 'string') {
+    return;
+  }
   if (msg.type === 'loading') {
     show(loadingEl); hide(splitEl); hide(errorEl);
   } else if (msg.type === 'error') {
@@ -84,11 +109,23 @@ window.addEventListener('message', (event: MessageEvent<ExtensionToWebviewMessag
 });
 
 // ── Tree rendering ──
+/**
+ * Clears the tree pane and renders the root node of the size tree.
+ * @param root - The root {@link SizeNode} returned by the parser.
+ */
 function renderTree(root: SizeNode): void {
   treePaneEl.innerHTML = '';
   treePaneEl.appendChild(buildTreeRow(root, root.size, true));
 }
 
+/**
+ * Recursively builds the DOM elements for a single tree row and its children.
+ * @param node - The {@link SizeNode} to render.
+ * @param rootSize - Total byte size of the root node (used for percentage calculations).
+ * @param expanded - Whether this node's children should be initially visible.
+ * @param parentSize - Byte size of the parent node (used for sibling-relative mini bar widths).
+ * @returns A wrapper `HTMLElement` containing the row and its children container.
+ */
 function buildTreeRow(node: SizeNode, rootSize: number, expanded: boolean, parentSize?: number): HTMLElement {
   const wrapper = document.createElement('div');
 
@@ -104,7 +141,11 @@ function buildTreeRow(node: SizeNode, rootSize: number, expanded: boolean, paren
   const toggle = document.createElement('span');
   toggle.className = 'tree-toggle';
   const hasChildren = node.children.length > 0;
-  toggle.textContent = hasChildren ? (expanded ? '▼' : '▶') : '';
+  if (hasChildren) {
+    toggle.textContent = expanded ? '▼' : '▶';
+  } else {
+    toggle.textContent = '';
+  }
 
   const keyEl = document.createElement('span');
   keyEl.className = 'tree-key';
@@ -172,6 +213,11 @@ function buildTreeRow(node: SizeNode, rootSize: number, expanded: boolean, paren
 }
 
 // ── Detail pane ──
+/**
+ * Renders the detail pane for the selected node, showing a header with
+ * metadata and a bar chart of its immediate children sorted by size.
+ * @param node - The {@link SizeNode} whose details to display.
+ */
 function renderDetail(node: SizeNode): void {
   show(detailContentEl);
   hide(detailPlaceholderEl);
@@ -244,6 +290,11 @@ function renderDetail(node: SizeNode): void {
 }
 
 // ── Tree sync ──
+/**
+ * Selects and scrolls to the tree row that corresponds to the given node.
+ * Expands any collapsed ancestor containers along the way.
+ * @param node - The {@link SizeNode} to highlight in the tree pane.
+ */
 function selectTreeNode(node: SizeNode): void {
   const target = treePaneEl.querySelector<HTMLElement>(
     `.tree-row[data-line="${node.line}"][data-col="${node.col}"]`
@@ -272,19 +323,45 @@ function selectTreeNode(node: SizeNode): void {
 }
 
 // ── Helpers ──
+/**
+ * Formats a byte count as a human-readable size string.
+ * Values >= 1024 are shown in KB with one decimal; smaller values in B.
+ * @param bytes - The byte count to format.
+ * @returns A formatted string such as `"1.5 KB"` or `"512 B"`.
+ */
 function formatSize(bytes: number): string {
   if (bytes >= 1024) return (bytes / 1024).toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' KB';
   return bytes.toLocaleString() + ' B';
 }
 
+/**
+ * Computes the percentage that `part` represents of `total`, clamped to [0, 100].
+ * @param part - The portion value.
+ * @param total - The total value (returns 0 when total is 0).
+ * @returns The percentage as a number between 0 and 100.
+ */
 function pct(part: number, total: number): number {
   return total === 0 ? 0 : Math.min((part / total) * 100, 100);
 }
 
 
+/**
+ * Escapes HTML special characters to prevent XSS when inserting text into innerHTML.
+ * @param s - The raw string to escape.
+ * @returns The escaped string safe for HTML insertion.
+ */
 function escHtml(s: string): string {
-  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
 }
 
+/**
+ * Shows an element by removing the `hidden` CSS class.
+ * @param el - The element to show.
+ */
 function show(el: HTMLElement): void { el.classList.remove('hidden'); }
+
+/**
+ * Hides an element by adding the `hidden` CSS class.
+ * @param el - The element to hide.
+ */
 function hide(el: HTMLElement): void { el.classList.add('hidden'); }

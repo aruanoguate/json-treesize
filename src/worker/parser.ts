@@ -11,6 +11,16 @@ export function buildSizeTree(jsonText: string): SizeNode {
   return buildNode('root', data as JsonValue, '', pointers, 0, 0);
 }
 
+/**
+ * Recursively builds a {@link SizeNode} for a JSON value and its descendants.
+ * @param key - The property name or array index (as string) for this node.
+ * @param value - The parsed JSON value.
+ * @param path - The JSON-pointer path used to look up source positions.
+ * @param pointers - The source-map pointer table from `json-source-map`.
+ * @param defaultLine - Fallback 0-based line number if the pointer is missing.
+ * @param defaultCol - Fallback 0-based column number if the pointer is missing.
+ * @returns A fully populated {@link SizeNode} with children sorted by size descending.
+ */
 function buildNode(
   key: string,
   value: JsonValue,
@@ -47,6 +57,11 @@ function buildNode(
   return { key, size, type, children, line, col };
 }
 
+/**
+ * Determines the JSON type of a parsed value.
+ * @param value - The parsed JSON value to classify.
+ * @returns The {@link SizeNode.type} string for the value.
+ */
 function getType(value: JsonValue): SizeNode['type'] {
   if (value === null) return 'null';
   if (Array.isArray(value)) return 'array';
@@ -59,8 +74,8 @@ function getType(value: JsonValue): SizeNode['type'] {
 // ---- Worker thread entry point ----
 // When this file is run as a worker, parse the file at workerData.filePath
 // and post the resulting SizeNode back to the parent.
-import { workerData, parentPort, isMainThread } from 'worker_threads';
-import * as fs from 'fs';
+import { workerData, parentPort, isMainThread } from 'node:worker_threads';
+import * as fs from 'node:fs';
 
 if (!isMainThread) {
   try {

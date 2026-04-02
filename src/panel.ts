@@ -1,9 +1,16 @@
 import * as vscode from 'vscode';
 import * as path from 'node:path';
+import { randomBytes } from 'node:crypto';
 import { Worker } from 'node:worker_threads';
 import { ExtensionToWebviewMessage, WebviewToExtensionMessage, WorkerToExtensionMessage } from './types';
 import { resolveHexColor } from './utils';
 
+/**
+ * Manages the JSON TreeSize webview panel.
+ * Handles parsing JSON files in a worker thread, rendering the tree-size
+ * visualization in a VS Code webview, and coordinating messages between
+ * the extension host and the webview.
+ */
 export class JsonTreePanel {
   public static readonly viewType = 'jsonTreeSize';
   private static _instance: JsonTreePanel | undefined;
@@ -15,6 +22,12 @@ export class JsonTreePanel {
   private _webviewReady = false;
   private _pendingMessage: ExtensionToWebviewMessage | null = null;
 
+  /**
+   * Creates a new panel or reveals the existing one.
+   * If a panel already exists, it is revealed and re-loaded with the new file.
+   * @param context - The VS Code extension context for resource resolution.
+   * @param fileUri - URI of the JSON file to analyze.
+   */
   public static createOrShow(context: vscode.ExtensionContext, fileUri: vscode.Uri): void {
     const column = vscode.ViewColumn.Beside;
 
@@ -76,6 +89,11 @@ export class JsonTreePanel {
     this._loadFile(fileUri);
   }
 
+  /**
+   * Spawns a worker thread to parse the given JSON file and sends
+   * the resulting tree (or error) to the webview once it is ready.
+   * @param fileUri - URI of the JSON file to parse.
+   */
   private _loadFile(fileUri: vscode.Uri): void {
     this._webviewReady = false;
     this._pendingMessage = null;
@@ -105,10 +123,20 @@ export class JsonTreePanel {
     });
   }
 
+  /**
+   * Posts a message to the webview.
+   * @param msg - The message to send to the webview.
+   */
   private _post(msg: ExtensionToWebviewMessage): void {
     this._panel.webview.postMessage(msg);
   }
 
+  /**
+   * Opens the source JSON file in the editor and navigates to the
+   * specified position.
+   * @param line - 0-based line number in the source file.
+   * @param col - 0-based column number in the source file.
+   */
   private async _goToEditor(line: number, col: number): Promise<void> {
     const doc = await vscode.workspace.openTextDocument(this._fileUri);
     const editor = await vscode.window.showTextDocument(doc, vscode.ViewColumn.One);
@@ -117,6 +145,11 @@ export class JsonTreePanel {
     editor.revealRange(new vscode.Range(position, position), vscode.TextEditorRevealType.InCenter);
   }
 
+  /**
+   * Generates the full HTML content for the webview, including styles,
+   * Content-Security-Policy meta tag, and the bundled webview script.
+   * @returns The HTML string to assign to the webview.
+   */
   private _getHtml(): string {
     const webview = this._panel.webview;
     const distWebview = vscode.Uri.joinPath(this._context.extensionUri, 'dist', 'webview');
@@ -300,16 +333,25 @@ export class JsonTreePanel {
 </html>`;
   }
 
+  /**
+   * Reads the `jsonTreeSize.baseColor` setting and validates it.
+   * @returns A resolved 6-digit hex color string (e.g. `"#4a9eda"`).
+   */
   private _resolveBaseColor(): string {
     const setting = vscode.workspace.getConfiguration('jsonTreeSize').get<string>('baseColor', '');
     return resolveHexColor(setting, '#4a9eda');
   }
 
+  /**
+   * Determines whether the current VS Code color theme is dark.
+   * @returns `true` for Dark or HighContrast themes, `false` otherwise.
+   */
   private _resolveIsDark(): boolean {
     const { kind } = vscode.window.activeColorTheme;
     return kind === vscode.ColorThemeKind.Dark || kind === vscode.ColorThemeKind.HighContrast;
   }
 
+  /** Disposes the panel and cleans up all associated resources. */
   private _dispose(): void {
     JsonTreePanel._instance = undefined;
     this._panel.dispose();
@@ -318,7 +360,11 @@ export class JsonTreePanel {
   }
 }
 
+/**
+ * Generates a cryptographically secure nonce string for use
+ * in Content-Security-Policy directives.
+ * @returns A 32-character base64url-encoded nonce.
+ */
 function getNonce(): string {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  return Array.from({ length: 32 }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
+  return randomBytes(24).toString('base64url');
 }

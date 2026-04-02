@@ -9,9 +9,9 @@ export interface Hsl { h: number; s: number; l: number; }
  *              Use resolveHexColor() to validate before calling.
  */
 export function hexToHsl(hex: string): Hsl {
-  const r = parseInt(hex.slice(1, 3), 16) / 255;
-  const g = parseInt(hex.slice(3, 5), 16) / 255;
-  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  const r = Number.parseInt(hex.slice(1, 3), 16) / 255;
+  const g = Number.parseInt(hex.slice(3, 5), 16) / 255;
+  const b = Number.parseInt(hex.slice(5, 7), 16) / 255;
 
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
@@ -60,7 +60,12 @@ export function wcagTextColor(bg: Hsl): '#ffffff' | '#000000' {
   return contrastWhite >= contrastBlack ? '#ffffff' : '#000000';
 }
 
-/** WCAG 2.1 relative luminance from HSL. */
+/**
+ * Computes the WCAG 2.1 relative luminance of an HSL color.
+ * Used internally by {@link wcagTextColor} for contrast ratio calculation.
+ * @param hsl - The color in HSL representation.
+ * @returns A luminance value between 0 (black) and 1 (white).
+ */
 function hslToLuminance(hsl: Hsl): number {
   const s = hsl.s / 100;
   const l = hsl.l / 100;
@@ -70,12 +75,12 @@ function hslToLuminance(hsl: Hsl): number {
 
   let r = 0, g = 0, b = 0;
   const h = hsl.h;
-  if      (h < 60)  { r = c; g = x; b = 0; }
-  else if (h < 120) { r = x; g = c; b = 0; }
-  else if (h < 180) { r = 0; g = c; b = x; }
-  else if (h < 240) { r = 0; g = x; b = c; }
-  else if (h < 300) { r = x; g = 0; b = c; }
-  else              { r = c; g = 0; b = x; }
+  if      (h < 60)  { r = c; g = x; }
+  else if (h < 120) { r = x; g = c; }
+  else if (h < 180) { g = c; b = x; }
+  else if (h < 240) { g = x; b = c; }
+  else if (h < 300) { r = x; b = c; }
+  else              { r = c; b = x; }
 
   const linearise = (v: number): number => {
     const n = v + m;
