@@ -64,4 +64,58 @@ describe('buildSizeTree', () => {
     expect(root.line).toBe(0);
     expect(root.col).toBe(0);
   });
+
+  it('handles boolean values (true)', () => {
+    const json = '{"flag":true}';
+    const root = buildSizeTree(json);
+    expect(root.children[0].type).toBe('boolean');
+    expect(root.children[0].size).toBe(4); // "true"
+    expect(root.children[0].children).toHaveLength(0);
+  });
+
+  it('handles boolean values (false)', () => {
+    const json = '{"flag":false}';
+    const root = buildSizeTree(json);
+    expect(root.children[0].type).toBe('boolean');
+    expect(root.children[0].size).toBe(5); // "false"
+  });
+
+  it('handles number values', () => {
+    const json = '{"n":42}';
+    const root = buildSizeTree(json);
+    expect(root.children[0].type).toBe('number');
+  });
+
+  it('handles string values', () => {
+    const json = '{"s":"hello"}';
+    const root = buildSizeTree(json);
+    expect(root.children[0].type).toBe('string');
+  });
+
+  it('handles deeply nested objects', () => {
+    const json = '{"a":{"b":{"c":1}}}';
+    const root = buildSizeTree(json);
+    const a = root.children[0];
+    expect(a.type).toBe('object');
+    const b = a.children[0];
+    expect(b.type).toBe('object');
+    expect(b.children[0].key).toBe('c');
+    expect(b.children[0].type).toBe('number');
+  });
+
+  it('handles empty objects', () => {
+    const json = '{}';
+    const root = buildSizeTree(json);
+    expect(root.type).toBe('object');
+    expect(root.children).toHaveLength(0);
+    expect(root.size).toBe(2);
+  });
+
+  it('handles empty arrays', () => {
+    const json = '[]';
+    const root = buildSizeTree(json);
+    expect(root.type).toBe('array');
+    expect(root.children).toHaveLength(0);
+    expect(root.size).toBe(2);
+  });
 });

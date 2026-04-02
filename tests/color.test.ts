@@ -24,6 +24,10 @@ describe('hexToHsl', () => {
     expect(hexToHsl('#ff0000')).toEqual({ h: 0, s: 100, l: 50 });
   });
 
+  it('converts pure green (max === g branch)', () => {
+    expect(hexToHsl('#00ff00')).toEqual({ h: 120, s: 100, l: 50 });
+  });
+
   it('converts pure blue', () => {
     const result = hexToHsl('#0000ff');
     expect(result.h).toBe(240);
@@ -46,6 +50,20 @@ describe('hexToHsl', () => {
     expect(result.s).toBeGreaterThan(55);
     expect(result.l).toBeGreaterThan(55);
     expect(result.l).toBeLessThan(65);
+  });
+
+  it('converts yellow (h wraps near 60°)', () => {
+    const result = hexToHsl('#ffff00');
+    expect(result.h).toBe(60);
+    expect(result.s).toBe(100);
+    expect(result.l).toBe(50);
+  });
+
+  it('converts magenta (h near 300°)', () => {
+    const result = hexToHsl('#ff00ff');
+    expect(result.h).toBe(300);
+    expect(result.s).toBe(100);
+    expect(result.l).toBe(50);
   });
 });
 
@@ -106,6 +124,27 @@ describe('wcagTextColor', () => {
 
   it('picks white near the luminance crossover (dark side, l=45)', () => {
     expect(wcagTextColor({ h: 0, s: 0, l: 45 })).toBe('#ffffff');
+  });
+
+  // Cover all 6 hue branches in hslToLuminance
+  it('covers hue 0-60 range (red)', () => {
+    expect(wcagTextColor({ h: 30, s: 80, l: 20 })).toBe('#ffffff');
+  });
+
+  it('covers hue 60-120 range (yellow-green)', () => {
+    expect(wcagTextColor({ h: 90, s: 80, l: 20 })).toBe('#ffffff');
+  });
+
+  it('covers hue 120-180 range (green-cyan)', () => {
+    expect(wcagTextColor({ h: 150, s: 80, l: 20 })).toBe('#ffffff');
+  });
+
+  it('covers hue 240-300 range (blue-magenta)', () => {
+    expect(wcagTextColor({ h: 270, s: 80, l: 20 })).toBe('#ffffff');
+  });
+
+  it('covers hue 300-360 range (magenta-red)', () => {
+    expect(wcagTextColor({ h: 330, s: 80, l: 20 })).toBe('#ffffff');
   });
 
   it('picks black near the luminance crossover (light side, l=50)', () => {

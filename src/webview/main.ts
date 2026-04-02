@@ -1,5 +1,6 @@
 import { SizeNode, ExtensionToWebviewMessage, WebviewToExtensionMessage } from '../types';
 import { hexToHsl, heatColor } from './color';
+import { formatSize, pct, escHtml } from './helpers';
 
 declare function acquireVsCodeApi(): {
   postMessage(msg: WebviewToExtensionMessage): void;
@@ -307,8 +308,8 @@ function selectTreeNode(node: SizeNode): void {
     if (el.classList.contains('tree-children') && el.classList.contains('hidden')) {
       el.classList.remove('hidden');
       // Update the toggle arrow on the parent row
-      const parentRow = el.previousElementSibling as HTMLElement | null;
-      if (parentRow?.classList.contains('tree-row')) {
+      const parentRow = el.previousElementSibling;
+      if (parentRow instanceof HTMLElement && parentRow.classList.contains('tree-row')) {
         const toggle = parentRow.querySelector<HTMLElement>('.tree-toggle');
         if (toggle) toggle.textContent = '▼';
       }
@@ -323,37 +324,6 @@ function selectTreeNode(node: SizeNode): void {
 }
 
 // ── Helpers ──
-/**
- * Formats a byte count as a human-readable size string.
- * Values >= 1024 are shown in KB with one decimal; smaller values in B.
- * @param bytes - The byte count to format.
- * @returns A formatted string such as `"1.5 KB"` or `"512 B"`.
- */
-function formatSize(bytes: number): string {
-  if (bytes >= 1024) return (bytes / 1024).toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' KB';
-  return bytes.toLocaleString() + ' B';
-}
-
-/**
- * Computes the percentage that `part` represents of `total`, clamped to [0, 100].
- * @param part - The portion value.
- * @param total - The total value (returns 0 when total is 0).
- * @returns The percentage as a number between 0 and 100.
- */
-function pct(part: number, total: number): number {
-  return total === 0 ? 0 : Math.min((part / total) * 100, 100);
-}
-
-
-/**
- * Escapes HTML special characters to prevent XSS when inserting text into innerHTML.
- * @param s - The raw string to escape.
- * @returns The escaped string safe for HTML insertion.
- */
-function escHtml(s: string): string {
-  return s.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;');
-}
-
 /**
  * Shows an element by removing the `hidden` CSS class.
  * @param el - The element to show.
