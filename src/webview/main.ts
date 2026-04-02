@@ -88,7 +88,7 @@ collapseAllBtn.addEventListener('click', () => {
 });
 
 // ── Message handler ──
-window.addEventListener('message', (event: MessageEvent<ExtensionToWebviewMessage>) => {
+window.addEventListener('message', (event: MessageEvent<ExtensionToWebviewMessage>) => { // NOSONAR — origin not checked; VS Code webview messages are trusted from the extension host
   const msg = event.data;
   // Validate message structure (VS Code webview messages are trusted from the extension host)
   if (!msg || typeof msg !== 'object' || typeof msg.type !== 'string') {
