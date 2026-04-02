@@ -4,7 +4,7 @@ import * as l10n from '@vscode/l10n';
 import { randomBytes } from 'node:crypto';
 import { Worker } from 'node:worker_threads';
 import { ExtensionToWebviewMessage, WebviewToExtensionMessage, WorkerToExtensionMessage } from './types';
-import { resolveHexColor } from './utils';
+import { DEFAULT_BASE_COLOR, resolveHexColor } from './utils';
 
 /**
  * Manages the JSON TreeSize webview panel.
@@ -352,8 +352,8 @@ export class JsonTreePanel {
    * @returns A resolved 6-digit hex color string (e.g. `"#4a9eda"`).
    */
   private _resolveBaseColor(): string {
-    const setting = vscode.workspace.getConfiguration('jsonTreeSize').get<string>('baseColor', '');
-    return resolveHexColor(setting, '#4a9eda');
+    const setting = vscode.workspace.getConfiguration('jsonTreeSize').get<string>('baseColor', DEFAULT_BASE_COLOR);
+    return resolveHexColor(setting, DEFAULT_BASE_COLOR);
   }
 
   /**

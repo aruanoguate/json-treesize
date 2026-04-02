@@ -3,5 +3,5 @@
   "description": "Visualize o que está inchando seu JSON — explorador interativo com barras de tamanho, mapa de calor e navegação direta ao código-fonte.",
   "command.analyze.title": "JSON TreeSize: Analisar",
   "config.title": "JSON TreeSize",
-  "config.baseColor.description": "Cor base do mapa de calor de tamanhos (hex, ex.: #e06c8a). Deixe vazio para usar o azul padrão (#4a9eda)."
+  "config.baseColor.description": "Cor base do mapa de calor de tamanhos (hex, ex.: #e06c8a). Deixe vazio para usar o azul padrão."
 }

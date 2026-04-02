@@ -3,5 +3,5 @@
   "description": "Trực quan hóa nguyên nhân phình JSON — trình duyệt cây tương tác với thanh kích thước, bản đồ nhiệt và điều hướng đến mã nguồn chỉ bằng một cú nhấp.",
   "command.analyze.title": "JSON TreeSize: Phân tích",
   "config.title": "JSON TreeSize",
-  "config.baseColor.description": "Màu cơ sở cho bản đồ nhiệt kích thước (hex, vd: #e06c8a). Để trống để dùng màu xanh mặc định (#4a9eda)."
+  "config.baseColor.description": "Màu cơ sở cho bản đồ nhiệt kích thước (hex, vd: #e06c8a). Để trống để dùng màu xanh mặc định."
 }

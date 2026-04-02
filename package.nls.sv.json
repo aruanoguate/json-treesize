@@ -3,5 +3,5 @@
   "description": "Visualisera vad som blåser upp din JSON — interaktiv trädutforskare med storleksstaplar, värmekarta och navigering till källkoden med ett klick.",
   "command.analyze.title": "JSON TreeSize: Analysera",
   "config.title": "JSON TreeSize",
-  "config.baseColor.description": "Basfärg för storleksvärmekarta (hex, t.ex. #e06c8a). Lämna tomt för att använda standardblått (#4a9eda)."
+  "config.baseColor.description": "Basfärg för storleksvärmekarta (hex, t.ex. #e06c8a). Lämna tomt för att använda standardblått."
 }

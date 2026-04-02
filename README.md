@@ -51,7 +51,7 @@ Search for **"JSON TreeSize"** in the VS Code Extensions view (`Ctrl+Shift+X` / 
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| `jsonTreeSize.baseColor` | `""` (blue) | Base color for the size heat map. Opens a native color picker in Settings. Leave empty for the default blue (`#4a9eda`). |
+| `jsonTreeSize.baseColor` | `"#4a9eda"` | Base color for the size heat map. Opens a native color picker in Settings. Leave empty for the default blue. |
 
 ## Contributing
 
