@@ -82,7 +82,8 @@
     "watch": "node esbuild.js --watch",
     "test": "jest",
     "package": "npx @vscode/vsce package --no-yarn",
-    "vsce:publish": "npx @vscode/vsce publish --no-yarn"
+    "vsce:publish": "npx @vscode/vsce publish --no-yarn",
+    "release": "npm test && npm run compile && git push && git push --tags"
   },
   "dependencies": {
     "json-source-map": "^0.6.1"
