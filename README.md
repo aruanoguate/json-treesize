@@ -1,5 +1,12 @@
 # JSON TreeSize
 
+[![SonarCloud](https://github.com/aruanoguate/json-treesize/actions/workflows/sonarcloud.yml/badge.svg)](https://github.com/aruanoguate/json-treesize/actions/workflows/sonarcloud.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=aruanoguate_json-treesize&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=aruanoguate_json-treesize)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=aruanoguate_json-treesize&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=aruanoguate_json-treesize)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=aruanoguate_json-treesize&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=aruanoguate_json-treesize)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=aruanoguate_json-treesize&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=aruanoguate_json-treesize)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=aruanoguate_json-treesize&metric=coverage)](https://sonarcloud.io/summary/new_code?id=aruanoguate_json-treesize)
+
 A VS Code extension that visualizes JSON file size by path — giving you the same "folder size explorer" experience as [TreeSize](https://www.jam-software.com/treesize) or DaisyDisk, but for JSON files.
 
 Useful when you need to understand what's bloating a large JSON file and decide what to trim.
