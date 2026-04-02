@@ -4,8 +4,12 @@ import { JsonTreePanel } from '../src/panel';
 // ── Mock: vscode ──
 const mockPostMessage = jest.fn();
 const mockAsWebviewUri = jest.fn((uri: any) => `https://webview/${uri.fsPath ?? uri}`);
-const mockOnDidReceiveMessage = jest.fn();
-const mockOnDidDispose = jest.fn();
+const mockOnDidReceiveMessage = jest.fn((_cb: any, _thisArg: any, disposables?: any[]) => {
+  if (disposables) disposables.push({ dispose: jest.fn() });
+});
+const mockOnDidDispose = jest.fn((_cb: any, _thisArg: any, disposables?: any[]) => {
+  if (disposables) disposables.push({ dispose: jest.fn() });
+});
 const mockReveal = jest.fn();
 let mockWebviewHtml = '';
 
@@ -29,10 +33,16 @@ Object.defineProperty(mockPanel.webview, 'html', {
 
 const mockCreateWebviewPanel = jest.fn((_a?: unknown, _b?: unknown, _c?: unknown, _d?: unknown) => mockPanel);
 
+const mockShowTextDocument = jest.fn<any, any>(() => Promise.resolve({
+  selection: null as any,
+  revealRange: jest.fn(),
+}));
+
 jest.mock('vscode', () => ({
   window: {
     createWebviewPanel: (...args: unknown[]) => mockCreateWebviewPanel(args[0], args[1], args[2], args[3]),
     activeColorTheme: { kind: 2 }, // Dark
+    showTextDocument: (...args: any[]) => mockShowTextDocument(...args),
   },
   workspace: {
     getConfiguration: jest.fn(() => ({
@@ -216,6 +226,49 @@ describe('JsonTreePanel', () => {
     });
   });
 
+  describe('goToEditor message', () => {
+    it('opens the file at the given line and column', async () => {
+      JsonTreePanel.createOrShow(mockContext, mockFileUri);
+
+      const msgCallback = mockOnDidReceiveMessage.mock.calls[0][0];
+      await msgCallback({ type: 'goToEditor', line: 5, col: 3 });
+
+      const vscode = require('vscode');
+      expect(vscode.workspace.openTextDocument).toHaveBeenCalledWith(mockFileUri);
+      expect(mockShowTextDocument).toHaveBeenCalled();
+    });
+
+    it('ignores unknown message types', () => {
+      JsonTreePanel.createOrShow(mockContext, mockFileUri);
+
+      const msgCallback = mockOnDidReceiveMessage.mock.calls[0][0];
+      // Should not throw
+      expect(() => msgCallback({ type: 'unknownMsg' })).not.toThrow();
+    });
+  });
+
+  describe('worker error when webview is ready', () => {
+    it('posts error immediately when webview is ready', () => {
+      JsonTreePanel.createOrShow(mockContext, mockFileUri);
+
+      // Capture error handler
+      const errorHandler = mockWorkerOn.mock.calls.find((c: any[]) => c[0] === 'error')![1];
+
+      // Mark webview as ready
+      const msgCallback = mockOnDidReceiveMessage.mock.calls[0][0];
+      msgCallback({ type: 'ready' });
+      jest.clearAllMocks();
+      (JsonTreePanel as any)._instance._webviewReady = true;
+
+      // Trigger error
+      errorHandler(new Error('worker crash'));
+
+      expect(mockPostMessage).toHaveBeenCalledWith(
+        expect.objectContaining({ type: 'error', message: 'worker crash' }),
+      );
+    });
+  });
+
   describe('dispose', () => {
     it('clears the singleton on dispose', () => {
       JsonTreePanel.createOrShow(mockContext, mockFileUri);
@@ -226,6 +279,53 @@ describe('JsonTreePanel', () => {
       disposeCallback();
 
       expect((JsonTreePanel as any)._instance).toBeUndefined();
+    });
+  });
+
+  describe('theme detection', () => {
+    it('resolves isDark=true for HighContrast theme', () => {
+      const vscode = require('vscode');
+      vscode.window.activeColorTheme = { kind: vscode.ColorThemeKind.HighContrast };
+
+      JsonTreePanel.createOrShow(mockContext, mockFileUri);
+      const messageHandler = mockWorkerOn.mock.calls.find((c: any[]) => c[0] === 'message')![1];
+
+      // Mark ready then trigger message
+      const msgCallback = mockOnDidReceiveMessage.mock.calls[0][0];
+      msgCallback({ type: 'ready' });
+      jest.clearAllMocks();
+      (JsonTreePanel as any)._instance._webviewReady = true;
+
+      messageHandler({ type: 'tree', data: { key: 'root', size: 5, type: 'object', children: [], line: 0, col: 0 } });
+
+      expect(mockPostMessage).toHaveBeenCalledWith(
+        expect.objectContaining({ isDark: true }),
+      );
+
+      // Restore default
+      vscode.window.activeColorTheme = { kind: 2 };
+    });
+
+    it('resolves isDark=false for Light theme', () => {
+      const vscode = require('vscode');
+      vscode.window.activeColorTheme = { kind: vscode.ColorThemeKind.Light };
+
+      JsonTreePanel.createOrShow(mockContext, mockFileUri);
+      const messageHandler = mockWorkerOn.mock.calls.find((c: any[]) => c[0] === 'message')![1];
+
+      const msgCallback = mockOnDidReceiveMessage.mock.calls[0][0];
+      msgCallback({ type: 'ready' });
+      jest.clearAllMocks();
+      (JsonTreePanel as any)._instance._webviewReady = true;
+
+      messageHandler({ type: 'tree', data: { key: 'root', size: 5, type: 'object', children: [], line: 0, col: 0 } });
+
+      expect(mockPostMessage).toHaveBeenCalledWith(
+        expect.objectContaining({ isDark: false }),
+      );
+
+      // Restore default
+      vscode.window.activeColorTheme = { kind: 2 };
     });
   });
 });

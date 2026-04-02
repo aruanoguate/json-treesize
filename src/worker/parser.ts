@@ -34,7 +34,9 @@ function buildNode(
 
   // json-source-map pointer for this node's value start position
   const pointer = pointers[path];
+  /* istanbul ignore next -- defensive fallback for missing pointer */
   const line = pointer?.value?.line ?? defaultLine;
+  /* istanbul ignore next -- defensive fallback for missing pointer */
   const col = pointer?.value?.column ?? defaultCol;
 
   const children: SizeNode[] = [];
@@ -77,6 +79,7 @@ function getType(value: JsonValue): SizeNode['type'] {
 import { workerData, parentPort, isMainThread } from 'node:worker_threads';
 import * as fs from 'node:fs';
 
+/* istanbul ignore next -- worker-only bootstrap, not reachable in unit tests */
 if (!isMainThread) {
   try {
     const text = fs.readFileSync(workerData.filePath as string, 'utf8');
