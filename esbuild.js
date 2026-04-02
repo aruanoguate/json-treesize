@@ -9,7 +9,7 @@ const extensionOpts = {
   platform: 'node',
   format: 'cjs',
   outfile: 'dist/extension.js',
-  external: ['vscode', '@vscode/l10n'],
+  external: ['vscode'],
 };
 
 const workerOpts = {
