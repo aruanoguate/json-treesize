@@ -63,7 +63,7 @@ Click nodes in the tree to see their children ranked by size in the detail pane.
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| `jsonTreeSize.baseColor` | `"#4a9eda"` | Base color for the size heat map. Opens a native color picker in Settings. Leave empty for the default blue. |
+| [`jsonTreeSize.baseColor`](vscode://settings/jsonTreeSize.baseColor) | `"#4a9eda"` | Base color for the size heat map. Opens a native color picker in Settings. Leave empty for the default blue. |
 
 ## Contributing
 
