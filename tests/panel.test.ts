@@ -121,7 +121,7 @@ describe('JsonTreePanel', () => {
     it('sets HTML on the webview', () => {
       JsonTreePanel.createOrShow(mockContext, mockFileUri);
       expect(mockWebviewHtml).toContain('<!DOCTYPE html>');
-      expect(mockWebviewHtml).toContain('JSON TreeSize');
+      expect(mockWebviewHtml).toContain('JSON Tree Size');
     });
 
     it('HTML includes Content-Security-Policy with nonce', () => {

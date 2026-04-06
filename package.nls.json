@@ -1,7 +1,7 @@
 {
-  "displayName": "JSON TreeSize",
+  "displayName": "JSON Tree Size",
   "description": "Visualize what's bloating your JSON — interactive tree explorer with size bars, heat-map coloring, and one-click navigation to the source.",
-  "command.analyze.title": "JSON TreeSize: Analyze",
-  "config.title": "JSON TreeSize",
+  "command.analyze.title": "JSON Tree Size: Analyze",
+  "config.title": "JSON Tree Size",
   "config.baseColor.description": "Base color for the size heat map (hex, e.g. #e06c8a). Leave empty for the default blue."
 }

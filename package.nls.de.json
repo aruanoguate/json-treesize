@@ -1,7 +1,7 @@
 {
-  "displayName": "JSON TreeSize",
+  "displayName": "JSON Tree Size",
   "description": "Visualisieren Sie, was Ihr JSON aufbläht — interaktiver Baum-Explorer mit Größenbalken, Heatmap-Farben und Ein-Klick-Navigation zum Quellcode.",
-  "command.analyze.title": "JSON TreeSize: Analysieren",
-  "config.title": "JSON TreeSize",
+  "command.analyze.title": "JSON Tree Size: Analysieren",
+  "config.title": "JSON Tree Size",
   "config.baseColor.description": "Basisfarbe für die Größen-Heatmap (Hex, z. B. #e06c8a). Leer lassen, um das Standard-Blau zu verwenden."
 }

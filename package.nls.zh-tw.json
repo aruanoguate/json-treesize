@@ -1,7 +1,7 @@
 {
-  "displayName": "JSON TreeSize",
+  "displayName": "JSON Tree Size",
   "description": "視覺化 JSON 膨脹原因 — 互動式樹狀瀏覽器，支援大小長條圖、熱力圖著色和一鍵跳轉至原始碼。",
-  "command.analyze.title": "JSON TreeSize: 分析",
-  "config.title": "JSON TreeSize",
+  "command.analyze.title": "JSON Tree Size: 分析",
+  "config.title": "JSON Tree Size",
   "config.baseColor.description": "大小熱力圖的基礎顏色（十六進位，例如 #e06c8a）。留空則使用預設藍色。"
 }

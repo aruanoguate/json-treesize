@@ -1,7 +1,7 @@
 {
-  "displayName": "JSON TreeSize",
+  "displayName": "JSON Tree Size",
   "description": "Zwizualizuj, co rozdyma Twój JSON — interaktywny eksplorator drzewa z paskami rozmiaru, mapą cieplną i nawigacją do kodu źródłowego jednym kliknięciem.",
-  "command.analyze.title": "JSON TreeSize: Analizuj",
-  "config.title": "JSON TreeSize",
+  "command.analyze.title": "JSON Tree Size: Analizuj",
+  "config.title": "JSON Tree Size",
   "config.baseColor.description": "Kolor bazowy mapy cieplnej rozmiarów (hex, np. #e06c8a). Pozostaw puste, aby użyć domyślnego niebieskiego."
 }

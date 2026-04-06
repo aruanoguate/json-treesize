@@ -1,7 +1,7 @@
 {
-  "displayName": "JSON TreeSize",
+  "displayName": "JSON Tree Size",
   "description": "Scopri cosa gonfia il tuo JSON — esploratore ad albero interattivo con barre di dimensione, mappa termica e navigazione diretta al codice sorgente.",
-  "command.analyze.title": "JSON TreeSize: Analizza",
-  "config.title": "JSON TreeSize",
+  "command.analyze.title": "JSON Tree Size: Analizza",
+  "config.title": "JSON Tree Size",
   "config.baseColor.description": "Colore base per la mappa termica delle dimensioni (hex, es. #e06c8a). Lascia vuoto per usare il blu predefinito."
 }

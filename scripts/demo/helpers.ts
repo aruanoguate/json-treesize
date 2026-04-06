@@ -2,7 +2,7 @@
  * Shared helpers for the Playwright demo recorder.
  *
  * Launches VS Code as an Electron app with a clean profile,
- * the JSON TreeSize extension loaded in dev mode, and video recording enabled.
+ * the JSON Tree Size extension loaded in dev mode, and video recording enabled.
  *
  * Key functions:
  *  - launchVSCode()           — start VS Code + record video
@@ -97,7 +97,7 @@ export async function dismissUI(window: Page): Promise<void> {
   await window.waitForTimeout(300);
 }
 
-/** Wait for the JSON TreeSize webview panel to render. */
+/** Wait for the JSON Tree Size webview panel to render. */
 export async function waitForTreeSizePanel(window: Page, timeout = 15000): Promise<Frame | null> {
   await window.waitForTimeout(2000);
   const start = Date.now();

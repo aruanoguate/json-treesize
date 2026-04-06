@@ -1,4 +1,4 @@
-# JSON TreeSize
+# JSON Tree Size
 
 [![Visual Studio Marketplace](https://img.shields.io/visual-studio-marketplace/v/AlvaroEnriqueRuano.json-treesize?label=Marketplace&color=blue)](https://marketplace.visualstudio.com/items?itemName=AlvaroEnriqueRuano.json-treesize)
 [![Installs](https://img.shields.io/visual-studio-marketplace/i/AlvaroEnriqueRuano.json-treesize?color=green)](https://marketplace.visualstudio.com/items?itemName=AlvaroEnriqueRuano.json-treesize)
@@ -9,13 +9,13 @@
 
 **Ever wondered what's bloating that 50 MB JSON file?**
 
-JSON TreeSize gives you the same "what's eating my disk?" experience as [TreeSize](https://www.jam-software.com/treesize) or [WinDirStat](https://windirstat.net/) — but for JSON files, right inside VS Code. No CLI tools, no pasting into online formatters, no leaving your editor.
+JSON Tree Size gives you the same "what's eating my disk?" experience as [TreeSize](https://www.jam-software.com/treesize) or [WinDirStat](https://windirstat.net/) — but for JSON files, right inside VS Code. No CLI tools, no pasting into online formatters, no leaving your editor.
 
 Built by a developer, for developers. Free, open-source, no telemetry. Just right-click a `.json` file and see where the bytes are.
 
-![JSON TreeSize — split view with tree explorer and detail bar chart](docs/screenshot.png)
+![JSON Tree Size — split view with tree explorer and detail bar chart](docs/screenshot.png)
 
-## Why JSON TreeSize?
+## Why JSON Tree Size?
 
 | Problem | Solution |
 |---------|----------|
@@ -41,17 +41,17 @@ Built by a developer, for developers. Free, open-source, no telemetry. Just righ
 
 ### Install
 
-Search for **"JSON TreeSize"** in the VS Code Extensions view (`Ctrl+Shift+X` / `Cmd+Shift+X`), or install from the [Marketplace](https://marketplace.visualstudio.com/items?itemName=AlvaroEnriqueRuano.json-treesize).
+Search for **"JSON Tree Size"** in the VS Code Extensions view (`Ctrl+Shift+X` / `Cmd+Shift+X`), or install from the [Marketplace](https://marketplace.visualstudio.com/items?itemName=AlvaroEnriqueRuano.json-treesize).
 
 ### Option 1 — Right-click a JSON file
 
-Right-click any `.json` file in the Explorer sidebar and select **"Analyze with JSON TreeSize"**.
+Right-click any `.json` file in the Explorer sidebar and select **"Analyze with JSON Tree Size"**.
 
 ### Option 2 — Command Palette
 
-With a `.json` file open, press `Ctrl+Shift+P` (`Cmd+Shift+P` on macOS) and type **"JSON TreeSize: Analyze"**.
+With a `.json` file open, press `Ctrl+Shift+P` (`Cmd+Shift+P` on macOS) and type **"JSON Tree Size: Analyze"**.
 
-![Command Palette → JSON TreeSize: Analyze](docs/demo-command-palette.gif)
+![Command Palette → JSON Tree Size: Analyze](docs/demo-command-palette.gif)
 
 ### Exploring the results
 

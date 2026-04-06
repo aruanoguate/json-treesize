@@ -7,7 +7,7 @@ import { ExtensionToWebviewMessage, WebviewToExtensionMessage, WorkerToExtension
 import { DEFAULT_BASE_COLOR, resolveHexColor } from './utils';
 
 /**
- * Manages the JSON TreeSize webview panel.
+ * Manages the JSON Tree Size webview panel.
  * Handles parsing JSON files in a worker thread, rendering the tree-size
  * visualization in a VS Code webview, and coordinating messages between
  * the extension host and the webview.
@@ -41,7 +41,7 @@ export class JsonTreePanel {
 
     const panel = vscode.window.createWebviewPanel(
       JsonTreePanel.viewType,
-      l10n.t('JSON TreeSize — {0}', path.basename(fileUri.fsPath)),
+      l10n.t('JSON Tree Size — {0}', path.basename(fileUri.fsPath)),
       column,
       {
         enableScripts: true,
@@ -164,7 +164,7 @@ export class JsonTreePanel {
   <meta http-equiv="Content-Security-Policy"
     content="default-src 'none'; style-src 'nonce-${nonce}'; script-src 'nonce-${nonce}';" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JSON TreeSize</title>
+  <title>JSON Tree Size</title>
   <style nonce="${nonce}">
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 

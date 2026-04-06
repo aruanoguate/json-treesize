@@ -1,7 +1,7 @@
 {
-  "displayName": "JSON TreeSize",
+  "displayName": "JSON Tree Size",
   "description": "اكتشف ما يُضخّم ملف JSON الخاص بك — مستكشف شجري تفاعلي مع أشرطة حجم وخريطة حرارية وتنقّل بنقرة واحدة إلى الكود المصدري.",
-  "command.analyze.title": "JSON TreeSize: تحليل",
-  "config.title": "JSON TreeSize",
+  "command.analyze.title": "JSON Tree Size: تحليل",
+  "config.title": "JSON Tree Size",
   "config.baseColor.description": "اللون الأساسي لخريطة الحجم الحرارية (hex، مثال: #e06c8a). اتركه فارغًا لاستخدام الأزرق الافتراضي."
 }

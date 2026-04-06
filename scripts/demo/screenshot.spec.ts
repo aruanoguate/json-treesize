@@ -18,14 +18,14 @@ test('screenshot', async ({}, testInfo) => {
     await window.waitForTimeout(1500);
     await window.keyboard.press('Meta+Shift+P');
     await window.waitForTimeout(600);
-    await slowType(window, 'JSON TreeSize: Analyze', 40);
+    await slowType(window, 'JSON Tree Size: Analyze', 40);
     await window.waitForTimeout(400);
     await window.keyboard.press('Enter');
     await window.waitForTimeout(4000);
 
     const webviewFrame = await waitForTreeSizePanel(window, 20000);
     if (!webviewFrame) {
-      throw new Error('TreeSize panel did not appear');
+      throw new Error('Tree Size panel did not appear');
     }
 
     // Expand all so the tree is rich

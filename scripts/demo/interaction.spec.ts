@@ -1,5 +1,5 @@
 /**
- * Demo: Exploring the JSON TreeSize panel
+ * Demo: Exploring the JSON Tree Size panel
  *
  * Assumes the extension is already open. Shows the user clicking
  * tree nodes, seeing the detail pane sync, using expand/collapse,
@@ -17,14 +17,14 @@ test('interaction demo', async ({}, testInfo) => {
     await window.waitForTimeout(1500);
     await window.keyboard.press('Meta+Shift+P');
     await window.waitForTimeout(800);
-    await slowType(window, 'JSON TreeSize: Analyze', 60);
+    await slowType(window, 'JSON Tree Size: Analyze', 60);
     await window.waitForTimeout(800);
     await window.keyboard.press('Enter');
     await window.waitForTimeout(4000);
 
     const webviewFrame = await waitForTreeSizePanel(window, 20000);
     if (!webviewFrame) {
-      throw new Error('TreeSize panel did not appear');
+      throw new Error('Tree Size panel did not appear');
     }
 
     // Use evaluate() to interact with webview elements directly —

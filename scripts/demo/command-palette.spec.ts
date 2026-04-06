@@ -1,8 +1,8 @@
 /**
- * Demo: Command Palette → JSON TreeSize: Analyze
+ * Demo: Command Palette → JSON Tree Size: Analyze
  *
  * Shows how to launch the extension: open a JSON file, invoke
- * Cmd+Shift+P → "JSON TreeSize: Analyze", and see the panel appear.
+ * Cmd+Shift+P → "JSON Tree Size: Analyze", and see the panel appear.
  * Kept short (~10 s) so the GIF loads fast.
  */
 import { test } from '@playwright/test';
@@ -21,7 +21,7 @@ test('command palette demo', async ({}, testInfo) => {
     await window.waitForTimeout(1000);
 
     // Type the command slowly
-    await slowType(window, 'JSON TreeSize: Analyze', 70);
+    await slowType(window, 'JSON Tree Size: Analyze', 70);
     await window.waitForTimeout(1000);
 
     // Execute

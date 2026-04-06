@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to the **JSON TreeSize** extension will be documented in this file.
+All notable changes to the **JSON Tree Size** extension will be documented in this file.
 
 ## [1.0.0] — 2026-04-02
 
@@ -29,4 +29,4 @@ All notable changes to the **JSON TreeSize** extension will be documented in thi
 - "Go to in editor" navigation from any node to the source JSON
 - Worker thread parsing for large files (50 MB+)
 - Right-click context menu integration for `.json` files
-- Command Palette support: **JSON TreeSize: Analyze**
+- Command Palette support: **JSON Tree Size: Analyze**

@@ -1,7 +1,7 @@
 {
-  "displayName": "JSON TreeSize",
+  "displayName": "JSON Tree Size",
   "description": "JSON 비대화 원인을 시각화 — 크기 막대, 히트맵 색상, 원클릭 소스 이동을 지원하는 인터랙티브 트리 탐색기.",
-  "command.analyze.title": "JSON TreeSize: 분석",
-  "config.title": "JSON TreeSize",
+  "command.analyze.title": "JSON Tree Size: 분석",
+  "config.title": "JSON Tree Size",
   "config.baseColor.description": "크기 히트맵의 기본 색상(16진수, 예: #e06c8a). 비워 두면 기본 파란색이 사용됩니다."
 }

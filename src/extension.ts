@@ -3,7 +3,7 @@ import * as l10n from '@vscode/l10n';
 import { JsonTreePanel } from './panel';
 
 /**
- * Activates the JSON TreeSize extension.
+ * Activates the JSON Tree Size extension.
  * Registers the `jsonTreeSize.analyze` command which opens the tree-size panel
  * for the selected (or currently active) JSON file.
  * @param context - The VS Code extension context used for subscriptions and extension-scoped resources.
@@ -23,7 +23,7 @@ export function activate(context: vscode.ExtensionContext): void {
 }
 
 /**
- * Deactivates the JSON TreeSize extension.
+ * Deactivates the JSON Tree Size extension.
  * VS Code requires this export; no cleanup is needed for this extension.
  */
 export function deactivate(): void {

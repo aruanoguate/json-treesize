@@ -1,7 +1,7 @@
 {
-  "displayName": "JSON TreeSize",
+  "displayName": "JSON Tree Size",
   "description": "Visualisez ce qui alourdit votre JSON — explorateur interactif avec barres de taille, carte thermique et navigation directe vers le code source.",
-  "command.analyze.title": "JSON TreeSize : Analyser",
-  "config.title": "JSON TreeSize",
+  "command.analyze.title": "JSON Tree Size : Analyser",
+  "config.title": "JSON Tree Size",
   "config.baseColor.description": "Couleur de base pour la carte thermique des tailles (hex, ex. #e06c8a). Laissez vide pour utiliser le bleu par défaut."
 }

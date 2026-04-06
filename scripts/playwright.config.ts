@@ -2,7 +2,7 @@ import { defineConfig } from '@playwright/test';
 import path from 'node:path';
 
 /**
- * Playwright config for the JSON TreeSize demo recorder.
+ * Playwright config for the JSON Tree Size demo recorder.
  *
  * Usage:
  *   npm run demo                        # Record all demos
