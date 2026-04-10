@@ -40,7 +40,6 @@ jobs:
 
       - name: Package XML VSIX
         run: npm --prefix packages/xml-tree-size run package -- --out xml-tree-size.vsix
-        working-directory: packages/xml-tree-size
 
       - name: Publish XML to VS Code Marketplace
         run: npx @vscode/vsce publish --no-yarn --packagePath xml-tree-size.vsix

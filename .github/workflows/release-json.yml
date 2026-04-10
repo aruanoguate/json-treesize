@@ -40,7 +40,6 @@ jobs:
 
       - name: Package JSON VSIX
         run: npm --prefix packages/json-tree-size run package -- --out json-tree-size.vsix
-        working-directory: packages/json-tree-size
 
       - name: Publish JSON to VS Code Marketplace
         run: npx @vscode/vsce publish --no-yarn --packagePath json-tree-size.vsix
