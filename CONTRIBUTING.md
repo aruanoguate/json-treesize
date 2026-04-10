@@ -133,6 +133,11 @@ Each extension ships independently via GitHub Actions. **Never** run `vsce publi
 
 The release scripts bump the version, commit, tag, and push. GitHub Actions picks up the tag and publishes to the VS Code Marketplace automatically.
 
+Required repository secrets for publishing:
+
+- `VSCE_PAT` for the VS Code Marketplace publish step
+- `OVSX_PAT` for the Open VSX Registry publish step
+
 ## Versioning Policy
 
 This repository now has **two independent release lines**:
