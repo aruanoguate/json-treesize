@@ -39,8 +39,12 @@ jobs:
         working-directory: packages/json-tree-size
 
       - name: SonarCloud Scan
+        if: ${{ secrets.SONAR_TOKEN != '' }}
         uses: SonarSource/sonarqube-scan-action@v6
         with:
           projectBaseDir: packages/json-tree-size
+          args: >
+            -Dsonar.projectKey=aruanoguate_file-tree-size
+            -Dsonar.organization=aruanoguate
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
