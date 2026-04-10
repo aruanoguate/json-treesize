@@ -36,4 +36,38 @@ describe('buildSizeTree (XML)', () => {
   it('throws on malformed XML', () => {
     expect(() => buildSizeTree('<root><node></root>')).toThrow();
   });
+
+  it('parses a generated XML payload of about 10 MB', () => {
+    const item = [
+      '<item sku="SKU-0001" category="bulk">',
+      '<name>Bulk Product</name>',
+      '<description>',
+      'Large payload validation entry with enough repeated text to simulate a realistic exported XML document. ',
+      'This should cover element nodes, attributes, text nodes, and CDATA under sustained parser load.',
+      '</description>',
+      '<notes><![CDATA[Some embedded content that should be preserved as CDATA for the size tree.]]></notes>',
+      '<price currency="USD">149.99</price>',
+      '</item>',
+    ].join('');
+
+    const targetBytes = 10 * 1024 * 1024;
+    const repetitions = Math.ceil(targetBytes / Buffer.byteLength(item, 'utf8'));
+    const xml = `<root>${item.repeat(repetitions)}</root>`;
+
+    const tree = buildSizeTree(xml);
+    const documentRoot = tree.children.find((node) => node.key === 'root');
+
+    expect(Buffer.byteLength(xml, 'utf8')).toBeGreaterThanOrEqual(targetBytes);
+    expect(tree.size).toBeGreaterThanOrEqual(targetBytes);
+    expect(documentRoot).toBeDefined();
+    expect(documentRoot?.children.length).toBe(repetitions);
+
+    const firstItem = documentRoot?.children[0];
+    expect(firstItem?.key).toBe('item');
+    expect(firstItem?.children.some((node) => node.key === '@sku')).toBe(true);
+    expect(firstItem?.children.some((node) => node.key === '#cdata')).toBe(false);
+
+    const notesNode = firstItem?.children.find((node) => node.key === 'notes');
+    expect(notesNode?.children.some((node) => node.key === '#cdata')).toBe(true);
+  }, 30000);
 });
