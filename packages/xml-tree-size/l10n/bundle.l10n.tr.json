@@ -1,0 +1,16 @@
+{
+  "No JSON file selected.": "Hiçbir JSON dosyası seçilmedi.",
+  "JSON Tree Size — {0}": "JSON Tree Size — {0}",
+  "Analyzing…": "Analiz ediliyor…",
+  "Expand all": "Tümünü genişlet",
+  "Collapse all": "Tümünü daralt",
+  "Select a node in the tree to see its breakdown.": "Ayrıntılarını görmek için ağaçta bir düğüm seçin.",
+  "Expanding…": "Genişletiliyor…",
+  "Collapsing…": "Daraltılıyor…",
+  "Error: {0}": "Hata: {0}",
+  "total": "toplam",
+  "items": "öğe",
+  "keys": "anahtar",
+  "Made with ❤️ from Guatemala": "Guatemala'dan ❤️ ile yapıldı",
+  "Open in editor ↗": "Düzenleyicide aç ↗"
+}

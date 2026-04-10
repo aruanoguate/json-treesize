@@ -1,0 +1,16 @@
+{
+  "No JSON file selected.": "JSON-файл не выбран.",
+  "JSON Tree Size — {0}": "JSON Tree Size — {0}",
+  "Analyzing…": "Анализ…",
+  "Expand all": "Развернуть все",
+  "Collapse all": "Свернуть все",
+  "Select a node in the tree to see its breakdown.": "Выберите узел дерева, чтобы увидеть его разбивку.",
+  "Expanding…": "Разворачивание…",
+  "Collapsing…": "Сворачивание…",
+  "Error: {0}": "Ошибка: {0}",
+  "total": "всего",
+  "items": "элементов",
+  "keys": "ключей",
+  "Made with ❤️ from Guatemala": "Сделано с ❤️ в Guatemala",
+  "Open in editor ↗": "Открыть в редакторе ↗"
+}

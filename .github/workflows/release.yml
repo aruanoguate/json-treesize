@@ -25,26 +25,33 @@ jobs:
         with:
           node-version: 22
           cache: npm
+          cache-dependency-path: packages/json-tree-size/package-lock.json
 
       - name: Install dependencies
         run: npm ci
+        working-directory: packages/json-tree-size
 
       - name: Run tests
         run: npx jest --ci
+        working-directory: packages/json-tree-size
 
       - name: Compile
         run: npm run compile
+        working-directory: packages/json-tree-size
 
       - name: Package VSIX
         run: npx @vscode/vsce package --no-yarn --out json-tree-size.vsix
+        working-directory: packages/json-tree-size
 
       - name: Publish to VS Code Marketplace
         run: npx @vscode/vsce publish --no-yarn --packagePath json-tree-size.vsix
+        working-directory: packages/json-tree-size
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
 
       - name: Publish to Open VSX Registry
         run: npx ovsx publish json-tree-size.vsix
+        working-directory: packages/json-tree-size
         env:
           OVSX_PAT: ${{ secrets.OVSX_PAT }}
         continue-on-error: true # Optional — skip if no Open VSX token
@@ -52,5 +59,5 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: json-tree-size.vsix
+          files: packages/json-tree-size/json-tree-size.vsix
           generate_release_notes: true

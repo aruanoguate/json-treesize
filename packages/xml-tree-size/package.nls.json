@@ -1,0 +1,7 @@
+{
+  "displayName": "XML Tree Size",
+  "description": "Visualize what's bloating your XML and SOAP payloads with an interactive tree explorer, size bars, and one-click navigation to source.",
+  "command.analyze.title": "XML Tree Size: Analyze",
+  "config.title": "XML Tree Size",
+  "config.baseColor.description": "Base color for the size heat map (hex, e.g. #e06c8a). Leave empty for the default blue."
+}

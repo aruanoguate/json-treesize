@@ -1,0 +1,16 @@
+{
+  "No JSON file selected.": "لم يتم تحديد ملف JSON.",
+  "JSON Tree Size — {0}": "JSON Tree Size — {0}",
+  "Analyzing…": "جارٍ التحليل…",
+  "Expand all": "توسيع الكل",
+  "Collapse all": "طي الكل",
+  "Select a node in the tree to see its breakdown.": "حدد عقدة في الشجرة لعرض تفاصيلها.",
+  "Expanding…": "جارٍ التوسيع…",
+  "Collapsing…": "جارٍ الطي…",
+  "Error: {0}": "خطأ: {0}",
+  "total": "الإجمالي",
+  "items": "عناصر",
+  "keys": "مفاتيح",
+  "Made with ❤️ from Guatemala": "صُنع بـ ❤️ من Guatemala",
+  "Open in editor ↗": "فتح في المحرر ↗"
+}

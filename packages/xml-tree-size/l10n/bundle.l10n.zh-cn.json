@@ -1,0 +1,16 @@
+{
+  "No JSON file selected.": "未选择 JSON 文件。",
+  "JSON Tree Size — {0}": "JSON Tree Size — {0}",
+  "Analyzing…": "正在分析…",
+  "Expand all": "全部展开",
+  "Collapse all": "全部折叠",
+  "Select a node in the tree to see its breakdown.": "在树中选择一个节点以查看其明细。",
+  "Expanding…": "正在展开…",
+  "Collapsing…": "正在折叠…",
+  "Error: {0}": "错误：{0}",
+  "total": "总计",
+  "items": "项",
+  "keys": "键",
+  "Made with ❤️ from Guatemala": "以 ❤️ 制作于 Guatemala",
+  "Open in editor ↗": "在编辑器中打开 ↗"
+}

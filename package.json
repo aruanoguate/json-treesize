@@ -1,136 +1,22 @@
 {
-  "name": "json-treesize",
-  "displayName": "%displayName%",
-  "description": "%description%",
-  "version": "1.0.4",
-  "publisher": "AlvaroEnriqueRuano",
-  "author": {
-    "name": "Alvaro Enrique Ruano"
-  },
-  "license": "MIT",
-  "icon": "docs/icon.png",
-  "galleryBanner": {
-    "color": "#1e1e1e",
-    "theme": "dark"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/aruanoguate/file-tree-size"
-  },
-  "bugs": {
-    "url": "https://github.com/aruanoguate/file-tree-size/issues"
-  },
-  "homepage": "https://github.com/aruanoguate/file-tree-size#readme",
-  "keywords": [
-    "json",
-    "size",
-    "tree-size",
-    "tree",
-    "explorer",
-    "analyzer",
-    "visualizer",
-    "disk usage",
-    "file size",
-    "json viewer",
-    "optimization"
+  "name": "file-tree-size-workspace",
+  "private": true,
+  "workspaces": [
+    "packages/*"
   ],
-  "engines": {
-    "vscode": "^1.85.0"
-  },
-  "categories": [
-    "Visualization",
-    "Other"
-  ],
-  "activationEvents": [],
-  "main": "./dist/extension.js",
-  "l10n": "./l10n",
-  "contributes": {
-    "commands": [
-      {
-        "command": "jsonTreeSize.analyze",
-        "title": "%command.analyze.title%"
-      }
-    ],
-    "menus": {
-      "explorer/context": [
-        {
-          "command": "jsonTreeSize.analyze",
-          "when": "resourceExtname == .json"
-        }
-      ],
-      "commandPalette": [
-        {
-          "command": "jsonTreeSize.analyze",
-          "when": "resourceExtname == .json"
-        }
-      ]
-    },
-    "configuration": {
-      "title": "%config.title%",
-      "properties": {
-        "jsonTreeSize.baseColor": {
-          "type": "string",
-          "default": "#4a9eda",
-          "format": "color-hex",
-          "pattern": "^(#[0-9a-fA-F]{6})?$",
-          "description": "%config.baseColor.description%"
-        }
-      }
-    }
-  },
   "scripts": {
-    "compile": "node esbuild.js",
-    "watch": "node esbuild.js --watch",
-    "test": "jest",
-    "package": "npx @vscode/vsce package --no-yarn",
-    "vsce:publish": "npx @vscode/vsce publish --no-yarn",
-    "preversion": "npm test && npm run compile",
-    "postversion": "git push && git push --tags",
-    "release:major": "npm version major -m 'Release v%s'",
-    "release:minor": "npm version minor -m 'Release v%s'",
-    "release:patch": "npm version patch -m 'Release v%s'",
-    "demo": "npx tsx scripts/record-demos.ts",
-    "demo:no-gif": "npx tsx scripts/record-demos.ts --no-gif"
-  },
-  "dependencies": {
-    "@vscode/l10n": "^0.0.18",
-    "json-source-map": "^0.6.1"
-  },
-  "jest": {
-    "preset": "ts-jest",
-    "testEnvironment": "node",
-    "testMatch": [
-      "**/tests/**/*.test.ts"
-    ],
-    "coverageDirectory": "coverage",
-    "coverageReporters": [
-      "lcov",
-      "text"
-    ],
-    "collectCoverageFrom": [
-      "src/**/*.ts",
-      "!src/**/*.d.ts"
-    ],
-    "transform": {
-      "^.+\\.tsx?$": [
-        "ts-jest",
-        {
-          "tsconfig": "tsconfig.json"
-        }
-      ]
-    }
-  },
-  "devDependencies": {
-    "@playwright/test": "^1.59.1",
-    "@types/jest": "^30.0.0",
-    "@types/node": "^25.5.0",
-    "@types/vscode": "^1.85.0",
-    "@vscode/test-electron": "^2.5.2",
-    "@vscode/vsce": "^3.7.1",
-    "esbuild": "^0.27.4",
-    "jest": "^30.3.0",
-    "ts-jest": "^29.4.9",
-    "tsx": "^4.21.0",
-    "typescript": "^6.0.2"
+    "compile": "npm --prefix packages/json-tree-size run compile && npm --prefix packages/xml-tree-size run compile",
+    "watch": "npm --prefix packages/json-tree-size run watch",
+    "test": "npm --prefix packages/json-tree-size run test",
+    "test:all": "npm --prefix packages/json-tree-size run test && npm --prefix packages/xml-tree-size run test",
+    "release:patch": "npm run release:json:patch",
+    "release:minor": "npm run release:json:minor",
+    "release:major": "npm run release:json:major",
+    "release:json:patch": "npm --prefix packages/json-tree-size run release:patch",
+    "release:json:minor": "npm --prefix packages/json-tree-size run release:minor",
+    "release:json:major": "npm --prefix packages/json-tree-size run release:major",
+    "release:xml:patch": "npm --prefix packages/xml-tree-size run release:patch",
+    "release:xml:minor": "npm --prefix packages/xml-tree-size run release:minor",
+    "release:xml:major": "npm --prefix packages/xml-tree-size run release:major"
   }
 }

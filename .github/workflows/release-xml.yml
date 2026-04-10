@@ -1,0 +1,62 @@
+name: Release XML Extension
+
+on:
+  push:
+    tags:
+      - 'xml-v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Package & Publish XML
+    runs-on: ubuntu-latest
+
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: packages/xml-tree-size
+
+      - name: Run tests
+        run: npx jest --ci
+        working-directory: packages/xml-tree-size
+
+      - name: Compile
+        run: npm run compile
+        working-directory: packages/xml-tree-size
+
+      - name: Package VSIX
+        run: npx @vscode/vsce package --no-yarn --out xml-tree-size.vsix
+        working-directory: packages/xml-tree-size
+
+      - name: Publish to VS Code Marketplace
+        run: npx @vscode/vsce publish --no-yarn --packagePath xml-tree-size.vsix
+        working-directory: packages/xml-tree-size
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+
+      - name: Publish to Open VSX Registry
+        run: npx ovsx publish xml-tree-size.vsix
+        working-directory: packages/xml-tree-size
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}
+        continue-on-error: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: packages/xml-tree-size/xml-tree-size.vsix
+          generate_release_notes: true

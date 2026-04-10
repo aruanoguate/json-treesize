@@ -4,17 +4,17 @@ import * as l10n from '@vscode/l10n';
 import { randomBytes } from 'node:crypto';
 import { Worker } from 'node:worker_threads';
 import { ExtensionToWebviewMessage, WebviewToExtensionMessage, WorkerToExtensionMessage } from './types';
-import { DEFAULT_BASE_COLOR, resolveHexColor } from './utils';
+import { DEFAULT_BASE_COLOR, resolveHexColor } from '../../tree-size-core/src/utils';
 
 /**
- * Manages the JSON Tree Size webview panel.
- * Handles parsing JSON files in a worker thread, rendering the tree-size
+ * Manages the XML Tree Size webview panel.
+ * Handles parsing XML files in a worker thread, rendering the tree-size
  * visualization in a VS Code webview, and coordinating messages between
  * the extension host and the webview.
  */
-export class JsonTreePanel {
-  public static readonly viewType = 'jsonTreeSize';
-  private static _instance: JsonTreePanel | undefined;
+export class XmlTreePanel {
+  public static readonly viewType = 'xmlTreeSize';
+  private static _instance: XmlTreePanel | undefined;
 
   private readonly _panel: vscode.WebviewPanel;
   private readonly _context: vscode.ExtensionContext;
@@ -27,21 +27,21 @@ export class JsonTreePanel {
    * Creates a new panel or reveals the existing one.
    * If a panel already exists, it is revealed and re-loaded with the new file.
    * @param context - The VS Code extension context for resource resolution.
-   * @param fileUri - URI of the JSON file to analyze.
+   * @param fileUri - URI of the XML file to analyze.
    */
   public static createOrShow(context: vscode.ExtensionContext, fileUri: vscode.Uri): void {
     const column = vscode.ViewColumn.Beside;
 
-    if (JsonTreePanel._instance) {
-      JsonTreePanel._instance._panel.reveal(column);
-      JsonTreePanel._instance._panel.webview.html = JsonTreePanel._instance._getHtml();
-      JsonTreePanel._instance._loadFile(fileUri);
+    if (XmlTreePanel._instance) {
+      XmlTreePanel._instance._panel.reveal(column);
+      XmlTreePanel._instance._panel.webview.html = XmlTreePanel._instance._getHtml();
+      XmlTreePanel._instance._loadFile(fileUri);
       return;
     }
 
     const panel = vscode.window.createWebviewPanel(
-      JsonTreePanel.viewType,
-      l10n.t('JSON Tree Size — {0}', path.basename(fileUri.fsPath)),
+      XmlTreePanel.viewType,
+      l10n.t('XML Tree Size — {0}', path.basename(fileUri.fsPath)),
       column,
       {
         enableScripts: true,
@@ -49,7 +49,7 @@ export class JsonTreePanel {
       }
     );
 
-    JsonTreePanel._instance = new JsonTreePanel(panel, context, fileUri);
+    XmlTreePanel._instance = new XmlTreePanel(panel, context, fileUri);
   }
 
   private constructor(
@@ -91,9 +91,9 @@ export class JsonTreePanel {
   }
 
   /**
-   * Spawns a worker thread to parse the given JSON file and sends
+   * Spawns a worker thread to parse the given XML file and sends
    * the resulting tree (or error) to the webview once it is ready.
-   * @param fileUri - URI of the JSON file to parse.
+   * @param fileUri - URI of the XML file to parse.
    */
   private _loadFile(fileUri: vscode.Uri): void {
     this._webviewReady = false;
@@ -133,7 +133,7 @@ export class JsonTreePanel {
   }
 
   /**
-   * Opens the source JSON file in the editor and navigates to the
+   * Opens the source XML file in the editor and navigates to the
    * specified position.
    * @param line - 0-based line number in the source file.
    * @param col - 0-based column number in the source file.
@@ -164,7 +164,7 @@ export class JsonTreePanel {
   <meta http-equiv="Content-Security-Policy"
     content="default-src 'none'; style-src 'nonce-${nonce}'; script-src 'nonce-${nonce}';" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>JSON Tree Size</title>
+  <title>XML Tree Size</title>
   <style nonce="${nonce}">
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -348,11 +348,11 @@ export class JsonTreePanel {
   }
 
   /**
-   * Reads the `jsonTreeSize.baseColor` setting and validates it.
+   * Reads the `xmlTreeSize.baseColor` setting and validates it.
    * @returns A resolved 6-digit hex color string (e.g. `"#4a9eda"`).
    */
   private _resolveBaseColor(): string {
-    const setting = vscode.workspace.getConfiguration('jsonTreeSize').get<string>('baseColor', DEFAULT_BASE_COLOR);
+    const setting = vscode.workspace.getConfiguration('xmlTreeSize').get<string>('baseColor', DEFAULT_BASE_COLOR);
     return resolveHexColor(setting, DEFAULT_BASE_COLOR);
   }
 
@@ -372,7 +372,7 @@ export class JsonTreePanel {
 
   /** Disposes the panel and cleans up all associated resources. */
   private _dispose(): void {
-    JsonTreePanel._instance = undefined;
+    XmlTreePanel._instance = undefined;
     this._panel.dispose();
     this._disposables.forEach(d => d.dispose());
     this._disposables = [];
