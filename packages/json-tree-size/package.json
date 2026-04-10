@@ -87,9 +87,9 @@
     "vsce:publish": "npx @vscode/vsce publish --no-yarn",
     "preversion": "npm test && npm run compile",
     "postversion": "git push && git push --tags",
-    "release:major": "npm version major -m 'Release JSON Tree Size %s'",
-    "release:minor": "npm version minor -m 'Release JSON Tree Size %s'",
-    "release:patch": "npm version patch -m 'Release JSON Tree Size %s'",
+    "release:major": "npm version major --tag-version-prefix json-v -m 'Release JSON Tree Size %s'",
+    "release:minor": "npm version minor --tag-version-prefix json-v -m 'Release JSON Tree Size %s'",
+    "release:patch": "npm version patch --tag-version-prefix json-v -m 'Release JSON Tree Size %s'",
     "demo": "npx tsx scripts/record-demos.ts",
     "demo:no-gif": "npx tsx scripts/record-demos.ts --no-gif"
   },

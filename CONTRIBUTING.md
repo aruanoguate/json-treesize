@@ -104,7 +104,7 @@ Each extension ships independently via GitHub Actions. **Never** run `vsce publi
 
 | Extension | Command | Tag pattern | Workflow |
 |---|---|---|---|
-| JSON Tree Size | `npm run release:json:patch\|minor\|major` | `v*` | `release.yml` |
+| JSON Tree Size | `npm run release:json:patch\|minor\|major` | `json-v*` | `release.yml` |
 | XML Tree Size | `npm run release:xml:patch\|minor\|major` | `xml-v*` | `release-xml.yml` |
 
 The release scripts bump the version, commit, tag, and push. GitHub Actions picks up the tag and publishes to the VS Code Marketplace automatically.
@@ -113,7 +113,7 @@ The release scripts bump the version, commit, tag, and push. GitHub Actions pick
 
 This repository now has **two independent release lines**:
 
-- **JSON Tree Size** keeps the existing SemVer history and plain Git tags: `v1.0.4`, `v1.0.5`, etc.
+- **JSON Tree Size** uses a JSON-prefixed tag family: `json-v1.0.4`, `json-v1.0.5`, etc.
 - **XML Tree Size** uses its own SemVer history and an XML-prefixed tag family: `xml-v0.1.0`, `xml-v0.1.1`, etc.
 
 Key rules:
@@ -122,6 +122,11 @@ Key rules:
 - Releasing one extension does **not** require bumping the other
 - GitHub Releases will contain both tag families in the same repository
 - The differentiators are: the tag prefix, the workflow, the VSIX filename, and the GitHub release title
+
+Historical note:
+
+- Older JSON tags without the prefix (for example `v1.0.4`) remain part of the repository history
+- New JSON releases should use the prefixed format only
 
 This means the repository acts like a multi-product monorepo: one codebase, separate deliverables, separate version streams.
 

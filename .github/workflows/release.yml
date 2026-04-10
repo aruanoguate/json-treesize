@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-      - 'v*' # Triggered by pushing a version tag, e.g. v0.1.0
+      - 'json-v*' # Triggered by pushing a JSON version tag, e.g. json-v1.0.5
 
 permissions:
   contents: write # Needed for creating GitHub Releases

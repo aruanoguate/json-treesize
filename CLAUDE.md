@@ -34,6 +34,8 @@ When asked to "deploy" or "release":
 2. That's it — the script bumps the version, commits, tags, and pushes
 3. GitHub Actions picks up the tag and publishes to the VS Code Marketplace automatically
 
+JSON tags use the `json-v*` prefix. XML tags use the `xml-v*` prefix.
+
 **Never** run `vsce:publish` or attempt a manual marketplace publish.
 
 ## Build
