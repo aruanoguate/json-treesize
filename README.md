@@ -1,5 +1,11 @@
 # File Tree Size
 
+VS Code extensions that show you exactly where size hides in your JSON and XML files — think WinDirStat, but for payloads. Made by developers, for developers.
+
+**Suggested GitHub topics/tags:**
+
+`vscode-extension` `json` `xml` `soap` `payload-analysis` `tree-size` `visualizer` `developer-tools` `performance` `file-analysis`
+
 ## Repository Quality
 
 [![SonarCloud Workflow](https://github.com/aruanoguate/file-tree-size/actions/workflows/sonarcloud.yml/badge.svg)](https://github.com/aruanoguate/file-tree-size/actions/workflows/sonarcloud.yml)
