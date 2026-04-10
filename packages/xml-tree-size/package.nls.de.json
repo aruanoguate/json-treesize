@@ -1,0 +1,7 @@
+{
+  "displayName": "XML Tree Size",
+  "description": "Visualisieren Sie, was Ihr XML aufbläht — interaktiver Baum-Explorer mit Größenbalken, Heatmap-Farben und Ein-Klick-Navigation zum Quellcode.",
+  "command.analyze.title": "XML Tree Size: Analysieren",
+  "config.title": "XML Tree Size",
+  "config.baseColor.description": "Basisfarbe für die Größen-Heatmap (Hex, z. B. #e06c8a). Leer lassen, um das Standard-Blau zu verwenden."
+}

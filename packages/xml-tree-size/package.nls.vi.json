@@ -1,0 +1,7 @@
+{
+  "displayName": "XML Tree Size",
+  "description": "Trực quan hóa nguyên nhân phình XML — trình duyệt cây tương tác với thanh kích thước, bản đồ nhiệt và điều hướng đến mã nguồn chỉ bằng một cú nhấp.",
+  "command.analyze.title": "XML Tree Size: Phân tích",
+  "config.title": "XML Tree Size",
+  "config.baseColor.description": "Màu cơ sở cho bản đồ nhiệt kích thước (hex, vd: #e06c8a). Để trống để dùng màu xanh mặc định."
+}

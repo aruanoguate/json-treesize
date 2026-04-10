@@ -1,0 +1,7 @@
+{
+  "displayName": "XML Tree Size",
+  "description": "اكتشف ما يُضخّم ملف XML الخاص بك — مستكشف شجري تفاعلي مع أشرطة حجم وخريطة حرارية وتنقّل بنقرة واحدة إلى الكود المصدري.",
+  "command.analyze.title": "XML Tree Size: تحليل",
+  "config.title": "XML Tree Size",
+  "config.baseColor.description": "اللون الأساسي لخريطة الحجم الحرارية (hex، مثال: #e06c8a). اتركه فارغًا لاستخدام الأزرق الافتراضي."
+}

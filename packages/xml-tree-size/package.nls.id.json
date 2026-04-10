@@ -1,0 +1,7 @@
+{
+  "displayName": "XML Tree Size",
+  "description": "Visualisasikan apa yang membengkakkan XML Anda — penjelajah pohon interaktif dengan bilah ukuran, pewarnaan peta panas, dan navigasi satu klik ke kode sumber.",
+  "command.analyze.title": "XML Tree Size: Analisis",
+  "config.title": "XML Tree Size",
+  "config.baseColor.description": "Warna dasar untuk peta panas ukuran (hex, cth. #e06c8a). Biarkan kosong untuk menggunakan biru bawaan."
+}

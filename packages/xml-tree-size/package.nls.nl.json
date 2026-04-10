@@ -1,0 +1,7 @@
+{
+  "displayName": "XML Tree Size",
+  "description": "Visualiseer wat je XML opblaast — interactieve boomverkenner met groottebalkjes, heatmap-kleuren en directe navigatie naar de broncode.",
+  "command.analyze.title": "XML Tree Size: Analyseren",
+  "config.title": "XML Tree Size",
+  "config.baseColor.description": "Basiskleur voor de grootte-heatmap (hex, bijv. #e06c8a). Laat leeg om de standaard blauwe kleur te gebruiken."
+}

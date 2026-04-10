@@ -1,0 +1,7 @@
+{
+  "displayName": "XML Tree Size",
+  "description": "XML の肥大化を可視化 — サイズバー、ヒートマップ、ワンクリックでソースへ移動できるインタラクティブなツリーエクスプローラー。",
+  "command.analyze.title": "XML Tree Size: 分析",
+  "config.title": "XML Tree Size",
+  "config.baseColor.description": "サイズヒートマップの基本色（16進数、例: #e06c8a）。空にすると既定の青色が使用されます。"
+}

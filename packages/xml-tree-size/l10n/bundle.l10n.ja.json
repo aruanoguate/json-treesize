@@ -1,6 +1,6 @@
 {
-  "No JSON file selected.": "JSON ファイルが選択されていません。",
-  "JSON Tree Size — {0}": "JSON Tree Size — {0}",
+  "No XML file selected.": "XML ファイルが選択されていません。",
+  "XML Tree Size — {0}": "XML Tree Size — {0}",
   "Analyzing…": "分析中…",
   "Expand all": "すべて展開",
   "Collapse all": "すべて折りたたむ",

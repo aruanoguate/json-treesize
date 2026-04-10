@@ -1,0 +1,7 @@
+{
+  "displayName": "XML Tree Size",
+  "description": "XML dosyanızı neyin şişirdiğini görselleştirin — boyut çubukları, ısı haritası renklendirmesi ve tek tıkla kaynağa gitme özellikli interaktif ağaç gezgini.",
+  "command.analyze.title": "XML Tree Size: Analiz Et",
+  "config.title": "XML Tree Size",
+  "config.baseColor.description": "Boyut ısı haritası için temel renk (hex, ör. #e06c8a). Varsayılan maviyi kullanmak için boş bırakın."
+}

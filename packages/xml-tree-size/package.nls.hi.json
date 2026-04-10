@@ -1,0 +1,7 @@
+{
+  "displayName": "XML Tree Size",
+  "description": "देखें कि आपके XML को क्या फुला रहा है — साइज़ बार, हीट-मैप रंग और सोर्स कोड पर सीधी नेविगेशन वाला इंटरैक्टिव ट्री एक्सप्लोरर।",
+  "command.analyze.title": "XML Tree Size: विश्लेषण करें",
+  "config.title": "XML Tree Size",
+  "config.baseColor.description": "साइज़ हीट मैप के लिए आधार रंग (hex, उदा. #e06c8a)। डिफ़ॉल्ट नीला इस्तेमाल करने के लिए खाली छोड़ें।"
+}

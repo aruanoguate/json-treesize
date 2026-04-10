@@ -1,0 +1,7 @@
+{
+  "displayName": "XML Tree Size",
+  "description": "แสดงภาพสิ่งที่ทำให้ XML ของคุณบวม — ตัวสำรวจต้นไม้แบบโต้ตอบพร้อมแถบขนาด, การระบายสีแบบแผนที่ความร้อน และนำทางไปยังซอร์สโค้ดในคลิกเดียว",
+  "command.analyze.title": "XML Tree Size: วิเคราะห์",
+  "config.title": "XML Tree Size",
+  "config.baseColor.description": "สีพื้นฐานสำหรับแผนที่ความร้อนขนาด (hex เช่น #e06c8a) เว้นว่างเพื่อใช้สีน้ำเงินเริ่มต้น"
+}
