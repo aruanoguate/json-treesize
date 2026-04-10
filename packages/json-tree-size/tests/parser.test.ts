@@ -118,4 +118,45 @@ describe('buildSizeTree', () => {
     expect(root.children).toHaveLength(0);
     expect(root.size).toBe(2);
   });
+
+  it('parses a generated JSON payload of about 10 MB', () => {
+    const item = {
+      sku: 'SKU-0001',
+      category: 'bulk',
+      name: 'Bulk Product',
+      description: [
+        'Large payload validation entry with enough repeated text to simulate a realistic exported JSON document.',
+        'This should cover nested objects, arrays, strings, booleans, numbers, and null values under sustained parser load.',
+      ].join(' '),
+      notes: 'Some embedded text that should remain part of the JSON string payload for the size tree.',
+      price: 149.99,
+      active: true,
+      tags: ['bulk', 'load-test', 'json', 'parser'],
+      metadata: {
+        region: 'GT',
+        priority: 7,
+        archived: null,
+      },
+    };
+
+    const container = { items: [] as typeof item[] };
+    const itemBytes = Buffer.byteLength(JSON.stringify(item), 'utf8') + 1;
+    const repetitions = Math.ceil((10 * 1024 * 1024) / itemBytes);
+    container.items = Array.from({ length: repetitions }, () => item);
+
+    const json = JSON.stringify(container);
+    const root = buildSizeTree(json);
+    const itemsNode = root.children.find((child) => child.key === 'items');
+
+    expect(Buffer.byteLength(json, 'utf8')).toBeGreaterThanOrEqual(10 * 1024 * 1024);
+    expect(root.size).toBeGreaterThanOrEqual(10 * 1024 * 1024);
+    expect(itemsNode).toBeDefined();
+    expect(itemsNode?.type).toBe('array');
+    expect(itemsNode?.children).toHaveLength(repetitions);
+
+    const firstItem = itemsNode?.children[0];
+    expect(firstItem?.type).toBe('object');
+    expect(firstItem?.children.some((child) => child.key === 'sku')).toBe(true);
+    expect(firstItem?.children.some((child) => child.key === 'metadata')).toBe(true);
+  }, 30000);
 });

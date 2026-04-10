@@ -66,6 +66,30 @@ From the repository root:
 | `npm run test` | Run JSON tests (stable line) |
 | `npm run test:all` | Run JSON + XML tests |
 | `npm run watch` | Watch mode for JSON extension |
+| `npm run test:stress:json` | Run opt-in JSON parser stress tests |
+| `npm run test:stress:xml` | Run opt-in XML parser stress tests |
+
+### Stress testing large payloads
+
+Routine CI should keep using deterministic synthetic payloads around 10 MB inside the normal parser tests.
+
+For larger exploratory runs, use the opt-in stress suites instead of committing giant fixtures or downloading files at test time:
+
+```bash
+# Defaults to 10,25,50,100 MB
+npm run test:stress:json
+npm run test:stress:xml
+
+# Custom sizes, for example 10 MB, 100 MB, and 1000 MB
+TREE_SIZE_STRESS=1 TREE_SIZE_STRESS_SIZES_MB=10,100,1000 npm --prefix packages/json-tree-size run test:stress
+TREE_SIZE_STRESS=1 TREE_SIZE_STRESS_SIZES_MB=10,100,1000 npm --prefix packages/xml-tree-size run test:stress
+```
+
+Best practice:
+
+- Keep the always-on suite small enough for local development and CI
+- Generate payloads in-memory so tests are hermetic and the repository stays lean
+- Treat 100 MB+ and especially 1000 MB runs as manual stress tests, not standard CI gates
 
 ## Recording Demo Media
 

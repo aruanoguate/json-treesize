@@ -9,6 +9,8 @@
     "watch": "npm --prefix packages/json-tree-size run watch",
     "test": "npm --prefix packages/json-tree-size run test",
     "test:all": "npm --prefix packages/json-tree-size run test && npm --prefix packages/xml-tree-size run test",
+    "test:stress:json": "npm --prefix packages/json-tree-size run test:stress",
+    "test:stress:xml": "npm --prefix packages/xml-tree-size run test:stress",
     "release:patch": "npm run release:json:patch",
     "release:minor": "npm run release:json:minor",
     "release:major": "npm run release:json:major",

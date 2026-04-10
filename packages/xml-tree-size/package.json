@@ -79,6 +79,7 @@
     "compile": "node esbuild.js",
     "watch": "node esbuild.js --watch",
     "test": "jest",
+    "test:stress": "TREE_SIZE_STRESS=1 jest --runInBand tests/parser-xml.stress.test.ts",
     "package": "npx @vscode/vsce package --no-yarn",
     "vsce:publish": "npx @vscode/vsce publish --no-yarn",
     "preversion": "npm test && npm run compile",
