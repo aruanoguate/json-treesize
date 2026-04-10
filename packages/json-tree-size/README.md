@@ -67,54 +67,7 @@ Click nodes in the tree to see their children ranked by size in the detail pane.
 
 ## Contributing
 
-Contributions are welcome! This is an open-source project maintained by a solo developer.
-
-```bash
-git clone https://github.com/aruanoguate/file-tree-size.git
-cd file-tree-size/packages/json-tree-size
-npm install
-npm run compile
-# Press F5 in VS Code to launch the Extension Development Host
-npm test           # 83 tests, 100% coverage
-```
-
-See the [project structure](#project-structure) below for orientation.
-
-## Project Structure
-
-```
-src/                          # Extension source (bundled into dist/)
-├── extension.ts              #   Entry point — registers the command
-├── panel.ts                  #   Webview panel lifecycle, worker spawning
-├── types.ts                  #   Shared TypeScript types (SizeNode, messages)
-├── utils.ts                  #   Pure helpers (hex color validation)
-├── worker/
-│   └── parser.ts             #   Worker thread — JSON parsing + size tree
-└── webview/
-    ├── color.ts              #   hexToHsl, heatColor, wcagTextColor
-    ├── helpers.ts             #   formatSize, pct, escHtml
-    └── main.ts               #   Webview renderer — tree + detail pane
-
-tests/                        # Jest unit tests (100 % coverage)
-├── extension.test.ts
-├── panel.test.ts
-├── color.test.ts
-├── helpers.test.ts
-└── parser.test.ts
-
-scripts/                      # Demo recording automation (local-only)
-├── playwright.config.ts      #   Playwright config for demo specs
-├── record-demos.ts           #   Orchestrator: compile → record → GIF
-├── optimize-gif.ts           #   ffmpeg + gifsicle GIF conversion
-└── demo/
-    ├── helpers.ts             #   Launch VS Code as Electron app
-    ├── command-palette.spec.ts #  Cmd+Shift+P demo recording
-    ├── interaction.spec.ts    #   Tree & detail pane exploration demo
-    └── screenshot.spec.ts     #   Captures docs/screenshot.png
-
-l10n/                         # Localization bundles (20 languages)
-docs/                         # Screenshots, GIFs, recording guide
-```
+See the [Contributing Guide](../../CONTRIBUTING.md) for development setup, architecture overview, and release process.
 
 ## License
 
