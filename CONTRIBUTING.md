@@ -67,6 +67,37 @@ From the repository root:
 | `npm run test:all` | Run JSON + XML tests |
 | `npm run watch` | Watch mode for JSON extension |
 
+## Recording Demo Media
+
+Both extension packages support Playwright-based demo recording for README screenshots and GIFs.
+
+### Prerequisites
+
+- Install GIF tooling on macOS: `brew install ffmpeg gifsicle`
+- The recorder expects the local VS Code app at `/Applications/Visual Studio Code.app/Contents/MacOS/Electron`
+- Run commands from the repository root so workspace dependencies and the root lock file stay consistent
+
+### Commands
+
+| Command | Description |
+|---|---|
+| `npm run demo -w packages/json-tree-size` | Record JSON screenshot + GIFs |
+| `npm run demo:no-gif -w packages/json-tree-size` | Record JSON videos only |
+| `npm run demo -w packages/xml-tree-size` | Record XML screenshot + GIFs |
+| `npm run demo:no-gif -w packages/xml-tree-size` | Record XML videos only |
+
+### Output files
+
+- JSON assets are written to `packages/json-tree-size/docs/`
+- XML assets are written to `packages/xml-tree-size/docs/`
+- Temporary Playwright recordings are written to each package's `scripts/demo-recordings/` directory
+
+### XML-specific notes
+
+- The XML fixture used for recordings lives at `packages/xml-tree-size/docs/demo.xml`
+- The XML interaction demo is designed to show XML-only structures such as attributes (`@sku`, `@category`) and CDATA nodes
+- If you update the parser or UI behavior, regenerate the XML screenshot and GIFs so the README stays accurate
+
 ## Release Strategy
 
 Each extension ships independently via GitHub Actions. **Never** run `vsce publish` manually.
