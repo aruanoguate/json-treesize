@@ -109,6 +109,22 @@ Each extension ships independently via GitHub Actions. **Never** run `vsce publi
 
 The release scripts bump the version, commit, tag, and push. GitHub Actions picks up the tag and publishes to the VS Code Marketplace automatically.
 
+## Versioning Policy
+
+This repository now has **two independent release lines**:
+
+- **JSON Tree Size** keeps the existing SemVer history and plain Git tags: `v1.0.4`, `v1.0.5`, etc.
+- **XML Tree Size** uses its own SemVer history and an XML-prefixed tag family: `xml-v0.1.0`, `xml-v0.1.1`, etc.
+
+Key rules:
+
+- Package versions are **not synchronized** across extensions
+- Releasing one extension does **not** require bumping the other
+- GitHub Releases will contain both tag families in the same repository
+- The differentiators are: the tag prefix, the workflow, the VSIX filename, and the GitHub release title
+
+This means the repository acts like a multi-product monorepo: one codebase, separate deliverables, separate version streams.
+
 ## Design Principles
 
 - Reuse by default, specialize only where needed

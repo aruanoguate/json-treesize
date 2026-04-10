@@ -59,5 +59,6 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          name: JSON Tree Size ${{ github.ref_name }}
           files: packages/json-tree-size/json-tree-size.vsix
           generate_release_notes: true
