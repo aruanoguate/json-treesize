@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<store region="GT" version="3.2.1">
+  <config>
+    <apiUrl>https://api.tienda.gt/v3</apiUrl>
+    <timeoutMs>5000</timeoutMs>
+    <retryCount>3</retryCount>
+    <featureFlags>
+      <darkMode>true</darkMode>
+      <liveChat>false</liveChat>
+      <experimentalSearch>true</experimentalSearch>
+    </featureFlags>
+  </config>
+
+  <products>
+    <product sku="JADE-001" category="jewelry">
+      <name>Jade Pendant - Classic</name>
+      <description>Authentic Guatemalan jadeite pendant, hand-carved by artisans in Antigua Guatemala. Each piece is unique, featuring the deep green hue characteristic of Mesoamerican jade.</description>
+      <price currency="USD">149.99</price>
+      <inventory>
+        <inStock>true</inStock>
+        <quantity>23</quantity>
+      </inventory>
+      <tags>
+        <tag>jewelry</tag>
+        <tag>jade</tag>
+        <tag>handmade</tag>
+        <tag>gift</tag>
+        <tag>artisan</tag>
+      </tags>
+      <images>
+        <image>https://cdn.tienda.gt/img/jade-001-front.webp</image>
+        <image>https://cdn.tienda.gt/img/jade-001-side.webp</image>
+        <image>https://cdn.tienda.gt/img/jade-001-detail.webp</image>
+      </images>
+      <reviews>
+        <review user="Maria" rating="5">Hermoso, tal como en la foto.</review>
+        <review user="Carlos" rating="4">Great quality, shipping was fast.</review>
+        <review user="Ana" rating="5">Perfect gift for my mom.</review>
+      </reviews>
+    </product>
+    <product sku="TEX-042" category="textiles">
+      <name>Huipil Table Runner</name>
+      <description>Hand-woven table runner inspired by traditional huipil patterns from the Guatemalan highlands. Made with 100% cotton on a backstrap loom.</description>
+      <price currency="USD">65.00</price>
+      <images>
+        <image>https://cdn.tienda.gt/img/tex-042-full.webp</image>
+        <image>https://cdn.tienda.gt/img/tex-042-close.webp</image>
+      </images>
+    </product>
+    <product sku="COF-007" category="coffee">
+      <name>Antigua Coffee - Single Origin</name>
+      <description>Premium single-origin Arabica coffee from the volcanic soils of Antigua Guatemala.</description>
+      <price currency="USD">18.50</price>
+      <notes><![CDATA[Medium roast with notes of chocolate, citrus, and a smooth caramel finish.]]></notes>
+    </product>
+  </products>
+
+  <customers>
+    <total>14832</total>
+    <active30d>3429</active30d>
+    <topRegions>
+      <region name="Guatemala City" users="5120" pct="34.5" />
+      <region name="Quetzaltenango" users="2100" pct="14.2" />
+      <region name="Antigua Guatemala" users="1890" pct="12.7" />
+      <region name="Escuintla" users="980" pct="6.6" />
+      <region name="Other" users="4742" pct="32.0" />
+    </topRegions>
+  </customers>
+
+  <analytics>
+    <pageViews30d>287401</pageViews30d>
+    <orders30d>1247</orders30d>
+    <revenue30dUsd>89432.17</revenue30dUsd>
+    <conversionRate>0.0434</conversionRate>
+    <topReferrers>
+      <referrer>google.com</referrer>
+      <referrer>facebook.com</referrer>
+      <referrer>instagram.com</referrer>
+      <referrer>tiktok.com</referrer>
+      <referrer>direct</referrer>
+    </topReferrers>
+  </analytics>
+</store>
