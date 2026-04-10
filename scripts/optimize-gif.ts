@@ -2,7 +2,7 @@
  * Convert a screen recording (.mov, .mp4, .webm, .gif) to an optimized GIF.
  *
  * Usage:
- *   npx tsx scripts/optimize-gif.ts <input> [output] [--width 800] [--fps 12]
+ *   npx tsx scripts/optimize-gif.ts <input> [output] [--width 800] [--fps 12] [--trim-start 5]
  *
  * Requires: ffmpeg, gifsicle (brew install ffmpeg gifsicle)
  */
@@ -16,6 +16,7 @@ interface Options {
   output: string;
   width: number;
   fps: number;
+  trimStart: number;
 }
 
 function usage(): never {
@@ -23,8 +24,9 @@ function usage(): never {
   console.log('');
   console.log('  input   Screen recording (.mov, .mp4, .webm, .gif)');
   console.log('  output  Output path (default: docs/<input-basename>.gif)');
-  console.log('  --width Scale to this width in pixels (default: 800)');
-  console.log('  --fps   Frame rate (default: 12)');
+  console.log('  --width      Scale to this width in pixels (default: 800)');
+  console.log('  --fps        Frame rate (default: 12)');
+  console.log('  --trim-start Seconds to trim from the start (default: 0)');
   process.exit(1);
 }
 
@@ -33,12 +35,14 @@ function parseArgs(argv: string[]): Options {
   let output = '';
   let width = 800;
   let fps = 12;
+  let trimStart = 0;
 
   const args = argv.slice(2);
   for (let i = 0; i < args.length; i++) {
     switch (args[i]) {
-      case '--width': width = Number(args[++i]); break;
-      case '--fps':   fps = Number(args[++i]); break;
+      case '--width':      width = Number(args[++i]); break;
+      case '--fps':        fps = Number(args[++i]); break;
+      case '--trim-start': trimStart = Number(args[++i]); break;
       case '--help':  usage();
       default:
         if (!input) input = args[i];
@@ -54,7 +58,7 @@ function parseArgs(argv: string[]): Options {
     output = path.join('docs', `${basename}.gif`);
   }
 
-  return { input, output, width, fps };
+  return { input, output, width, fps, trimStart };
 }
 
 function requireCmd(cmd: string): void {
@@ -66,7 +70,7 @@ function requireCmd(cmd: string): void {
   }
 }
 
-function optimizeGif({ input, output, width, fps }: Options): void {
+function optimizeGif({ input, output, width, fps, trimStart }: Options): void {
   requireCmd('ffmpeg');
   requireCmd('gifsicle');
 
@@ -74,12 +78,15 @@ function optimizeGif({ input, output, width, fps }: Options): void {
   const palettePath = path.join(tmpDir, 'palette.png');
   const rawGifPath = path.join(tmpDir, 'raw.gif');
 
+  const trimLabel = trimStart > 0 ? `, trimming first ${trimStart}s` : '';
   try {
-    console.log(`→ Converting to GIF (${width}px wide, ${fps} fps)...`);
+    console.log(`→ Converting to GIF (${width}px wide, ${fps} fps${trimLabel})...`);
+
+    const ssArgs = trimStart > 0 ? ['-ss', String(trimStart)] : [];
 
     // Generate palette for better color quality
     execFileSync('ffmpeg', [
-      '-y', '-i', input,
+      '-y', ...ssArgs, '-i', input,
       '-vf', `fps=${fps},scale=${width}:-1:flags=lanczos,palettegen=stats_mode=diff`,
       '-loglevel', 'error',
       palettePath,
@@ -87,7 +94,7 @@ function optimizeGif({ input, output, width, fps }: Options): void {
 
     // Render GIF using the palette
     execFileSync('ffmpeg', [
-      '-y', '-i', input, '-i', palettePath,
+      '-y', ...ssArgs, '-i', input, '-i', palettePath,
       '-lavfi', `fps=${fps},scale=${width}:-1:flags=lanczos[v];[v][1:v]paletteuse=dither=sierra2_4a`,
       '-loglevel', 'error',
       rawGifPath,
@@ -96,7 +103,7 @@ function optimizeGif({ input, output, width, fps }: Options): void {
     const rawSize = fs.statSync(rawGifPath).size;
 
     console.log('→ Optimizing with gifsicle...');
-    execFileSync('gifsicle', ['-O3', '--lossy=80', rawGifPath, '-o', output], { stdio: 'inherit' });
+    execFileSync('gifsicle', ['-O3', '--lossy=120', rawGifPath, '-o', output], { stdio: 'inherit' });
 
     const finalSize = fs.statSync(output).size;
     const saved = Math.round(((rawSize - finalSize) / rawSize) * 100);

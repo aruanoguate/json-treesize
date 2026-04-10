@@ -42,10 +42,17 @@ export async function launchVSCode(videoDir: string): Promise<VSCodeInstance> {
     'workbench.colorTheme': 'Default Dark Modern',
     'workbench.layoutControl.enabled': false,
     'window.commandCenter': false,
+    // Match window size to the recording viewport to avoid gray bars
+    'window.newWindowDimensions': 'offset',
+    // Hide the Sign In / Accounts button in the title bar & activity bar
+    'workbench.accounts.experimental.showEntitlements': false,
+    'window.titleBarStyle': 'custom',
+    'workbench.activityBar.location': 'default',
     // Disable Copilot features to prevent its sidebar from auto-opening
     'github.copilot.enable': { '*': false },
     'github.copilot.editor.enableAutoCompletions': false,
     'chat.commandCenter.enabled': false,
+    'chat.agent.enabled': false,
   }, null, 2));
 
   const target = DEMO_JSON;
@@ -70,10 +77,33 @@ export async function launchVSCode(videoDir: string): Promise<VSCodeInstance> {
   });
 
   const window = await electronApp.firstWindow();
+
+  // Resize the VS Code window to exactly match the recording viewport
+  // to prevent gray bars on the edges of the GIF
+  const browserWindow = await electronApp.browserWindow(window);
+  await browserWindow.evaluate((win) => {
+    win.setSize(1280, 800);
+    win.center();
+  });
+
   await window.waitForTimeout(4000);
 
   // Close any secondary sidebar (Copilot Chat) and notification toasts
   await dismissUI(window);
+
+  // Hide the Sign In button from the title bar.
+  // Run repeatedly because VS Code may render it lazily after startup.
+  for (let attempt = 0; attempt < 3; attempt++) {
+    await window.evaluate(() => {
+      document.querySelectorAll('[class*="action-item"]').forEach(el => {
+        const text = el.textContent?.trim();
+        if (text && /sign\s*in/i.test(text)) {
+          (el as HTMLElement).style.display = 'none';
+        }
+      });
+    });
+    await window.waitForTimeout(500);
+  }
 
   return { electronApp, window };
 }

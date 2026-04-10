@@ -88,6 +88,9 @@ for (const dir of dirs) {
     continue;
   }
 
+  // The screenshot spec produces a PNG, not a GIF — skip conversion
+  if (testName.includes('screenshot')) continue;
+
   let output: string;
   if (testName.includes('palette')) output = 'docs/demo-command-palette.gif';
   else if (testName.includes('interaction')) output = 'docs/demo-interaction.gif';
@@ -95,7 +98,7 @@ for (const dir of dirs) {
 
   console.log(`  Converting: ${testName} → ${output}`);
   execSync(
-    `npx tsx scripts/optimize-gif.ts "${path.join(dirPath, video)}" "${path.join(ROOT, output)}" --width 960 --fps 12`,
+    `npx tsx scripts/optimize-gif.ts "${path.join(dirPath, video)}" "${path.join(ROOT, output)}" --width 800 --fps 10 --trim-start 6`,
     { cwd: ROOT, stdio: 'inherit' },
   );
 }
