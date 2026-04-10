@@ -13,7 +13,7 @@ XML Tree Size gives you the same "what's eating my disk?" experience as [TreeSiz
 
 Built by a developer, for developers. Free, open-source, no telemetry. Just right-click an `.xml` file and see where the bytes are.
 
-![XML Tree Size — split view with tree explorer and detail bar chart](docs/screenshot.png)
+![XML Tree Size — split view with tree explorer and detail bar chart](https://raw.githubusercontent.com/aruanoguate/file-tree-size/main/packages/xml-tree-size/docs/screenshot.png)
 
 ## Why XML Tree Size?
 
@@ -52,19 +52,19 @@ Right-click any `.xml` file in the Explorer sidebar and select **"XML Tree Size:
 
 With an `.xml` file open, press `Ctrl+Shift+P` (`Cmd+Shift+P` on macOS) and type **"XML Tree Size: Analyze"**.
 
-![Command Palette → XML Tree Size: Analyze](docs/demo-command-palette.gif)
+![Command Palette → XML Tree Size: Analyze](https://raw.githubusercontent.com/aruanoguate/file-tree-size/main/packages/xml-tree-size/docs/demo-command-palette.gif)
 
 ### Exploring the results
 
 Click nodes in the tree to see their children ranked by size in the detail pane. The two panels stay in sync — clicking a bar on the right highlights the node on the left, and vice versa. Use **Expand / Collapse all** to navigate large files, and **Open in editor** to jump straight to the source.
 
-![Interacting with the tree and detail pane](docs/demo-interaction.gif)
+![Interacting with the tree and detail pane](https://raw.githubusercontent.com/aruanoguate/file-tree-size/main/packages/xml-tree-size/docs/demo-interaction.gif)
 
 ## Settings
 
 | Setting | Default | Description |
 |---------|---------|-------------|
-| [`xmlTreeSize.baseColor`](vscode://settings/xmlTreeSize.baseColor) | `"#4a9eda"` | Base color for the size heat map. Opens a native color picker in Settings. Leave empty for the default blue. |
+| [`xmlTreeSize.baseColor`](vscode://settings/xmlTreeSize.baseColor) | `"#e8832a"` | Base color for the size heat map. Opens a native color picker in Settings. Leave empty for the default orange. |
 
 ## Contributing
 

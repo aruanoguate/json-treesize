@@ -13,7 +13,7 @@ JSON Tree Size gives you the same "what's eating my disk?" experience as [TreeSi
 
 Built by a developer, for developers. Free, open-source, no telemetry. Just right-click a `.json` file and see where the bytes are.
 
-![JSON Tree Size — split view with tree explorer and detail bar chart](docs/screenshot.png)
+![JSON Tree Size — split view with tree explorer and detail bar chart](https://raw.githubusercontent.com/aruanoguate/file-tree-size/main/packages/json-tree-size/docs/screenshot.png)
 
 ## Why JSON Tree Size?
 
@@ -51,13 +51,13 @@ Right-click any `.json` file in the Explorer sidebar and select **"Analyze with 
 
 With a `.json` file open, press `Ctrl+Shift+P` (`Cmd+Shift+P` on macOS) and type **"JSON Tree Size: Analyze"**.
 
-![Command Palette → JSON Tree Size: Analyze](docs/demo-command-palette.gif)
+![Command Palette → JSON Tree Size: Analyze](https://raw.githubusercontent.com/aruanoguate/file-tree-size/main/packages/json-tree-size/docs/demo-command-palette.gif)
 
 ### Exploring the results
 
 Click nodes in the tree to see their children ranked by size in the detail pane. The two panels stay in sync — clicking a bar on the right highlights the node on the left, and vice versa. Use **Expand / Collapse all** to navigate large files, and **Open in editor** to jump straight to the source.
 
-![Interacting with the tree and detail pane](docs/demo-interaction.gif)
+![Interacting with the tree and detail pane](https://raw.githubusercontent.com/aruanoguate/file-tree-size/main/packages/json-tree-size/docs/demo-interaction.gif)
 
 ## Settings
 
