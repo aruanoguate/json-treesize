@@ -1,12 +1,26 @@
+# Source & config (dist/ is all that's needed at runtime)
 .vscode/**
 .github/**
+.claude/**
+.superpowers/**
 src/**
 tests/**
 coverage/**
 node_modules/**
 scripts/**
+
+# Build tooling
 tsconfig*.json
 esbuild.js
+
+# Docs (keep images referenced by README, exclude the rest)
+docs/demo.xml
+
+# Git / editor
+.gitignore
+.git/**
+
+# Dev artifacts
 **/*.map
 *.vsix
 **/*.test.ts

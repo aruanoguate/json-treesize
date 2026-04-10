@@ -25,9 +25,10 @@ jobs:
         with:
           node-version: 22
           cache: npm
+          cache-dependency-path: packages/xml-tree-size/package-lock.json
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
         working-directory: packages/xml-tree-size
 
       - name: Run tests
