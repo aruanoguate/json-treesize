@@ -42,6 +42,12 @@ jobs:
       - name: Run XML tests with coverage
         run: npm --prefix packages/xml-tree-size run test -- --coverage --ci
 
+      - name: Fix LCOV paths for SonarCloud
+        run: |
+          sed -i 's|^SF:src/|SF:packages/tree-size-core/src/|' packages/tree-size-core/coverage/lcov.info
+          sed -i 's|^SF:src/|SF:packages/json-tree-size/src/|' packages/json-tree-size/coverage/lcov.info
+          sed -i 's|^SF:src/|SF:packages/xml-tree-size/src/|' packages/xml-tree-size/coverage/lcov.info
+
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v6
         env:
