@@ -3,6 +3,7 @@
 [![Visual Studio Marketplace](https://vsmarketplacebadges.dev/version/AlvaroEnriqueRuano.xml-tree-size.svg)](https://marketplace.visualstudio.com/items?itemName=AlvaroEnriqueRuano.xml-tree-size)
 [![Installs](https://vsmarketplacebadges.dev/installs/AlvaroEnriqueRuano.xml-tree-size.svg)](https://marketplace.visualstudio.com/items?itemName=AlvaroEnriqueRuano.xml-tree-size)
 [![Rating](https://vsmarketplacebadges.dev/rating/AlvaroEnriqueRuano.xml-tree-size.svg)](https://marketplace.visualstudio.com/items?itemName=AlvaroEnriqueRuano.xml-tree-size)
+[![Open VSX](https://img.shields.io/open-vsx/v/AlvaroEnriqueRuano/xml-tree-size?label=Open%20VSX)](https://open-vsx.org/extension/AlvaroEnriqueRuano/xml-tree-size)
 [![CI](https://github.com/aruanoguate/file-tree-size/actions/workflows/sonarcloud.yml/badge.svg)](https://github.com/aruanoguate/file-tree-size/actions/workflows/sonarcloud.yml)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=aruanoguate_file-tree-size&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=aruanoguate_file-tree-size)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=aruanoguate_file-tree-size&metric=coverage)](https://sonarcloud.io/summary/new_code?id=aruanoguate_file-tree-size)
