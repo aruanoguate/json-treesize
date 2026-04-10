@@ -1,8 +1,8 @@
 # JSON Tree Size
 
-[![Visual Studio Marketplace](https://img.shields.io/visual-studio-marketplace/v/AlvaroEnriqueRuano.json-treesize?label=Marketplace&color=blue)](https://marketplace.visualstudio.com/items?itemName=AlvaroEnriqueRuano.json-treesize)
-[![Installs](https://img.shields.io/visual-studio-marketplace/i/AlvaroEnriqueRuano.json-treesize?color=green)](https://marketplace.visualstudio.com/items?itemName=AlvaroEnriqueRuano.json-treesize)
-[![Rating](https://img.shields.io/visual-studio-marketplace/r/AlvaroEnriqueRuano.json-treesize)](https://marketplace.visualstudio.com/items?itemName=AlvaroEnriqueRuano.json-treesize)
+[![Visual Studio Marketplace](https://vsmarketplacebadges.dev/version/AlvaroEnriqueRuano.json-treesize.svg)](https://marketplace.visualstudio.com/items?itemName=AlvaroEnriqueRuano.json-treesize)
+[![Installs](https://vsmarketplacebadges.dev/installs/AlvaroEnriqueRuano.json-treesize.svg)](https://marketplace.visualstudio.com/items?itemName=AlvaroEnriqueRuano.json-treesize)
+[![Rating](https://vsmarketplacebadges.dev/rating/AlvaroEnriqueRuano.json-treesize.svg)](https://marketplace.visualstudio.com/items?itemName=AlvaroEnriqueRuano.json-treesize)
 [![CI](https://github.com/aruanoguate/json-treesize/actions/workflows/sonarcloud.yml/badge.svg)](https://github.com/aruanoguate/json-treesize/actions/workflows/sonarcloud.yml)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=aruanoguate_json-treesize&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=aruanoguate_json-treesize)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=aruanoguate_json-treesize&metric=coverage)](https://sonarcloud.io/summary/new_code?id=aruanoguate_json-treesize)
