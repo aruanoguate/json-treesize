@@ -1,16 +1,16 @@
-name: Release
+name: Release JSON Extension
 
 on:
   push:
     tags:
-      - 'json-v*' # Triggered by pushing a JSON version tag, e.g. json-v1.0.5
+      - 'json-v*'
 
 permissions:
-  contents: write # Needed for creating GitHub Releases
+  contents: write
 
 jobs:
   release:
-    name: Package & Publish
+    name: Package & Publish JSON
     runs-on: ubuntu-latest
 
     env:
@@ -25,38 +25,35 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: packages/json-tree-size/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Run JSON tests
+        run: npm --prefix packages/json-tree-size run test -- --ci
+
+      - name: Compile JSON extension
+        run: npm --prefix packages/json-tree-size run compile
+
+      - name: Package JSON VSIX
+        run: npm --prefix packages/json-tree-size run package -- --out json-tree-size.vsix
         working-directory: packages/json-tree-size
 
-      - name: Run tests
-        run: npx jest --ci
-        working-directory: packages/json-tree-size
-
-      - name: Compile
-        run: npm run compile
-        working-directory: packages/json-tree-size
-
-      - name: Package VSIX
-        run: npx @vscode/vsce package --no-yarn --out json-tree-size.vsix
-        working-directory: packages/json-tree-size
-
-      - name: Publish to VS Code Marketplace
+      - name: Publish JSON to VS Code Marketplace
         run: npx @vscode/vsce publish --no-yarn --packagePath json-tree-size.vsix
         working-directory: packages/json-tree-size
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
 
-      - name: Publish to Open VSX Registry
+      - name: Publish JSON to Open VSX Registry
         run: npx ovsx publish json-tree-size.vsix
         working-directory: packages/json-tree-size
         env:
           OVSX_PAT: ${{ secrets.OVSX_PAT }}
         continue-on-error: true # Optional — skip if no Open VSX token
 
-      - name: Create GitHub Release
+      - name: Create JSON GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           name: JSON Tree Size ${{ github.ref_name }}

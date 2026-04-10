@@ -128,7 +128,7 @@ Each extension ships independently via GitHub Actions. **Never** run `vsce publi
 
 | Extension | Command | Tag pattern | Workflow |
 |---|---|---|---|
-| JSON Tree Size | `npm run release:json:patch\|minor\|major` | `json-v*` | `release.yml` |
+| JSON Tree Size | `npm run release:json:patch\|minor\|major` | `json-v*` | `release-json.yml` |
 | XML Tree Size | `npm run release:xml:patch\|minor\|major` | `xml-v*` | `release-xml.yml` |
 
 The release scripts bump the version, commit, tag, and push. GitHub Actions picks up the tag and publishes to the VS Code Marketplace automatically.
@@ -145,7 +145,7 @@ Key rules:
 - Package versions are **not synchronized** across extensions
 - Releasing one extension does **not** require bumping the other
 - GitHub Releases will contain both tag families in the same repository
-- The differentiators are: the tag prefix, the workflow, the VSIX filename, and the GitHub release title
+- The differentiators are: the tag prefix, the workflow name, the workflow file, the VSIX filename, and the GitHub release title
 
 Historical note:
 

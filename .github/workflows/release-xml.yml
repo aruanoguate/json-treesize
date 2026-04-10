@@ -25,22 +25,19 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: packages/xml-tree-size/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm ci
-        working-directory: packages/xml-tree-size
 
       - name: Run tests
-        run: npx jest --ci
-        working-directory: packages/xml-tree-size
+        run: npm --prefix packages/xml-tree-size run test -- --ci
 
       - name: Compile
-        run: npm run compile
-        working-directory: packages/xml-tree-size
+        run: npm --prefix packages/xml-tree-size run compile
 
       - name: Package VSIX
-        run: npx @vscode/vsce package --no-yarn --out xml-tree-size.vsix
+        run: npm --prefix packages/xml-tree-size run package -- --out xml-tree-size.vsix
         working-directory: packages/xml-tree-size
 
       - name: Publish to VS Code Marketplace
