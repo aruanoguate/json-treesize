@@ -67,7 +67,7 @@
       "properties": {
         "xmlTreeSize.baseColor": {
           "type": "string",
-          "default": "#4a9eda",
+          "default": "#e8832a",
           "format": "color-hex",
           "pattern": "^(#[0-9a-fA-F]{6})?$",
           "description": "%config.baseColor.description%"

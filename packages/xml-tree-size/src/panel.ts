@@ -4,7 +4,7 @@ import * as l10n from '@vscode/l10n';
 import { randomBytes } from 'node:crypto';
 import { Worker } from 'node:worker_threads';
 import { ExtensionToWebviewMessage, WebviewToExtensionMessage, WorkerToExtensionMessage } from './types';
-import { DEFAULT_BASE_COLOR, resolveHexColor } from '../../tree-size-core/src/utils';
+import { DEFAULT_XML_BASE_COLOR, resolveHexColor } from '../../tree-size-core/src/utils';
 
 /**
  * Manages the XML Tree Size webview panel.
@@ -352,8 +352,8 @@ export class XmlTreePanel {
    * @returns A resolved 6-digit hex color string (e.g. `"#4a9eda"`).
    */
   private _resolveBaseColor(): string {
-    const setting = vscode.workspace.getConfiguration('xmlTreeSize').get<string>('baseColor', DEFAULT_BASE_COLOR);
-    return resolveHexColor(setting, DEFAULT_BASE_COLOR);
+    const setting = vscode.workspace.getConfiguration('xmlTreeSize').get<string>('baseColor', DEFAULT_XML_BASE_COLOR);
+    return resolveHexColor(setting, DEFAULT_XML_BASE_COLOR);
   }
 
   /**
