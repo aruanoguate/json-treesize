@@ -36,15 +36,15 @@ jobs:
         run: npm run compile
 
       - name: Package VSIX
-        run: npx @vscode/vsce package --no-yarn --out json-treesize.vsix
+        run: npx @vscode/vsce package --no-yarn --out json-tree-size.vsix
 
       - name: Publish to VS Code Marketplace
-        run: npx @vscode/vsce publish --no-yarn --packagePath json-treesize.vsix
+        run: npx @vscode/vsce publish --no-yarn --packagePath json-tree-size.vsix
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
 
       - name: Publish to Open VSX Registry
-        run: npx ovsx publish json-treesize.vsix
+        run: npx ovsx publish json-tree-size.vsix
         env:
           OVSX_PAT: ${{ secrets.OVSX_PAT }}
         continue-on-error: true # Optional — skip if no Open VSX token
@@ -52,5 +52,5 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: json-treesize.vsix
+          files: json-tree-size.vsix
           generate_release_notes: true

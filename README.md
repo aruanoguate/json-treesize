@@ -3,9 +3,9 @@
 [![Visual Studio Marketplace](https://vsmarketplacebadges.dev/version/AlvaroEnriqueRuano.json-treesize.svg)](https://marketplace.visualstudio.com/items?itemName=AlvaroEnriqueRuano.json-treesize)
 [![Installs](https://vsmarketplacebadges.dev/installs/AlvaroEnriqueRuano.json-treesize.svg)](https://marketplace.visualstudio.com/items?itemName=AlvaroEnriqueRuano.json-treesize)
 [![Rating](https://vsmarketplacebadges.dev/rating/AlvaroEnriqueRuano.json-treesize.svg)](https://marketplace.visualstudio.com/items?itemName=AlvaroEnriqueRuano.json-treesize)
-[![CI](https://github.com/aruanoguate/json-treesize/actions/workflows/sonarcloud.yml/badge.svg)](https://github.com/aruanoguate/json-treesize/actions/workflows/sonarcloud.yml)
-[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=aruanoguate_json-treesize&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=aruanoguate_json-treesize)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=aruanoguate_json-treesize&metric=coverage)](https://sonarcloud.io/summary/new_code?id=aruanoguate_json-treesize)
+[![CI](https://github.com/aruanoguate/file-tree-size/actions/workflows/sonarcloud.yml/badge.svg)](https://github.com/aruanoguate/file-tree-size/actions/workflows/sonarcloud.yml)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=aruanoguate_file-tree-size&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=aruanoguate_file-tree-size)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=aruanoguate_file-tree-size&metric=coverage)](https://sonarcloud.io/summary/new_code?id=aruanoguate_file-tree-size)
 
 **Ever wondered what's bloating that 50 MB JSON file?**
 
@@ -70,8 +70,8 @@ Click nodes in the tree to see their children ranked by size in the detail pane.
 Contributions are welcome! This is an open-source project maintained by a solo developer.
 
 ```bash
-git clone https://github.com/aruanoguate/json-treesize.git
-cd json-treesize
+git clone https://github.com/aruanoguate/file-tree-size.git
+cd file-tree-size
 npm install
 npm run compile
 # Press F5 in VS Code to launch the Extension Development Host
@@ -122,4 +122,4 @@ docs/                         # Screenshots, GIFs, recording guide
 
 ---
 
-*Made with care by [Alvaro Enrique Ruano](https://github.com/aruanoguate). If you find this useful, a ⭐ on [GitHub](https://github.com/aruanoguate/json-treesize) is appreciated!*
+*Made with care by [Alvaro Enrique Ruano](https://github.com/aruanoguate). If you find this useful, a ⭐ on [GitHub](https://github.com/aruanoguate/file-tree-size) is appreciated!*
