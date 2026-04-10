@@ -23,4 +23,17 @@ describe('buildSizeTree (XML)', () => {
     expect(node?.children.some((n) => n.key === '@a')).toBe(true);
     expect(node?.children.some((n) => n.key === '#text')).toBe(true);
   });
+
+  it('creates CDATA nodes', () => {
+    const xml = '<root><notes><![CDATA[some <xml> payload]]></notes></root>';
+    const tree = buildSizeTree(xml);
+    const notes = tree.children[0].children.find((n) => n.key === 'notes');
+
+    expect(notes).toBeDefined();
+    expect(notes?.children.some((n) => n.key === '#cdata')).toBe(true);
+  });
+
+  it('throws on malformed XML', () => {
+    expect(() => buildSizeTree('<root><node></root>')).toThrow();
+  });
 });
