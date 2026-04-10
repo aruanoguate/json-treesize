@@ -111,7 +111,9 @@
     ],
     "collectCoverageFrom": [
       "src/**/*.ts",
-      "!src/**/*.d.ts"
+      "!src/**/*.d.ts",
+      "!src/webview/main.ts",
+      "!src/types.ts"
     ],
     "transform": {
       "^.+\\.tsx?$": [

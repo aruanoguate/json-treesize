@@ -28,22 +28,21 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: packages/json-tree-size/package-lock.json
+          cache-dependency-path: package-lock.json
 
       - name: Install dependencies
         run: npm ci
-        working-directory: packages/json-tree-size
 
-      - name: Run tests with coverage
-        run: npx jest --coverage --ci
-        working-directory: packages/json-tree-size
+      - name: Run tree-size-core tests with coverage
+        run: npm --prefix packages/tree-size-core run test -- --coverage --ci
+
+      - name: Run JSON tests with coverage
+        run: npm --prefix packages/json-tree-size run test -- --coverage --ci
+
+      - name: Run XML tests with coverage
+        run: npm --prefix packages/xml-tree-size run test -- --coverage --ci
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v6
-        with:
-          projectBaseDir: packages/json-tree-size
-          args: >
-            -Dsonar.projectKey=aruanoguate_file-tree-size
-            -Dsonar.organization=aruanoguate
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
